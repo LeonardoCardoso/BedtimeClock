@@ -11,18 +11,6 @@
 		3549BB511DA38A2000C63030 /* BedtimeClock.h in Headers */ = {isa = PBXBuildFile; fileRef = 3549BB181DA3890B00C63030 /* BedtimeClock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3549BB521DA38A2100C63030 /* BedtimeClock.h in Headers */ = {isa = PBXBuildFile; fileRef = 3549BB181DA3890B00C63030 /* BedtimeClock.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3549BB531DA38A2200C63030 /* BedtimeClock.h in Headers */ = {isa = PBXBuildFile; fileRef = 3549BB181DA3890B00C63030 /* BedtimeClock.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3549BB661DA38ADB00C63030 /* BedtimeClock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3549BB211DA389CD00C63030 /* BedtimeClock.framework */; };
-		3549BB751DA38AEF00C63030 /* BedtimeClock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3549BB481DA389F300C63030 /* BedtimeClock.framework */; };
-		3549BB841DA38B0000C63030 /* BedtimeClock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3549BB3B1DA389E800C63030 /* BedtimeClock.framework */; };
-		3549BB8B1DA38C0A00C63030 /* BedtimeClockSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549BB8A1DA38C0A00C63030 /* BedtimeClockSpec.swift */; };
-		3549BB8C1DA38C0A00C63030 /* BedtimeClockSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549BB8A1DA38C0A00C63030 /* BedtimeClockSpec.swift */; };
-		3549BB8D1DA38C0A00C63030 /* BedtimeClockSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549BB8A1DA38C0A00C63030 /* BedtimeClockSpec.swift */; };
-		35CA2AC61E12925700147290 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CA2A971E12920400147290 /* Nimble.framework */; };
-		35CA2AC71E12925700147290 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CA2AB31E12920400147290 /* Quick.framework */; };
-		35CA2AC81E12927100147290 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CA2A931E12920400147290 /* Nimble.framework */; };
-		35CA2AC91E12927100147290 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CA2AAB1E12920400147290 /* Quick.framework */; };
-		35CA2AD21E12928C00147290 /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CA2A9B1E12920400147290 /* Nimble.framework */; };
-		35CA2AD31E12928C00147290 /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35CA2ABB1E12920400147290 /* Quick.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,217 +35,19 @@
 			remoteGlobalIDString = 3549BB3A1DA389E800C63030;
 			remoteInfo = "BedtimeClock-macOS";
 		};
-		35CA2A921E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A891E12920400147290 /* Nimble.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1F925EAD195C0D6300ED456B;
-			remoteInfo = "Nimble-macOS";
-		};
-		35CA2A941E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A891E12920400147290 /* Nimble.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1F925EB7195C0D6300ED456B;
-			remoteInfo = "Nimble-macOSTests";
-		};
-		35CA2A961E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A891E12920400147290 /* Nimble.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1F1A74291940169200FFFC47;
-			remoteInfo = "Nimble-iOS";
-		};
-		35CA2A981E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A891E12920400147290 /* Nimble.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1F1A74341940169200FFFC47;
-			remoteInfo = "Nimble-iOSTests";
-		};
-		35CA2A9A1E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A891E12920400147290 /* Nimble.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1F5DF1551BDCA0CE00C3A531;
-			remoteInfo = "Nimble-tvOS";
-		};
-		35CA2A9C1E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A891E12920400147290 /* Nimble.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1F5DF15E1BDCA0CE00C3A531;
-			remoteInfo = "Nimble-tvOSTests";
-		};
-		35CA2AAA1E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DAEB6B8E1943873100289F44;
-			remoteInfo = "Quick-macOS";
-		};
-		35CA2AAC1E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DAEB6B991943873100289F44;
-			remoteInfo = "Quick-macOSTests";
-		};
-		35CA2AAE1E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DA5663E81A4C8D8500193C88;
-			remoteInfo = "QuickFocused-macOSTests";
-		};
-		35CA2AB01E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 64076CF51D6D7C2000E2B499;
-			remoteInfo = "QuickAfterSuite-macOSTests";
-		};
-		35CA2AB21E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5A5D117C19473F2100F6D13D;
-			remoteInfo = "Quick-iOS";
-		};
-		35CA2AB41E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 5A5D118619473F2100F6D13D;
-			remoteInfo = "Quick-iOSTests";
-		};
-		35CA2AB61E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DA9876B21A4C70EB0004AA17;
-			remoteInfo = "QuickFocused-iOSTests";
-		};
-		35CA2AB81E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 64076D081D6D7CD600E2B499;
-			remoteInfo = "QuickAfterSuite-iOSTests";
-		};
-		35CA2ABA1E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1F118CD51BDCA4AB005013A2;
-			remoteInfo = "Quick-tvOS";
-		};
-		35CA2ABC1E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1F118CDE1BDCA4AB005013A2;
-			remoteInfo = "Quick-tvOSTests";
-		};
-		35CA2ABE1E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1F118CF01BDCA4BB005013A2;
-			remoteInfo = "QuickFocused-tvOSTests";
-		};
-		35CA2AC01E12920400147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 64076D1A1D6D7CEA00E2B499;
-			remoteInfo = "QuickAfterSuite-tvOSTests";
-		};
-		35CA2AC21E12922F00147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 5A5D117B19473F2100F6D13D;
-			remoteInfo = "Quick-iOS";
-		};
-		35CA2AC41E12922F00147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A891E12920400147290 /* Nimble.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1F1A74281940169200FFFC47;
-			remoteInfo = "Nimble-iOS";
-		};
-		35CA2ACA1E12927800147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = DAEB6B8D1943873100289F44;
-			remoteInfo = "Quick-macOS";
-		};
-		35CA2ACC1E12927800147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A891E12920400147290 /* Nimble.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1F925EAC195C0D6300ED456B;
-			remoteInfo = "Nimble-macOS";
-		};
-		35CA2ACE1E12928500147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1F118CD41BDCA4AB005013A2;
-			remoteInfo = "Quick-tvOS";
-		};
-		35CA2AD01E12928500147290 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 35CA2A891E12920400147290 /* Nimble.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1F5DF1541BDCA0CE00C3A531;
-			remoteInfo = "Nimble-tvOS";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		3549BB171DA3890B00C63030 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3549BB181DA3890B00C63030 /* BedtimeClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BedtimeClock.h; sourceTree = "<group>"; };
-		3549BB211DA389CD00C63030 /* BedtimeClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BedtimeClock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3549BB2E1DA389DB00C63030 /* BedtimeClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BedtimeClock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3549BB3B1DA389E800C63030 /* BedtimeClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BedtimeClock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3549BB481DA389F300C63030 /* BedtimeClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BedtimeClock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3549BB551DA38A5E00C63030 /* Info-tvOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
-		3549BB571DA38A8800C63030 /* Info-tvOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-tvOS.plist"; sourceTree = "<group>"; };
-		3549BB581DA38A8800C63030 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3549BB611DA38ADB00C63030 /* BedtimeClockTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BedtimeClockTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3549BB701DA38AEF00C63030 /* BedtimeClockTests-tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BedtimeClockTests-tvOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3549BB7F1DA38B0000C63030 /* BedtimeClockTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "BedtimeClockTests-macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3549BB8A1DA38C0A00C63030 /* BedtimeClockSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BedtimeClockSpec.swift; sourceTree = "<group>"; };
-		35CA2A861E12920400147290 /* Quick.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quick.xcodeproj; path = Carthage/Checkouts/Quick/Quick.xcodeproj; sourceTree = "<group>"; };
-		35CA2A891E12920400147290 /* Nimble.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nimble.xcodeproj; path = Carthage/Checkouts/Nimble/Nimble.xcodeproj; sourceTree = "<group>"; };
-		35CD64E81E60192300AF060B /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
-		35CD64EA1E60192300AF060B /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		35CD64EB1E60192300AF060B /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
-		35CD64EC1E60192300AF060B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		35CD64ED1E60192300AF060B /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
-		35CD64EF1E60192300AF060B /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Application.xcconfig; sourceTree = "<group>"; };
-		35CD64F01E60192300AF060B /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Framework.xcconfig; sourceTree = "<group>"; };
-		35CD64F11E60192300AF060B /* StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StaticLibrary.xcconfig; sourceTree = "<group>"; };
-		35CD65041E60192300AF060B /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
-		35CD65051E60192300AF060B /* iOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Base.xcconfig"; sourceTree = "<group>"; };
-		35CD65061E60192300AF060B /* iOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Framework.xcconfig"; sourceTree = "<group>"; };
-		35CD65071E60192300AF060B /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
-		35CD65091E60192300AF060B /* Mac-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Application.xcconfig"; sourceTree = "<group>"; };
-		35CD650A1E60192300AF060B /* Mac-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Base.xcconfig"; sourceTree = "<group>"; };
-		35CD650B1E60192300AF060B /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
-		35CD650C1E60192300AF060B /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
-		35CD650D1E60192300AF060B /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
-		35CD65101E60192300AF060B /* tvOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tvOS-Application.xcconfig"; sourceTree = "<group>"; };
-		35CD65111E60192300AF060B /* tvOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tvOS-Base.xcconfig"; sourceTree = "<group>"; };
-		35CD65121E60192300AF060B /* tvOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tvOS-Framework.xcconfig"; sourceTree = "<group>"; };
-		35CD65131E60192300AF060B /* tvOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "tvOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
-		35CD65151E60192300AF060B /* watchOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-Application.xcconfig"; sourceTree = "<group>"; };
-		35CD65161E60192300AF060B /* watchOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-Base.xcconfig"; sourceTree = "<group>"; };
-		35CD65171E60192300AF060B /* watchOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-Framework.xcconfig"; sourceTree = "<group>"; };
-		35CD65181E60192300AF060B /* watchOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "watchOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		9843EF8E1E83F2DB00374783 /* BedtimeClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BedtimeClock.framework; path = "/Users/leocardz/Dev/git/BedtimeClock/build/Debug-watchos/BedtimeClock.framework"; sourceTree = "<absolute>"; };
+		9843EF8F1E83F2DB00374783 /* BedtimeClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BedtimeClock.framework; path = "/Users/leocardz/Dev/git/BedtimeClock/build/Debug-appletvos/BedtimeClock.framework"; sourceTree = "<absolute>"; };
+		9843EF901E83F2DB00374783 /* BedtimeClockTests-tvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "BedtimeClockTests-tvOS.xctest"; path = "/Users/leocardz/Dev/git/BedtimeClock/build/Debug-appletvos/BedtimeClockTests-tvOS.xctest"; sourceTree = "<absolute>"; };
+		9843EF911E83F2DB00374783 /* BedtimeClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BedtimeClock.framework; path = /Users/leocardz/Dev/git/BedtimeClock/build/Debug/BedtimeClock.framework; sourceTree = "<absolute>"; };
+		9843EF921E83F2DB00374783 /* BedtimeClockTests-macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "BedtimeClockTests-macOS.xctest"; path = "/Users/leocardz/Dev/git/BedtimeClock/build/Debug/BedtimeClockTests-macOS.xctest"; sourceTree = "<absolute>"; };
+		9843EF931E83F2DB00374783 /* BedtimeClock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BedtimeClock.framework; path = "/Users/leocardz/Dev/git/BedtimeClock/build/Debug-iphoneos/BedtimeClock.framework"; sourceTree = "<absolute>"; };
+		9843EF941E83F2DB00374783 /* BedtimeClockTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = "BedtimeClockTests-iOS.xctest"; path = "/Users/leocardz/Dev/git/BedtimeClock/build/Debug-iphoneos/BedtimeClockTests-iOS.xctest"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,9 +83,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35CA2AC61E12925700147290 /* Nimble.framework in Frameworks */,
-				35CA2AC71E12925700147290 /* Quick.framework in Frameworks */,
-				3549BB661DA38ADB00C63030 /* BedtimeClock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,9 +90,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35CA2AD21E12928C00147290 /* Nimble.framework in Frameworks */,
-				35CA2AD31E12928C00147290 /* Quick.framework in Frameworks */,
-				3549BB751DA38AEF00C63030 /* BedtimeClock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,9 +97,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35CA2AC81E12927100147290 /* Nimble.framework in Frameworks */,
-				35CA2AC91E12927100147290 /* Quick.framework in Frameworks */,
-				3549BB841DA38B0000C63030 /* BedtimeClock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,43 +107,15 @@
 			isa = PBXGroup;
 			children = (
 				3549BB161DA3890B00C63030 /* Sources */,
-				3549BB191DA3890B00C63030 /* Tests */,
-				3549BB061DA387DB00C63030 /* Products */,
-				35CA2AD51E12933000147290 /* Configuration */,
-				357D954B1DA3F2B400AEC55F /* Frameworks */,
 			);
-			sourceTree = "<group>";
-		};
-		3549BB061DA387DB00C63030 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3549BB211DA389CD00C63030 /* BedtimeClock.framework */,
-				3549BB2E1DA389DB00C63030 /* BedtimeClock.framework */,
-				3549BB3B1DA389E800C63030 /* BedtimeClock.framework */,
-				3549BB481DA389F300C63030 /* BedtimeClock.framework */,
-				3549BB611DA38ADB00C63030 /* BedtimeClockTests-iOS.xctest */,
-				3549BB701DA38AEF00C63030 /* BedtimeClockTests-tvOS.xctest */,
-				3549BB7F1DA38B0000C63030 /* BedtimeClockTests-macOS.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		3549BB161DA3890B00C63030 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				3549BB5C1DA38AA500C63030 /* Core */,
 				3549BB541DA38A4000C63030 /* Supporting Files */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		3549BB191DA3890B00C63030 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				3549BB8A1DA38C0A00C63030 /* BedtimeClockSpec.swift */,
-				3549BB5B1DA38A8C00C63030 /* Supporting Files */,
-			);
-			path = Tests;
 			sourceTree = "<group>";
 		};
 		3549BB541DA38A4000C63030 /* Supporting Files */ = {
@@ -373,160 +126,6 @@
 				3549BB551DA38A5E00C63030 /* Info-tvOS.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		3549BB5B1DA38A8C00C63030 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				3549BB581DA38A8800C63030 /* Info.plist */,
-				3549BB571DA38A8800C63030 /* Info-tvOS.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		3549BB5C1DA38AA500C63030 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Core;
-			sourceTree = "<group>";
-		};
-		357D954B1DA3F2B400AEC55F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				35CA2A861E12920400147290 /* Quick.xcodeproj */,
-				35CA2A891E12920400147290 /* Nimble.xcodeproj */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		35CA2A871E12920400147290 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				35CA2AAB1E12920400147290 /* Quick.framework */,
-				35CA2AAD1E12920400147290 /* Quick - macOSTests.xctest */,
-				35CA2AAF1E12920400147290 /* QuickFocused - macOSTests.xctest */,
-				35CA2AB11E12920400147290 /* QuickAfterSuite - macOSTests.xctest */,
-				35CA2AB31E12920400147290 /* Quick.framework */,
-				35CA2AB51E12920400147290 /* Quick - iOSTests.xctest */,
-				35CA2AB71E12920400147290 /* QuickFocused - iOSTests.xctest */,
-				35CA2AB91E12920400147290 /* QuickAfterSuite - iOSTests.xctest */,
-				35CA2ABB1E12920400147290 /* Quick.framework */,
-				35CA2ABD1E12920400147290 /* Quick - tvOSTests.xctest */,
-				35CA2ABF1E12920400147290 /* QuickFocused - tvOSTests.xctest */,
-				35CA2AC11E12920400147290 /* QuickAfterSuite - tvOSTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		35CA2A8A1E12920400147290 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				35CA2A931E12920400147290 /* Nimble.framework */,
-				35CA2A951E12920400147290 /* NimbleTests.xctest */,
-				35CA2A971E12920400147290 /* Nimble.framework */,
-				35CA2A991E12920400147290 /* NimbleTests.xctest */,
-				35CA2A9B1E12920400147290 /* Nimble.framework */,
-				35CA2A9D1E12920400147290 /* NimbleTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		35CA2AD51E12933000147290 /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				35CD64E51E60192300AF060B /* xcconfigs */,
-			);
-			path = Configuration;
-			sourceTree = "<group>";
-		};
-		35CD64E51E60192300AF060B /* xcconfigs */ = {
-			isa = PBXGroup;
-			children = (
-				35CD64E71E60192300AF060B /* Base */,
-				35CD65031E60192300AF060B /* iOS */,
-				35CD65081E60192300AF060B /* Mac OS X */,
-				35CD650F1E60192300AF060B /* tvOS */,
-				35CD65141E60192300AF060B /* watchOS */,
-			);
-			name = xcconfigs;
-			path = Carthage/Checkouts/xcconfigs;
-			sourceTree = SOURCE_ROOT;
-		};
-		35CD64E71E60192300AF060B /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				35CD64E81E60192300AF060B /* Common.xcconfig */,
-				35CD64E91E60192300AF060B /* Configurations */,
-				35CD64EE1E60192300AF060B /* Targets */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		35CD64E91E60192300AF060B /* Configurations */ = {
-			isa = PBXGroup;
-			children = (
-				35CD64EA1E60192300AF060B /* Debug.xcconfig */,
-				35CD64EB1E60192300AF060B /* Profile.xcconfig */,
-				35CD64EC1E60192300AF060B /* Release.xcconfig */,
-				35CD64ED1E60192300AF060B /* Test.xcconfig */,
-			);
-			path = Configurations;
-			sourceTree = "<group>";
-		};
-		35CD64EE1E60192300AF060B /* Targets */ = {
-			isa = PBXGroup;
-			children = (
-				35CD64EF1E60192300AF060B /* Application.xcconfig */,
-				35CD64F01E60192300AF060B /* Framework.xcconfig */,
-				35CD64F11E60192300AF060B /* StaticLibrary.xcconfig */,
-			);
-			path = Targets;
-			sourceTree = "<group>";
-		};
-		35CD65031E60192300AF060B /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				35CD65041E60192300AF060B /* iOS-Application.xcconfig */,
-				35CD65051E60192300AF060B /* iOS-Base.xcconfig */,
-				35CD65061E60192300AF060B /* iOS-Framework.xcconfig */,
-				35CD65071E60192300AF060B /* iOS-StaticLibrary.xcconfig */,
-			);
-			path = iOS;
-			sourceTree = "<group>";
-		};
-		35CD65081E60192300AF060B /* Mac OS X */ = {
-			isa = PBXGroup;
-			children = (
-				35CD65091E60192300AF060B /* Mac-Application.xcconfig */,
-				35CD650A1E60192300AF060B /* Mac-Base.xcconfig */,
-				35CD650B1E60192300AF060B /* Mac-DynamicLibrary.xcconfig */,
-				35CD650C1E60192300AF060B /* Mac-Framework.xcconfig */,
-				35CD650D1E60192300AF060B /* Mac-StaticLibrary.xcconfig */,
-			);
-			path = "Mac OS X";
-			sourceTree = "<group>";
-		};
-		35CD650F1E60192300AF060B /* tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				35CD65101E60192300AF060B /* tvOS-Application.xcconfig */,
-				35CD65111E60192300AF060B /* tvOS-Base.xcconfig */,
-				35CD65121E60192300AF060B /* tvOS-Framework.xcconfig */,
-				35CD65131E60192300AF060B /* tvOS-StaticLibrary.xcconfig */,
-			);
-			path = tvOS;
-			sourceTree = "<group>";
-		};
-		35CD65141E60192300AF060B /* watchOS */ = {
-			isa = PBXGroup;
-			children = (
-				35CD65151E60192300AF060B /* watchOS-Application.xcconfig */,
-				35CD65161E60192300AF060B /* watchOS-Base.xcconfig */,
-				35CD65171E60192300AF060B /* watchOS-Framework.xcconfig */,
-				35CD65181E60192300AF060B /* watchOS-StaticLibrary.xcconfig */,
-			);
-			path = watchOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -582,7 +181,7 @@
 			);
 			name = "BedtimeClock-iOS";
 			productName = "BedtimeClock-iOS";
-			productReference = 3549BB211DA389CD00C63030 /* BedtimeClock.framework */;
+			productReference = 9843EF931E83F2DB00374783 /* BedtimeClock.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		3549BB2D1DA389DB00C63030 /* BedtimeClock-watchOS */ = {
@@ -600,7 +199,7 @@
 			);
 			name = "BedtimeClock-watchOS";
 			productName = "BedtimeClock-watchOS";
-			productReference = 3549BB2E1DA389DB00C63030 /* BedtimeClock.framework */;
+			productReference = 9843EF8E1E83F2DB00374783 /* BedtimeClock.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		3549BB3A1DA389E800C63030 /* BedtimeClock-macOS */ = {
@@ -618,7 +217,7 @@
 			);
 			name = "BedtimeClock-macOS";
 			productName = "BedtimeClock-macOS";
-			productReference = 3549BB3B1DA389E800C63030 /* BedtimeClock.framework */;
+			productReference = 9843EF911E83F2DB00374783 /* BedtimeClock.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		3549BB471DA389F300C63030 /* BedtimeClock-tvOS */ = {
@@ -636,7 +235,7 @@
 			);
 			name = "BedtimeClock-tvOS";
 			productName = "BedtimeClock-tvOS";
-			productReference = 3549BB481DA389F300C63030 /* BedtimeClock.framework */;
+			productReference = 9843EF8F1E83F2DB00374783 /* BedtimeClock.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		3549BB601DA38ADB00C63030 /* BedtimeClockTests-iOS */ = {
@@ -650,13 +249,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				35CA2AC31E12922F00147290 /* PBXTargetDependency */,
-				35CA2AC51E12922F00147290 /* PBXTargetDependency */,
 				3549BB681DA38ADB00C63030 /* PBXTargetDependency */,
 			);
 			name = "BedtimeClockTests-iOS";
 			productName = "BedtimeClockTests-iOS";
-			productReference = 3549BB611DA38ADB00C63030 /* BedtimeClockTests-iOS.xctest */;
+			productReference = 9843EF941E83F2DB00374783 /* BedtimeClockTests-iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		3549BB6F1DA38AEF00C63030 /* BedtimeClockTests-tvOS */ = {
@@ -670,13 +267,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				35CA2ACF1E12928500147290 /* PBXTargetDependency */,
-				35CA2AD11E12928500147290 /* PBXTargetDependency */,
 				3549BB771DA38AEF00C63030 /* PBXTargetDependency */,
 			);
 			name = "BedtimeClockTests-tvOS";
 			productName = "BedtimeClockTests-tvOS";
-			productReference = 3549BB701DA38AEF00C63030 /* BedtimeClockTests-tvOS.xctest */;
+			productReference = 9843EF901E83F2DB00374783 /* BedtimeClockTests-tvOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		3549BB7E1DA38B0000C63030 /* BedtimeClockTests-macOS */ = {
@@ -690,13 +285,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				35CA2ACB1E12927800147290 /* PBXTargetDependency */,
-				35CA2ACD1E12927800147290 /* PBXTargetDependency */,
 				3549BB861DA38B0000C63030 /* PBXTargetDependency */,
 			);
 			name = "BedtimeClockTests-macOS";
 			productName = "BedtimeClockTests-macOS";
-			productReference = 3549BB7F1DA38B0000C63030 /* BedtimeClockTests-macOS.xctest */;
+			productReference = 9843EF921E83F2DB00374783 /* BedtimeClockTests-macOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -707,7 +300,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = "leocardz.com";
+				ORGANIZATIONNAME = leocardz.com;
 				TargetAttributes = {
 					3549BB201DA389CD00C63030 = {
 						CreatedOnToolsVersion = 8.0;
@@ -750,18 +343,8 @@
 				en,
 			);
 			mainGroup = 3549BAFB1DA387DB00C63030;
-			productRefGroup = 3549BB061DA387DB00C63030 /* Products */;
+			productRefGroup = 3549BAFB1DA387DB00C63030;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 35CA2A8A1E12920400147290 /* Products */;
-					ProjectRef = 35CA2A891E12920400147290 /* Nimble.xcodeproj */;
-				},
-				{
-					ProductGroup = 35CA2A871E12920400147290 /* Products */;
-					ProjectRef = 35CA2A861E12920400147290 /* Quick.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				3549BB201DA389CD00C63030 /* BedtimeClock-iOS */,
@@ -774,135 +357,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		35CA2A931E12920400147290 /* Nimble.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Nimble.framework;
-			remoteRef = 35CA2A921E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2A951E12920400147290 /* NimbleTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = NimbleTests.xctest;
-			remoteRef = 35CA2A941E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2A971E12920400147290 /* Nimble.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Nimble.framework;
-			remoteRef = 35CA2A961E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2A991E12920400147290 /* NimbleTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = NimbleTests.xctest;
-			remoteRef = 35CA2A981E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2A9B1E12920400147290 /* Nimble.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Nimble.framework;
-			remoteRef = 35CA2A9A1E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2A9D1E12920400147290 /* NimbleTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = NimbleTests.xctest;
-			remoteRef = 35CA2A9C1E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2AAB1E12920400147290 /* Quick.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Quick.framework;
-			remoteRef = 35CA2AAA1E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2AAD1E12920400147290 /* Quick - macOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Quick - macOSTests.xctest";
-			remoteRef = 35CA2AAC1E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2AAF1E12920400147290 /* QuickFocused - macOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "QuickFocused - macOSTests.xctest";
-			remoteRef = 35CA2AAE1E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2AB11E12920400147290 /* QuickAfterSuite - macOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "QuickAfterSuite - macOSTests.xctest";
-			remoteRef = 35CA2AB01E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2AB31E12920400147290 /* Quick.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Quick.framework;
-			remoteRef = 35CA2AB21E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2AB51E12920400147290 /* Quick - iOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Quick - iOSTests.xctest";
-			remoteRef = 35CA2AB41E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2AB71E12920400147290 /* QuickFocused - iOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "QuickFocused - iOSTests.xctest";
-			remoteRef = 35CA2AB61E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2AB91E12920400147290 /* QuickAfterSuite - iOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "QuickAfterSuite - iOSTests.xctest";
-			remoteRef = 35CA2AB81E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2ABB1E12920400147290 /* Quick.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Quick.framework;
-			remoteRef = 35CA2ABA1E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2ABD1E12920400147290 /* Quick - tvOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Quick - tvOSTests.xctest";
-			remoteRef = 35CA2ABC1E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2ABF1E12920400147290 /* QuickFocused - tvOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "QuickFocused - tvOSTests.xctest";
-			remoteRef = 35CA2ABE1E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		35CA2AC11E12920400147290 /* QuickAfterSuite - tvOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "QuickAfterSuite - tvOSTests.xctest";
-			remoteRef = 35CA2AC01E12920400147290 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		3549BB1F1DA389CD00C63030 /* Resources */ = {
@@ -989,7 +443,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3549BB8B1DA38C0A00C63030 /* BedtimeClockSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -997,7 +450,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3549BB8D1DA38C0A00C63030 /* BedtimeClockSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1005,7 +457,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3549BB8C1DA38C0A00C63030 /* BedtimeClockSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,42 +478,11 @@
 			target = 3549BB3A1DA389E800C63030 /* BedtimeClock-macOS */;
 			targetProxy = 3549BB851DA38B0000C63030 /* PBXContainerItemProxy */;
 		};
-		35CA2AC31E12922F00147290 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Quick-iOS";
-			targetProxy = 35CA2AC21E12922F00147290 /* PBXContainerItemProxy */;
-		};
-		35CA2AC51E12922F00147290 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Nimble-iOS";
-			targetProxy = 35CA2AC41E12922F00147290 /* PBXContainerItemProxy */;
-		};
-		35CA2ACB1E12927800147290 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Quick-macOS";
-			targetProxy = 35CA2ACA1E12927800147290 /* PBXContainerItemProxy */;
-		};
-		35CA2ACD1E12927800147290 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Nimble-macOS";
-			targetProxy = 35CA2ACC1E12927800147290 /* PBXContainerItemProxy */;
-		};
-		35CA2ACF1E12928500147290 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Quick-tvOS";
-			targetProxy = 35CA2ACE1E12928500147290 /* PBXContainerItemProxy */;
-		};
-		35CA2AD11E12928500147290 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Nimble-tvOS";
-			targetProxy = 35CA2AD01E12928500147290 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3549BB0B1DA387DB00C63030 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD64EA1E60192300AF060B /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1117,7 +537,6 @@
 		};
 		3549BB0C1DA387DB00C63030 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD64EC1E60192300AF060B /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1165,7 +584,6 @@
 		};
 		3549BB271DA389CD00C63030 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65061E60192300AF060B /* iOS-Framework.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -1181,7 +599,7 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClock";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClock;
 				PRODUCT_NAME = BedtimeClock;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -1190,7 +608,6 @@
 		};
 		3549BB281DA389CD00C63030 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65061E60192300AF060B /* iOS-Framework.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -1206,7 +623,7 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClock";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClock;
 				PRODUCT_NAME = BedtimeClock;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -1215,7 +632,6 @@
 		};
 		3549BB341DA389DB00C63030 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65171E60192300AF060B /* watchOS-Framework.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1226,7 +642,7 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClock";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClock;
 				PRODUCT_NAME = BedtimeClock;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1238,7 +654,6 @@
 		};
 		3549BB351DA389DB00C63030 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65171E60192300AF060B /* watchOS-Framework.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -1249,7 +664,7 @@
 				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClock";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClock;
 				PRODUCT_NAME = BedtimeClock;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1261,7 +676,6 @@
 		};
 		3549BB411DA389E800C63030 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD650C1E60192300AF060B /* Mac-Framework.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1274,7 +688,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClock";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClock;
 				PRODUCT_NAME = BedtimeClock;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1284,7 +698,6 @@
 		};
 		3549BB421DA389E800C63030 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD650C1E60192300AF060B /* Mac-Framework.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1297,7 +710,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClock";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClock;
 				PRODUCT_NAME = BedtimeClock;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1307,7 +720,6 @@
 		};
 		3549BB4E1DA389F300C63030 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65121E60192300AF060B /* tvOS-Framework.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -1317,7 +729,7 @@
 				INFOPLIST_FILE = "Sources/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClock";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClock;
 				PRODUCT_NAME = BedtimeClock;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
@@ -1329,7 +741,6 @@
 		};
 		3549BB4F1DA389F300C63030 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65121E60192300AF060B /* tvOS-Framework.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
@@ -1339,7 +750,7 @@
 				INFOPLIST_FILE = "Sources/Info-tvOS.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClock";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClock;
 				PRODUCT_NAME = BedtimeClock;
 				SDKROOT = appletvos;
 				SKIP_INSTALL = YES;
@@ -1351,7 +762,6 @@
 		};
 		3549BB6A1DA38ADB00C63030 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65041E60192300AF060B /* iOS-Application.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1360,7 +770,7 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClockTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClockTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1369,7 +779,6 @@
 		};
 		3549BB6B1DA38ADB00C63030 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65041E60192300AF060B /* iOS-Application.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1378,7 +787,7 @@
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClockTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClockTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1386,7 +795,6 @@
 		};
 		3549BB791DA38AEF00C63030 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65101E60192300AF060B /* tvOS-Application.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1395,7 +803,7 @@
 				);
 				INFOPLIST_FILE = "Tests/Info-tvOS.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClockTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClockTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1406,7 +814,6 @@
 		};
 		3549BB7A1DA38AEF00C63030 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65101E60192300AF060B /* tvOS-Application.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1415,7 +822,7 @@
 				);
 				INFOPLIST_FILE = "Tests/Info-tvOS.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClockTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClockTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 3.0;
@@ -1425,7 +832,6 @@
 		};
 		3549BB881DA38B0000C63030 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65091E60192300AF060B /* Mac-Application.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -1437,7 +843,7 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClockTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClockTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1447,7 +853,6 @@
 		};
 		3549BB891DA38B0000C63030 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35CD65091E60192300AF060B /* Mac-Application.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -1459,7 +864,7 @@
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.leocardz.BedtimeClockTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.BedtimeClockTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 3.0;
