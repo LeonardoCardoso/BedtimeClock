@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
 
         let bedtimeClockView: BedtimeClockView = BedtimeClockView(
-            frame: CGRect(x: 0, y: 0, width: 320, height: 320),
+            frame: CGRect(x: 50, y: 50, width: 220, height: 220),
             startHour: 0,
             endHour: 0
         )
