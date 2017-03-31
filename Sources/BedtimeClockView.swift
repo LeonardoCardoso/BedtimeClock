@@ -62,6 +62,9 @@ public class BedtimeClockView: UIView {
     typealias Pt = CGPoint
     typealias Fl = CGFloat
 
+    // MARK: - Callback
+    var observer: (String, String, TimeInterval) -> (Void) = { _, _, _ in } // self.observer("00:00", "21:00", 32400000)
+
     // MARK: - Position properties
     private let pointersY: Fl = 50
     private let pointers2Y: Fl = -54
@@ -72,8 +75,8 @@ public class BedtimeClockView: UIView {
     private let rotation: Fl = 0
 
     // MARK: - Position variable properties
-    var dayRotation: Fl = 270 { didSet { self.updatePositions() } }
-    var nightRotation: Fl = 180 { didSet { self.updatePositions() } }
+    var dayRotation: Fl = 5 { didSet { self.updatePositions() } }
+    var nightRotation: Fl = 0 { didSet { self.updatePositions() } }
 
     // MARK: - Layout properties
     private let hourPointerWidth: Fl = 1
@@ -134,12 +137,18 @@ public class BedtimeClockView: UIView {
 
     init(frame: CGRect, startHour: TimeInterval, endHour: TimeInterval) {
 
+        if startHour < 0 || startHour > 86400000 { fatalError("startHour must be between 0 and 86400000, which is 24:00.") }
+        if endHour < 0 || endHour > 86400000 { fatalError("endHour must be between 0 and 86400000, which is 24:00.") }
+
+//        self.dayRotation = CGFloat(startHour) / 60000.0 // calculation missing
+
+        print(self.dayRotation)
+
         super.init(frame: frame)
 
         self.targetFrame = frame
 
-        // TODO: Convet startHour and endHour to dayRotation Position
-        // TODO: fatalError if the hours are < 0 and > number of miliseconds in a day
+        self.convertPositionIntoDate()
 
     }
 
@@ -151,7 +160,6 @@ public class BedtimeClockView: UIView {
 
     }
 
-    // Drawing Methods
     public func drawActivity(resizing: ResizingBehavior = .aspectFit) {
 
         // General Declarations
@@ -202,6 +210,11 @@ public class BedtimeClockView: UIView {
     }
 
     // MARK: - Functions
+    private func convertPositionIntoDate() {
+
+
+    }
+
     private func updatePositions() {
 
     }
@@ -316,12 +329,12 @@ public class BedtimeClockView: UIView {
             options: .usesLineFragmentOrigin,
             attributes: fontAttributes,
             context: nil).height
-        
+
         self.context?.saveGState()
         self.context?.clip(to: rect)
-        
+
         text.draw(in: CGRect(x: rect.minX, y: rect.minY + (rect.height - height) / 2, width: rect.width, height: height), withAttributes: fontAttributes)
-        
+
     }
 
     private func drawForms() {
