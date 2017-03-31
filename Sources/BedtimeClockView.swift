@@ -158,17 +158,15 @@ public class BedtimeClockView: UIView {
 
             self.drawForms()
 
-            self.context?.restoreGState()
-            self.context?.restoreGState()
+            self.restoreState(times: 2)
 
             self.drawWakePoint()
 
-            context.restoreGState()
+            self.restoreState()
 
             self.drawBellPath()
 
-            context.restoreGState()
-            context.restoreGState()
+            self.restoreState(times: 2)
 
             self.drawSleepPoint()
 
@@ -176,29 +174,15 @@ public class BedtimeClockView: UIView {
 
             self.drawMoonPath()
 
-            context.restoreGState()
-            context.restoreGState()
-            context.restoreGState()
-            context.restoreGState()
+            self.restoreState(times: 4)
 
             self.drawHourPointers()
 
-            context.restoreGState()
-            context.restoreGState()
-            context.restoreGState()
+            self.restoreState(times: 3)
 
             self.drawMinutePointers()
 
-            context.restoreGState()
-
-
-
-            context.restoreGState()
-
-
-
-            context.restoreGState()
-
+            self.restoreState(times: 3)
 
             //// Numbers
             context.saveGState()
@@ -218,7 +202,8 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _12Rect)
             _12TextContent.draw(in: CGRect(x: _12Rect.minX, y: _12Rect.minY + (_12Rect.height - _12TextHeight) / 2, width: _12Rect.width, height: _12TextHeight), withAttributes: _12FontAttributes)
-            context.restoreGState()
+
+            self.restoreState()
 
 
             //// Group 24
@@ -233,7 +218,7 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _2Rect)
             _2TextContent.draw(in: CGRect(x: _2Rect.minX, y: _2Rect.minY + (_2Rect.height - _2TextHeight) / 2, width: _2Rect.width, height: _2TextHeight), withAttributes: _2FontAttributes)
-            context.restoreGState()
+            self.restoreState()
 
 
 
@@ -249,7 +234,7 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _3Rect)
             _3TextContent.draw(in: CGRect(x: _3Rect.minX, y: _3Rect.minY + (_3Rect.height - _3TextHeight) / 2, width: _3Rect.width, height: _3TextHeight), withAttributes: _3FontAttributes)
-            context.restoreGState()
+            self.restoreState()
 
 
             //// 4 Drawing
@@ -263,7 +248,7 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _4Rect)
             _4TextContent.draw(in: CGRect(x: _4Rect.minX, y: _4Rect.minY + (_4Rect.height - _4TextHeight) / 2, width: _4Rect.width, height: _4TextHeight), withAttributes: _4FontAttributes)
-            context.restoreGState()
+            self.restoreState()
 
 
             //// 5 Drawing
@@ -277,7 +262,7 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _5Rect)
             _5TextContent.draw(in: CGRect(x: _5Rect.minX, y: _5Rect.minY + (_5Rect.height - _5TextHeight) / 2, width: _5Rect.width, height: _5TextHeight), withAttributes: _5FontAttributes)
-            context.restoreGState()
+            self.restoreState()
 
 
             //// 6 Drawing
@@ -291,7 +276,7 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _6Rect)
             _6TextContent.draw(in: CGRect(x: _6Rect.minX, y: _6Rect.minY + (_6Rect.height - _6TextHeight) / 2, width: _6Rect.width, height: _6TextHeight), withAttributes: _6FontAttributes)
-            context.restoreGState()
+            self.restoreState()
 
 
             //// 7 Drawing
@@ -305,7 +290,7 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _7Rect)
             _7TextContent.draw(in: CGRect(x: _7Rect.minX, y: _7Rect.minY + (_7Rect.height - _7TextHeight) / 2, width: _7Rect.width, height: _7TextHeight), withAttributes: _7FontAttributes)
-            context.restoreGState()
+            self.restoreState()
 
 
             //// 8 Drawing
@@ -319,7 +304,7 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _8Rect)
             _8TextContent.draw(in: CGRect(x: _8Rect.minX, y: _8Rect.minY + (_8Rect.height - _8TextHeight) / 2, width: _8Rect.width, height: _8TextHeight), withAttributes: _8FontAttributes)
-            context.restoreGState()
+            self.restoreState()
 
 
             //// 9 Drawing
@@ -333,7 +318,7 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _9Rect)
             _9TextContent.draw(in: CGRect(x: _9Rect.minX, y: _9Rect.minY + (_9Rect.height - _9TextHeight) / 2, width: _9Rect.width, height: _9TextHeight), withAttributes: _9FontAttributes)
-            context.restoreGState()
+            self.restoreState()
 
 
             //// 10 Drawing
@@ -347,7 +332,7 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _10Rect)
             _10TextContent.draw(in: CGRect(x: _10Rect.minX, y: _10Rect.minY + (_10Rect.height - _10TextHeight) / 2, width: _10Rect.width, height: _10TextHeight), withAttributes: _10FontAttributes)
-            context.restoreGState()
+            self.restoreState()
 
 
             //// 1 Drawing
@@ -361,7 +346,7 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _1Rect)
             _1TextContent.draw(in: CGRect(x: _1Rect.minX, y: _1Rect.minY + (_1Rect.height - _1TextHeight) / 2, width: _1Rect.width, height: _1TextHeight), withAttributes: _1FontAttributes)
-            context.restoreGState()
+            self.restoreState()
 
 
             //// 11 Drawing
@@ -375,11 +360,8 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: _11Rect)
             _11TextContent.draw(in: CGRect(x: _11Rect.minX, y: _11Rect.minY + (_11Rect.height - _11TextHeight) / 2, width: _11Rect.width, height: _11TextHeight), withAttributes: _11FontAttributes)
-            context.restoreGState()
 
-
-
-            context.restoreGState()
+            self.restoreState(times: 2)
 
 
             //// Duration Drawing
@@ -392,9 +374,8 @@ public class BedtimeClockView: UIView {
             context.saveGState()
             context.clip(to: durationRect)
             timeDifference.draw(in: CGRect(x: durationRect.minX, y: durationRect.minY + (durationRect.height - durationTextHeight) / 2, width: durationRect.width, height: durationTextHeight), withAttributes: durationFontAttributes)
-            context.restoreGState()
 
-            context.restoreGState()
+            self.restoreState(times: 2)
 
         }
 
@@ -583,29 +564,29 @@ public class BedtimeClockView: UIView {
         self.context?.saveGState()
         self.context?.translateBy(x: -6.25, y: -3.61)
         self.context?.rotate(by: -510 * CGFloat.pi/180)
-        
+
         let sleepPointPath = UIBezierPath(ovalIn: CGRect(x: 49.78, y: -8, width: 16, height: 16))
         centerBackground.setFill()
         sleepPointPath.fill()
         centerBackground.setStroke()
         sleepPointPath.lineWidth = 1.7
         sleepPointPath.stroke()
-        
-        self.context?.restoreGState()
-        
+
+        self.restoreState()
+
         //// MoonIcon
         self.context?.saveGState()
         self.context?.translateBy(x: -51.77, y: -37.47)
         self.context?.rotate(by: 90 * CGFloat.pi/180)
-        
-        
+
+
         //// Sleep
         self.context?.saveGState()
         self.context?.translateBy(x: 4.99, y: 4.99)
         self.context?.rotate(by: -nightIconAngle * CGFloat.pi/180)
-        
+
     }
-    
+
     func drawMinutePointers() {
 
         //// MinutePointers
@@ -613,354 +594,106 @@ public class BedtimeClockView: UIView {
         self.context?.translateBy(x: 78, y: 97)
         self.context?.rotate(by: -360 * CGFloat.pi/180)
 
-        self.drawMinuteGroup(
-            groupTranslate: (-7.5, CGPoint(x: 0, y: 1)),
-            pointer: (CGPoint(x: 0, y: self.pointers4Y), CGPoint(x: 0, y: 0)),
-            opositePointer: (CGPoint(x: -0, y: self.pointersY), CGPoint(x: 0, y: 0))
-        )
+        self.drawMinuteGroup(group: (CGPoint(x: 0, y: 1), -7.5), pointer: (CGPoint(x: 0, y: pointers4Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: -0, y: pointersY), CGPoint(x: 0, y: 0)))
 
-        self.context?.restoreGState()
-        self.context?.restoreGState()
+        self.restoreState(times: 2)
 
-        self.drawMinuteGroup(
-            groupTranslate: (-15, CGPoint(x: 0, y: 1)),
-            pointer: (CGPoint(x: -0, y: self.pointers4Y), CGPoint(x: 0, y: -0)),
-            opositePointer: (CGPoint(x: -0, y: self.pointersY), CGPoint(x: 0, y: 0))
-        )
+        self.drawMinuteGroup(group: (CGPoint(x: 0, y: 1), -15), pointer: (CGPoint(x: -0, y: pointers4Y), CGPoint(x: 0, y: -0)), opposite: (CGPoint(x: -0, y: pointersY), CGPoint(x: 0, y: 0)))
 
-        self.context?.restoreGState()
-        self.context?.restoreGState()
+        self.restoreState(times: 2)
 
-        self.drawMinuteGroup(
-            groupTranslate: (-22.5, CGPoint(x: 0, y: 1)),
-            pointer: (CGPoint(x: -0, y: self.pointers4Y), CGPoint(x: 0, y: 0)),
-            opositePointer: (CGPoint(x: -0, y: self.pointersY), CGPoint(x: 0, y: 0))
-        )
+        self.drawMinuteGroup(group: (CGPoint(x: 0, y: 1), -22.5), pointer: (CGPoint(x: -0, y: pointers4Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: -0, y: pointersY), CGPoint(x: 0, y: 0)))
 
-        self.context?.restoreGState()
-        self.context?.restoreGState()
+        self.restoreState(times: 2)
 
-        self.drawMinuteGroup(
-            groupTranslate: (-37.5, CGPoint(x: 0, y: 1)),
-            pointer: (CGPoint(x: 0, y: self.pointers4Y), CGPoint(x: 0, y: 0)),
-            opositePointer: (CGPoint(x: 0, y: self.pointersY), CGPoint(x: -0, y: 0))
-        )
+        self.drawMinuteGroup(group: (nil, -37.5), pointer: (CGPoint(x: 0, y: pointers2Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: 0, y: pointers3Y), CGPoint(x: -0, y: 0)))
 
-        self.context?.restoreGState()
-        self.context?.restoreGState()
+        self.restoreState(times: 2)
 
+        self.drawMinuteGroup(group: (nil, -45), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: -0, y: 0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: 0, y: 0)))
 
-        //// Group 13
-        self.context?.saveGState()
-        self.context?.rotate(by: -45 * CGFloat.pi/180)
+        self.restoreState(times: 2)
 
+        self.drawMinuteGroup(group: (nil, -52.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: -0, y: 0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: -0, y: 0)))
 
+        self.restoreState(times: 2)
 
-        //// Bezier 9 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers2Y)
+        self.drawMinuteGroup(group: (nil, -97.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: 0, y: -0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: 0, y: -0)))
 
-        self.drawMinutePointer(CGPoint(x: -0, y: 0))
+        self.restoreState(times: 2)
 
-        self.context?.restoreGState()
+        self.drawMinuteGroup(group: (nil, -105), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: 0, y: -0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: 0, y: 0)))
 
+        self.restoreState(times: 2)
 
-        //// Bezier 10 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers3Y)
+        self.drawMinuteGroup(group: (nil, -112.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: -0, y: 0)))
 
-        self.drawMinutePointer(CGPoint(x: 0, y: 0))
+        self.restoreState(times: 2)
 
-        self.context?.restoreGState()
-        self.context?.restoreGState()
+        self.drawMinuteGroup(group: (nil, -127.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: -0, y: -0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: -0, y: -0)))
 
+        self.restoreState(times: 2)
 
-        //// Group 14
-        self.context?.saveGState()
-        self.context?.rotate(by: -52.5 * CGFloat.pi/180)
+        self.drawMinuteGroup(group: (nil, -135), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: 0, y: -0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: 0, y: -0)))
 
+        self.restoreState(times: 2)
 
+        self.drawMinuteGroup(group: (nil, -142.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: -0, y: -0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: -0, y: -0)))
 
-        //// Bezier 11 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers2Y)
+        self.restoreState(times: 2)
 
-        self.drawMinutePointer(CGPoint(x: -0, y: 0))
+        self.drawMinuteGroup(group: (CGPoint(x: 0.08, y: -0.05), -157.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: -0, y: 0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: -0, y: 0)))
 
-        self.context?.restoreGState()
+        self.restoreState(times: 2)
 
+        self.drawMinuteGroup(group: (CGPoint(x: 0.08, y: -0.05), -165), pointer: (CGPoint(x: 0, y: pointers2Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: 0, y: pointers3Y), CGPoint(x: 0, y: -0)))
 
-        //// Bezier 12 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers3Y)
+        self.restoreState(times: 2)
 
-        self.drawMinutePointer(CGPoint(x: -0, y: 0))
+        self.drawMinuteGroup(group: (CGPoint(x: 0.08, y: -0.05), -172.5), pointer: (CGPoint(x: 0, y: pointers2Y), CGPoint(x: -0, y: 0)), opposite: (CGPoint(x: 0, y: pointers3Y), CGPoint(x: -0, y: 0)))
 
-        self.context?.restoreGState()
-        self.context?.restoreGState()
+        self.restoreState(times: 2)
 
+        self.drawMinuteGroup(group: (CGPoint(x: -1.05, y: -0.08), 112.5), pointer: (CGPoint(x: 0, y: self.pointers4Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: 0, y: self.pointersY), CGPoint(x: 0, y: 0)))
 
-        //// Group 15
-        self.context?.saveGState()
-        self.context?.rotate(by: -97.5 * CGFloat.pi/180)
+        self.restoreState(times: 2)
+        
+        self.drawMinuteGroup(group: (CGPoint(x: -1.05, y: -0.08), 105), pointer: (CGPoint(x: 0, y: self.pointers4Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: 0, y: self.pointersY), CGPoint(x: 0, y: 0)))
 
-
-
-        //// Bezier 13 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers2Y)
-
-        self.drawMinutePointer(CGPoint(x: 0, y: -0))
-
-        self.context?.restoreGState()
-
-
-        //// Bezier 14 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers3Y)
-
-        self.drawMinutePointer(CGPoint(x: 0, y: -0))
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-
-        //// Group 16
-        self.context?.saveGState()
-        self.context?.rotate(by: -105 * CGFloat.pi/180)
-
-
-
-        //// Bezier 15 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers2Y)
-
-        self.drawMinutePointer(CGPoint(x: 0, y: -0))
-
-        self.context?.restoreGState()
-
-
-        //// Bezier 16 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers3Y)
-
-        self.drawMinutePointer(CGPoint(x: 0, y: 0))
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-
-        //// Group 17
-        self.context?.saveGState()
-        self.context?.rotate(by: -112.5 * CGFloat.pi/180)
-
-
-
-        //// Bezier 17 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers2Y)
-
-        self.drawMinutePointer(CGPoint(x: 0, y: 0))
-
-        self.context?.restoreGState()
-
-
-        //// Bezier 18 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers3Y)
-
-        self.drawMinutePointer(CGPoint(x: -0, y: 0))
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-
-        //// Group 18
-        self.context?.saveGState()
-        self.context?.rotate(by: -127.5 * CGFloat.pi/180)
-
-
-
-        //// Bezier 19 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers2Y)
-
-        self.drawMinutePointer(CGPoint(x: -0, y: -0))
-
-        self.context?.restoreGState()
-
-
-        //// Bezier 20 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers3Y)
-
-        self.drawMinutePointer(CGPoint(x: -0, y: -0))
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-
-        //// Group 19
-        self.context?.saveGState()
-        self.context?.rotate(by: -135 * CGFloat.pi/180)
-
-
-
-        //// Bezier 21 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers2Y)
-
-        self.drawMinutePointer(CGPoint(x: 0, y: -0))
-
-        self.context?.restoreGState()
-
-
-        //// Bezier 22 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers3Y)
-
-        self.drawMinutePointer(CGPoint(x: 0, y: -0))
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-
-        //// Group 20
-        self.context?.saveGState()
-        self.context?.rotate(by: -142.5 * CGFloat.pi/180)
-
-
-
-        //// Bezier 23 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers2Y)
-
-        self.drawMinutePointer(CGPoint(x: -0, y: -0))
-
-        self.context?.restoreGState()
-
-
-        //// Bezier 24 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers3Y)
-
-        self.drawMinutePointer(CGPoint(x: -0, y: -0))
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-
-        //// Group 21
-        self.context?.saveGState()
-        self.context?.translateBy(x: 0.08, y: -0.05)
-        self.context?.rotate(by: -157.5 * CGFloat.pi/180)
-
-
-
-        //// Bezier 25 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers2Y)
-
-        self.drawMinutePointer(CGPoint(x: -0, y: 0))
-
-        self.context?.restoreGState()
-
-
-        //// Bezier 26 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: -0, y: pointers3Y)
-
-        self.drawMinutePointer(CGPoint(x: -0, y: 0))
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-
-        //// Group 22
-        self.context?.saveGState()
-        self.context?.translateBy(x: 0.08, y: -0.05)
-        self.context?.rotate(by: -165 * CGFloat.pi/180)
-
-
-
-        //// Bezier 27 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: 0, y: pointers2Y)
-
-        self.drawMinutePointer(CGPoint(x: 0, y: 0))
-
-        self.context?.restoreGState()
-
-
-        //// Bezier 28 Drawing
-        self.context?.saveGState()
-        self.context?.translateBy(x: 0, y: pointers3Y)
-
-        self.drawMinutePointer(CGPoint(x: 0, y: -0))
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-        self.drawMinuteGroup(
-            groupTranslate: (-172.5, CGPoint(x: 0.08, y: -0.05)),
-            pointer: (CGPoint(x: 0, y: self.pointers2Y), CGPoint(x: -0, y: 0)),
-            opositePointer: (CGPoint(x: 0, y: self.pointers3Y), CGPoint(x: -0, y: 0))
-        )
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-        self.drawMinuteGroup(
-            groupTranslate: (112.5, CGPoint(x: -1.05, y: -0.08)),
-            pointer: (CGPoint(x: 0, y: self.pointers4Y), CGPoint(x: 0, y: 0)),
-            opositePointer: (CGPoint(x: 0, y: self.pointersY), CGPoint(x: 0, y: 0))
-        )
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-        self.drawMinuteGroup(
-            groupTranslate: (105, CGPoint(x: -1.05, y: -0.08)),
-            pointer: (CGPoint(x: 0, y: self.pointers4Y), CGPoint(x: 0, y: 0)),
-            opositePointer: (CGPoint(x: 0, y: self.pointersY), CGPoint(x: 0, y: 0))
-        )
-
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
-        self.drawMinuteGroup(
-            groupTranslate: (97.5, CGPoint(x: -1.05, y: -0.08)),
-            pointer: (CGPoint(x: -0, y: self.pointers4Y), CGPoint(x: 0, y: -0)),
-            opositePointer: (CGPoint(x: 0, y: self.pointersY), CGPoint(x: 0, y: 0))
-        )
+        self.restoreState(times: 2)
+        
+        self.drawMinuteGroup(group: (CGPoint(x: -1.05, y: -0.08), 97.5), pointer: (CGPoint(x: -0, y: self.pointers4Y), CGPoint(x: 0, y: -0)), opposite: (CGPoint(x: 0, y: self.pointersY), CGPoint(x: 0, y: 0)))
 
     }
 
-    func drawMinuteGroup(groupTranslate: (rotate: CGFloat, translate: CGPoint), pointer: (rotate: CGPoint, position: CGPoint), opositePointer: (rotate: CGPoint, position: CGPoint)) {
+    func drawMinuteGroup(
+        group: (translate: CGPoint?, rotate: CGFloat),
+        pointer: (translate: CGPoint, position: CGPoint),
+        opposite: (translate: CGPoint, position: CGPoint)) {
 
         self.context?.saveGState()
-        self.context?.translateBy(x: groupTranslate.translate.x, y: groupTranslate.translate.y)
-        self.context?.rotate(by: groupTranslate.rotate * CGFloat.pi/180)
+        if let translate: CGPoint = group.translate { self.context?.translateBy(x: translate.x, y: translate.y) }
+        self.context?.rotate(by: group.rotate * CGFloat.pi/180)
 
-        self.drawMinuteWrap(rotate: pointer.rotate, point: pointer.position)
+        self.drawMinuteWrap(translate: pointer.translate, point: pointer.position)
 
-        self.context?.restoreGState()
+        self.restoreState()
 
-        self.drawMinuteWrap(rotate: opositePointer.rotate, point: pointer.position)
+        self.drawMinuteWrap(translate: opposite.translate, point: pointer.position)
 
     }
-
-    func drawMinuteWrap(rotate: CGPoint, point: CGPoint) {
-
+    
+    func drawMinuteWrap(translate: CGPoint, point: CGPoint) {
+        
         self.context?.saveGState()
-        self.context?.translateBy(x: rotate.x, y: rotate.y)
-
+        self.context?.translateBy(x: translate.x, y: translate.y)
+        
         self.drawMinutePointer(point)
-
+        
     }
-
+    
     func drawMinutePointer(_ point: CGPoint) {
-
+        
         let minutePath: UIBezierPath = UIBezierPath()
         minutePath.move(to: point)
         minutePath.addLine(to: CGPoint(x: 0, y: self.hourPointerHeight))
@@ -970,43 +703,42 @@ public class BedtimeClockView: UIView {
         self.thinPointer.setStroke()
         minutePath.lineWidth = self.minutePointerWidth
         minutePath.stroke()
-
+        
     }
-
+    
     func drawHourPointers() {
-
+        
         self.context?.saveGState()
         self.context?.translateBy(x: 78, y: 97)
         self.context?.rotate(by: -360 * CGFloat.pi/180)
-
+        
         self.drawHourGroup(rotate: -90)
 
-        self.context?.restoreGState()
+        self.restoreState()
 
         self.drawHourPointer(y: self.pointer12Y)
-
+        
         self.drawHourPointer(y: self.pointer6Y)
-
+        
         self.drawHourGroup(rotate: -30)
-
+        
         self.drawHourGroup(rotate: -90)
 
-        self.context?.restoreGState()
-        self.context?.restoreGState()
-
+        self.restoreState(times: 2)
+        
         self.drawHourGroup(rotate: -60)
-
+        
         self.drawHourGroup(rotate: -90)
         
     }
-
+    
     func drawHourGroup(rotate: CGFloat) {
-
+        
         self.context?.saveGState()
         self.context?.rotate(by: rotate * CGFloat.pi/180)
-
+        
         self.drawHourPointer(y: self.pointers2Y)
-
+        
         self.drawHourPointer(y: self.pointers3Y)
         
     }
@@ -1018,6 +750,8 @@ public class BedtimeClockView: UIView {
         hourPath.fill()
         
     }
+
+    func restoreState(times: Int = 1) { for _ in 0 ..< times { self.context?.restoreGState() } }
     
     
 }
