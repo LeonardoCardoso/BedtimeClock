@@ -142,15 +142,15 @@ public class BedtimeClockView: UIView {
 
     }
 
-    //// Drawing Methods
+    // Drawing Methods
     public func drawActivity(resizing: ResizingBehavior = .aspectFit) {
 
-        //// General Declarations
+        // General Declarations
         if self.context == nil { self.context = UIGraphicsGetCurrentContext() }
 
         if let context: CGContext = self.context {
 
-            //// Resize to Target Frame
+            // Resize to target frame
             context.saveGState()
             let resizedFrame: CGRect = resizing.apply(rect: CGRect(x: 0, y: 0, width: 156, height: 195), target: targetFrame)
             context.translateBy(x: resizedFrame.minX, y: resizedFrame.minY)
@@ -184,200 +184,94 @@ public class BedtimeClockView: UIView {
 
             self.restoreState(times: 3)
 
-            //// Numbers
+            // Numbers
             context.saveGState()
             context.translateBy(x: 78, y: 97)
             context.rotate(by: -360 * CGFloat.pi/180)
 
-
-
-            //// 12 Drawing
-            let _12Rect = CGRect(x: -5, y: -50, width: 10, height: 10)
-            let _12TextContent = "12"
-            let _12Style = NSMutableParagraphStyle()
-            _12Style.alignment = .center
-            let _12FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _12Style]
-
-            let _12TextHeight: CGFloat = _12TextContent.boundingRect(with: CGSize(width: _12Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _12FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _12Rect)
-            _12TextContent.draw(in: CGRect(x: _12Rect.minX, y: _12Rect.minY + (_12Rect.height - _12TextHeight) / 2, width: _12Rect.width, height: _12TextHeight), withAttributes: _12FontAttributes)
+            self.drawNumbers(text: "12", position: CGPoint(x: -5, y: -47.5))
 
             self.restoreState()
 
+            self.drawNumbers(text: "2", position: CGPoint(x: 34, y: -26))
 
-            //// Group 24
-            //// 2 Drawing
-            let _2Rect = CGRect(x: 34, y: -26, width: 10, height: 10)
-            let _2TextContent = "2"
-            let _2Style = NSMutableParagraphStyle()
-            _2Style.alignment = .center
-            let _2FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _2Style]
-
-            let _2TextHeight: CGFloat = _2TextContent.boundingRect(with: CGSize(width: _2Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _2FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _2Rect)
-            _2TextContent.draw(in: CGRect(x: _2Rect.minX, y: _2Rect.minY + (_2Rect.height - _2TextHeight) / 2, width: _2Rect.width, height: _2TextHeight), withAttributes: _2FontAttributes)
             self.restoreState()
 
+            self.drawNumbers(text: "3", position: CGPoint(x: 40, y: -5))
 
-
-
-            //// 3 Drawing
-            let _3Rect = CGRect(x: 40, y: -5, width: 10, height: 10)
-            let _3TextContent = "3"
-            let _3Style = NSMutableParagraphStyle()
-            _3Style.alignment = .center
-            let _3FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _3Style]
-
-            let _3TextHeight: CGFloat = _3TextContent.boundingRect(with: CGSize(width: _3Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _3FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _3Rect)
-            _3TextContent.draw(in: CGRect(x: _3Rect.minX, y: _3Rect.minY + (_3Rect.height - _3TextHeight) / 2, width: _3Rect.width, height: _3TextHeight), withAttributes: _3FontAttributes)
             self.restoreState()
 
+            self.drawNumbers(text: "4", position: CGPoint(x: 34, y: 16))
 
-            //// 4 Drawing
-            let _4Rect = CGRect(x: 34, y: 16, width: 10, height: 10)
-            let _4TextContent = "4"
-            let _4Style = NSMutableParagraphStyle()
-            _4Style.alignment = .center
-            let _4FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _4Style]
-
-            let _4TextHeight: CGFloat = _4TextContent.boundingRect(with: CGSize(width: _4Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _4FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _4Rect)
-            _4TextContent.draw(in: CGRect(x: _4Rect.minX, y: _4Rect.minY + (_4Rect.height - _4TextHeight) / 2, width: _4Rect.width, height: _4TextHeight), withAttributes: _4FontAttributes)
             self.restoreState()
 
+            self.drawNumbers(text: "5", position: CGPoint(x: 18, y: 32))
 
-            //// 5 Drawing
-            let _5Rect = CGRect(x: 18, y: 32, width: 10, height: 10)
-            let _5TextContent = "5"
-            let _5Style = NSMutableParagraphStyle()
-            _5Style.alignment = .center
-            let _5FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _5Style]
-
-            let _5TextHeight: CGFloat = _5TextContent.boundingRect(with: CGSize(width: _5Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _5FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _5Rect)
-            _5TextContent.draw(in: CGRect(x: _5Rect.minX, y: _5Rect.minY + (_5Rect.height - _5TextHeight) / 2, width: _5Rect.width, height: _5TextHeight), withAttributes: _5FontAttributes)
             self.restoreState()
 
+            self.drawNumbers(text: "6", position: CGPoint(x: -5, y: 39))
 
-            //// 6 Drawing
-            let _6Rect = CGRect(x: -5, y: 39, width: 10, height: 10)
-            let _6TextContent = "6"
-            let _6Style = NSMutableParagraphStyle()
-            _6Style.alignment = .center
-            let _6FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _6Style]
-
-            let _6TextHeight: CGFloat = _6TextContent.boundingRect(with: CGSize(width: _6Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _6FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _6Rect)
-            _6TextContent.draw(in: CGRect(x: _6Rect.minX, y: _6Rect.minY + (_6Rect.height - _6TextHeight) / 2, width: _6Rect.width, height: _6TextHeight), withAttributes: _6FontAttributes)
             self.restoreState()
 
+            self.drawNumbers(text: "7", position: CGPoint(x: -26, y: 32))
 
-            //// 7 Drawing
-            let _7Rect = CGRect(x: -26, y: 32, width: 10, height: 10)
-            let _7TextContent = "7"
-            let _7Style = NSMutableParagraphStyle()
-            _7Style.alignment = .center
-            let _7FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _7Style]
-
-            let _7TextHeight: CGFloat = _7TextContent.boundingRect(with: CGSize(width: _7Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _7FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _7Rect)
-            _7TextContent.draw(in: CGRect(x: _7Rect.minX, y: _7Rect.minY + (_7Rect.height - _7TextHeight) / 2, width: _7Rect.width, height: _7TextHeight), withAttributes: _7FontAttributes)
             self.restoreState()
 
+            self.drawNumbers(text: "8", position: CGPoint(x: -43, y: 16))
 
-            //// 8 Drawing
-            let _8Rect = CGRect(x: -43, y: 16, width: 10, height: 10)
-            let _8TextContent = "8"
-            let _8Style = NSMutableParagraphStyle()
-            _8Style.alignment = .center
-            let _8FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _8Style]
-
-            let _8TextHeight: CGFloat = _8TextContent.boundingRect(with: CGSize(width: _8Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _8FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _8Rect)
-            _8TextContent.draw(in: CGRect(x: _8Rect.minX, y: _8Rect.minY + (_8Rect.height - _8TextHeight) / 2, width: _8Rect.width, height: _8TextHeight), withAttributes: _8FontAttributes)
             self.restoreState()
 
+            self.drawNumbers(text: "9", position: CGPoint(x: -50, y: -5))
 
-            //// 9 Drawing
-            let _9Rect = CGRect(x: -50, y: -5, width: 10, height: 10)
-            let _9TextContent = "9"
-            let _9Style = NSMutableParagraphStyle()
-            _9Style.alignment = .center
-            let _9FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _9Style]
-
-            let _9TextHeight: CGFloat = _9TextContent.boundingRect(with: CGSize(width: _9Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _9FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _9Rect)
-            _9TextContent.draw(in: CGRect(x: _9Rect.minX, y: _9Rect.minY + (_9Rect.height - _9TextHeight) / 2, width: _9Rect.width, height: _9TextHeight), withAttributes: _9FontAttributes)
             self.restoreState()
 
+            self.drawNumbers(text: "10", position: CGPoint(x: -42, y: -26))
 
-            //// 10 Drawing
-            let _10Rect = CGRect(x: -42, y: -26, width: 10, height: 10)
-            let _10TextContent = "10"
-            let _10Style = NSMutableParagraphStyle()
-            _10Style.alignment = .center
-            let _10FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _10Style]
-
-            let _10TextHeight: CGFloat = _10TextContent.boundingRect(with: CGSize(width: _10Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _10FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _10Rect)
-            _10TextContent.draw(in: CGRect(x: _10Rect.minX, y: _10Rect.minY + (_10Rect.height - _10TextHeight) / 2, width: _10Rect.width, height: _10TextHeight), withAttributes: _10FontAttributes)
             self.restoreState()
 
+            self.drawNumbers(text: "1", position: CGPoint(x: 16, y: -43))
 
-            //// 1 Drawing
-            let _1Rect = CGRect(x: 16, y: -43, width: 10, height: 10)
-            let _1TextContent = "1"
-            let _1Style = NSMutableParagraphStyle()
-            _1Style.alignment = .center
-            let _1FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _1Style]
-
-            let _1TextHeight: CGFloat = _1TextContent.boundingRect(with: CGSize(width: _1Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _1FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _1Rect)
-            _1TextContent.draw(in: CGRect(x: _1Rect.minX, y: _1Rect.minY + (_1Rect.height - _1TextHeight) / 2, width: _1Rect.width, height: _1TextHeight), withAttributes: _1FontAttributes)
             self.restoreState()
 
-
-            //// 11 Drawing
-            let _11Rect = CGRect(x: -24, y: -43, width: 10, height: 10)
-            let _11TextContent = "11"
-            let _11Style = NSMutableParagraphStyle()
-            _11Style.alignment = .center
-            let _11FontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: _11Style]
-
-            let _11TextHeight: CGFloat = _11TextContent.boundingRect(with: CGSize(width: _11Rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: _11FontAttributes, context: nil).height
-            context.saveGState()
-            context.clip(to: _11Rect)
-            _11TextContent.draw(in: CGRect(x: _11Rect.minX, y: _11Rect.minY + (_11Rect.height - _11TextHeight) / 2, width: _11Rect.width, height: _11TextHeight), withAttributes: _11FontAttributes)
+            self.drawNumbers(text: "11", position: CGPoint(x: -24, y: -43))
 
             self.restoreState(times: 2)
 
-
-            //// Duration Drawing
-            let durationRect = CGRect(x: 44, y: 82, width: 69, height: 30)
-            let durationStyle = NSMutableParagraphStyle()
+            // Duration Drawing
+            let durationRect: CGRect = CGRect(x: 44, y: 82, width: 69, height: 30)
+            let durationStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
             durationStyle.alignment = .center
-            let durationFontAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: UIFont.smallSystemFontSize, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.white, NSParagraphStyleAttributeName: durationStyle]
+
+            let durationFontAttributes: [String : Any] = [NSFontAttributeName: UIFont.systemFont(ofSize: UIFont.smallSystemFontSize, weight: UIFontWeightLight), NSForegroundColorAttributeName: UIColor.white, NSParagraphStyleAttributeName: durationStyle]
 
             let durationTextHeight: CGFloat = timeDifference.boundingRect(with: CGSize(width: durationRect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: durationFontAttributes, context: nil).height
+
             context.saveGState()
             context.clip(to: durationRect)
-            timeDifference.draw(in: CGRect(x: durationRect.minX, y: durationRect.minY + (durationRect.height - durationTextHeight) / 2, width: durationRect.width, height: durationTextHeight), withAttributes: durationFontAttributes)
+
+            self.timeDifference.draw(in: CGRect(x: durationRect.minX, y: durationRect.minY + (durationRect.height - durationTextHeight) / 2, width: durationRect.width, height: durationTextHeight), withAttributes: durationFontAttributes)
 
             self.restoreState(times: 2)
 
         }
+
+    }
+
+    func drawNumbers(text: String, position: CGPoint) {
+
+        let rect = CGRect(x: position.x, y: position.y, width: 10, height: 10)
+
+        let style: NSMutableParagraphStyle = NSMutableParagraphStyle()
+        style.alignment = .center
+        
+        let fontAttributes: [String : Any] = [NSFontAttributeName: UIFont.systemFont(ofSize: 8), NSForegroundColorAttributeName: thickPointer, NSParagraphStyleAttributeName: style]
+
+        let height: CGFloat = text.boundingRect(with: CGSize(width: rect.width, height: CGFloat.infinity), options: .usesLineFragmentOrigin, attributes: fontAttributes, context: nil).height
+
+        self.context?.saveGState()
+        self.context?.clip(to: rect)
+
+        text.draw(in: CGRect(x: rect.minX, y: rect.minY + (rect.height - height) / 2, width: rect.width, height: height), withAttributes: fontAttributes)
 
     }
 
@@ -389,18 +283,17 @@ public class BedtimeClockView: UIView {
     // MARK: - Drawing functions
     func drawForms() {
 
-        //// BackgroundsGroup
+        // BackgroundsGroup
         self.context?.saveGState()
         self.context?.translateBy(x: 78, y: 97)
         self.context?.rotate(by: -90 * CGFloat.pi/180)
 
-        //// OffsetBackground Drawing
+        // OffsetBackground drawing
         let offsetBackgroundPath = UIBezierPath(ovalIn: CGRect(x: -74, y: -74, width: 148, height: 148))
         self.offsideWatch.setFill()
         offsetBackgroundPath.fill()
 
-
-        //// TimeBackground Drawing
+        // TimeBackground drawing
         let timeBackgroundPath = UIBezierPath(ovalIn: CGRect(x: -55, y: -55, width: 110, height: 110))
         self.centerBackground.setFill()
         timeBackgroundPath.fill()
@@ -408,8 +301,7 @@ public class BedtimeClockView: UIView {
         timeBackgroundPath.lineWidth = 1.5
         timeBackgroundPath.stroke()
 
-
-        //// TrackBackground Drawing
+        // TrackBackground drawing
         self.context?.saveGState()
         self.context?.rotate(by: -angle * CGFloat.pi/180)
 
@@ -432,7 +324,7 @@ public class BedtimeClockView: UIView {
 
     func drawStarsPath() {
 
-        let starsPath = UIBezierPath()
+        let starsPath: UIBezierPath = UIBezierPath()
         starsPath.move(to: CGPoint(x: 2.19, y: -3.11))
         starsPath.addCurve(to: CGPoint(x: 1.6, y: -3.7), controlPoint1: CGPoint(x: 2.09, y: -3.35), controlPoint2: CGPoint(x: 1.83, y: -3.61))
         starsPath.addLine(to: CGPoint(x: 1.29, y: -3.82))
@@ -483,7 +375,7 @@ public class BedtimeClockView: UIView {
 
     func drawMoonPath() {
 
-        let moonPath = UIBezierPath()
+        let moonPath: UIBezierPath = UIBezierPath()
         moonPath.move(to: CGPoint(x: -1.41, y: -4.99))
         moonPath.addCurve(to: CGPoint(x: -4.99, y: -0.12), controlPoint1: CGPoint(x: -3.48, y: -4.34), controlPoint2: CGPoint(x: -4.99, y: -2.4))
         moonPath.addCurve(to: CGPoint(x: 0.12, y: 4.99), controlPoint1: CGPoint(x: -4.99, y: 2.7), controlPoint2: CGPoint(x: -2.7, y: 4.99))
@@ -504,7 +396,7 @@ public class BedtimeClockView: UIView {
         self.context?.translateBy(x: -58, y: 29.5)
         self.context?.rotate(by: -dayIconAngle * CGFloat.pi/180)
 
-        let bellPath = UIBezierPath()
+        let bellPath: UIBezierPath = UIBezierPath()
         bellPath.move(to: CGPoint(x: 4.5, y: 3.07))
         bellPath.addCurve(to: CGPoint(x: 1.29, y: 3.9), controlPoint1: CGPoint(x: 4.5, y: 3.07), controlPoint2: CGPoint(x: 2.79, y: 3.64))
         bellPath.addCurve(to: CGPoint(x: 0, y: 5), controlPoint1: CGPoint(x: 1.19, y: 4.52), controlPoint2: CGPoint(x: 0.65, y: 5))
@@ -527,23 +419,20 @@ public class BedtimeClockView: UIView {
 
     func drawWakePoint() {
 
-        //// TimeGroup
+        // TimeGroup
         self.context?.saveGState()
         self.context?.translateBy(x: 78, y: 97)
         self.context?.rotate(by: -90 * CGFloat.pi/180)
 
-        //// Group 29
         self.context?.saveGState()
         self.context?.rotate(by: -dayFrameAngle * CGFloat.pi/180)
 
-
-
-        //// WakePoint Drawing
+        // WakePoint drawing
         self.context?.saveGState()
         self.context?.translateBy(x: -6.44, y: 3.28)
         self.context?.rotate(by: -27 * CGFloat.pi/180)
 
-        let wakePointPath = UIBezierPath(ovalIn: CGRect(x: -65.78, y: -8, width: 16, height: 16))
+        let wakePointPath: UIBezierPath = UIBezierPath(ovalIn: CGRect(x: -65.78, y: -8, width: 16, height: 16))
         self.centerBackground.setFill()
         wakePointPath.fill()
         self.centerBackground.setStroke()
@@ -554,33 +443,29 @@ public class BedtimeClockView: UIView {
 
     func drawSleepPoint() {
 
-        //// Group 25
         self.context?.saveGState()
         self.context?.rotate(by: -(nightFrameAngle - 720) * CGFloat.pi/180)
 
-
-
-        //// SleepPoint Drawing
+        // SleepPoint drawing
         self.context?.saveGState()
         self.context?.translateBy(x: -6.25, y: -3.61)
         self.context?.rotate(by: -510 * CGFloat.pi/180)
 
-        let sleepPointPath = UIBezierPath(ovalIn: CGRect(x: 49.78, y: -8, width: 16, height: 16))
-        centerBackground.setFill()
+        let sleepPointPath: UIBezierPath = UIBezierPath(ovalIn: CGRect(x: 49.78, y: -8, width: 16, height: 16))
+        self.centerBackground.setFill()
         sleepPointPath.fill()
-        centerBackground.setStroke()
+        self.centerBackground.setStroke()
         sleepPointPath.lineWidth = 1.7
         sleepPointPath.stroke()
 
         self.restoreState()
 
-        //// MoonIcon
+        // MoonIcon
         self.context?.saveGState()
         self.context?.translateBy(x: -51.77, y: -37.47)
         self.context?.rotate(by: 90 * CGFloat.pi/180)
 
-
-        //// Sleep
+        // Sleep
         self.context?.saveGState()
         self.context?.translateBy(x: 4.99, y: 4.99)
         self.context?.rotate(by: -nightIconAngle * CGFloat.pi/180)
@@ -589,7 +474,7 @@ public class BedtimeClockView: UIView {
 
     func drawMinutePointers() {
 
-        //// MinutePointers
+        // MinutePointers
         self.context?.saveGState()
         self.context?.translateBy(x: 78, y: 97)
         self.context?.rotate(by: -360 * CGFloat.pi/180)
@@ -666,12 +551,10 @@ public class BedtimeClockView: UIView {
 
     }
 
-    func drawMinuteGroup(
-        group: (translate: CGPoint?, rotate: CGFloat),
-        pointer: (translate: CGPoint, position: CGPoint),
-        opposite: (translate: CGPoint, position: CGPoint)) {
+    func drawMinuteGroup(group: (translate: CGPoint?, rotate: CGFloat), pointer: (translate: CGPoint, position: CGPoint), opposite: (translate: CGPoint, position: CGPoint)) {
 
         self.context?.saveGState()
+
         if let translate: CGPoint = group.translate { self.context?.translateBy(x: translate.x, y: translate.y) }
         self.context?.rotate(by: group.rotate * CGFloat.pi/180)
 
@@ -717,17 +600,14 @@ public class BedtimeClockView: UIView {
         self.restoreState()
 
         self.drawHourPointer(y: self.pointer12Y)
-        
         self.drawHourPointer(y: self.pointer6Y)
         
         self.drawHourGroup(rotate: -30)
-        
         self.drawHourGroup(rotate: -90)
 
         self.restoreState(times: 2)
         
         self.drawHourGroup(rotate: -60)
-        
         self.drawHourGroup(rotate: -90)
         
     }
@@ -738,7 +618,6 @@ public class BedtimeClockView: UIView {
         self.context?.rotate(by: rotate * CGFloat.pi/180)
         
         self.drawHourPointer(y: self.pointers2Y)
-        
         self.drawHourPointer(y: self.pointers3Y)
         
     }
