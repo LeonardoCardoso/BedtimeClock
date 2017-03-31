@@ -14,7 +14,7 @@
 
 ## Requirements
 
-- iOS 8.0+ / Mac OS X 10.10+ / tvOS 9.0+ / watchOS 2.0+
+- iOS 9.0+ / Mac OS X 10.10+ / tvOS 9.0+ / watchOS 2.0+
 - Xcode 8.0+
 
 ## Installation
@@ -33,7 +33,7 @@ To integrate BedtimeClock into your Xcode project using CocoaPods, specify it in
 
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
+platform :ios, '9.0'
 use_frameworks!
 
 pod 'BedtimeClock', '~> 0.0.1'

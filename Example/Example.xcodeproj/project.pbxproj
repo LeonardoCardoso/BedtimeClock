@@ -12,6 +12,7 @@
 		9843EFA71E83F32800374783 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9843EFA51E83F32800374783 /* Main.storyboard */; };
 		9843EFA91E83F32800374783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9843EFA81E83F32800374783 /* Assets.xcassets */; };
 		9843EFAC1E83F32800374783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9843EFAA1E83F32800374783 /* LaunchScreen.storyboard */; };
+		9849CBEF1E898ECE00D6A8A3 /* BedtimeClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9849CBEE1E898ECE00D6A8A3 /* BedtimeClockView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		9843EFA81E83F32800374783 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9843EFAB1E83F32800374783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9843EFAD1E83F32800374783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9849CBEE1E898ECE00D6A8A3 /* BedtimeClockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BedtimeClockView.swift; path = ../../Sources/BedtimeClockView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 		9843EFA01E83F32800374783 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				9849CBEE1E898ECE00D6A8A3 /* BedtimeClockView.swift */,
 				9843EFA11E83F32800374783 /* AppDelegate.swift */,
 				9843EFA31E83F32800374783 /* ViewController.swift */,
 				9843EFA51E83F32800374783 /* Main.storyboard */,
@@ -96,7 +99,7 @@
 				TargetAttributes = {
 					9843EF9D1E83F32800374783 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = T99T2WGRY2;
+						DevelopmentTeam = C8BNB3TERH;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9843EFA41E83F32800374783 /* ViewController.swift in Sources */,
+				9849CBEF1E898ECE00D6A8A3 /* BedtimeClockView.swift in Sources */,
 				9843EFA21E83F32800374783 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,7 +263,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = T99T2WGRY2;
+				DEVELOPMENT_TEAM = C8BNB3TERH;
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.Example;
@@ -272,7 +276,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = T99T2WGRY2;
+				DEVELOPMENT_TEAM = C8BNB3TERH;
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.leocardz.Example;
@@ -300,6 +304,7 @@
 				9843EFB21E83F32800374783 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
