@@ -27,11 +27,21 @@ class ViewController: UIViewController {
 
         self.view.addSubview(bedtimeClockView)
 
+//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.0, execute: {
+//
+//            print("Called")
+//            bedtimeClockView.dayRotation = 200
+//            
+//        })
 
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.0, execute: {
 
-//            bedtimeClockView.dayRotation = 200
-
+//            print("Called 2")
+            bedtimeClockView.changePalette(
+                centerBackgroundColor: UIColor.white,
+                centerLabelColor: UIColor.red
+            )
+            
         })
 
     }

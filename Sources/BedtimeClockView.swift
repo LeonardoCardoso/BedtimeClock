@@ -75,8 +75,8 @@ public class BedtimeClockView: UIView {
     private let rotation: Fl = 0
 
     // MARK: - Position variable properties
-    var dayRotation: Fl = 5 { didSet { self.updatePositions() } }
-    var nightRotation: Fl = 0 { didSet { self.updatePositions() } }
+    var dayRotation: Fl = 5 { didSet { self.setNeedsDisplay() } }
+    var nightRotation: Fl = 0 { didSet { self.setNeedsDisplay() } }
 
     // MARK: - Layout properties
     private let hourPointerWidth: Fl = 1
@@ -84,11 +84,18 @@ public class BedtimeClockView: UIView {
     private let minutePointerWidth: Fl = 0.5
 
     // MARK: - Color properties
-    private let offsideWatch: UIColor = UIColor(red: 0.087, green: 0.088, blue: 0.087, alpha: 1.000)
-    private let centerBackground: UIColor = UIColor(red: 0.049, green: 0.049, blue: 0.049, alpha: 1.000)
-    private let circleEndOriginal: UIColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000)
-    private let thickPointer: UIColor = UIColor(red: 0.557, green: 0.554, blue: 0.576, alpha: 1.000)
-    private let thinPointer: UIColor = UIColor(red: 0.329, green: 0.329, blue: 0.329, alpha: 1.000)
+    private var trackBackgroundColor: UIColor = UIColor(red: 0.087, green: 0.088, blue: 0.087, alpha: 1.000)
+    private var centerBackgroundColor: UIColor = UIColor(red: 0.049, green: 0.049, blue: 0.049, alpha: 1.000)
+    private var wakeBackgroundColor: UIColor = UIColor(red: 0.049, green: 0.049, blue: 0.049, alpha: 1.000)
+    private var wakeColor: UIColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000)
+    private var sleepBackgroundColor: UIColor = UIColor(red: 0.049, green: 0.049, blue: 0.049, alpha: 1.000)
+    private var sleepColor: UIColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000)
+    private var circleStartOriginalColor: UIColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000) // gradient
+    private var circleEndOriginalColor: UIColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000)
+    private var numberColor: UIColor = UIColor(red: 0.557, green: 0.554, blue: 0.576, alpha: 1.000)
+    private var thickPointerColor: UIColor = UIColor(red: 0.557, green: 0.554, blue: 0.576, alpha: 1.000)
+    private var thinPointerColor: UIColor = UIColor(red: 0.329, green: 0.329, blue: 0.329, alpha: 1.000)
+    private var centerLabelColor: UIColor = .white
 
     // MARK: - Fixed properties
     private var angle: Fl { return -720 * self.rotation }
@@ -154,13 +161,9 @@ public class BedtimeClockView: UIView {
 
     required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    public override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) { self.drawActivity() }
 
-        self.drawActivity()
-
-    }
-
-    public func drawActivity(resizing: ResizingBehavior = .aspectFit) {
+    private func drawActivity(resizing: ResizingBehavior = .aspectFit) {
 
         // General Declarations
         if self.context == nil { self.context = UIGraphicsGetCurrentContext() }
@@ -215,10 +218,6 @@ public class BedtimeClockView: UIView {
 
     }
 
-    private func updatePositions() {
-
-    }
-
     // MARK: - Drawing functions
     private func drawCenterLabel() {
 
@@ -228,7 +227,7 @@ public class BedtimeClockView: UIView {
 
         let durationFontAttributes: [String : Any] = [
             NSFontAttributeName: UIFont.systemFont(ofSize: UIFont.smallSystemFontSize, weight: UIFontWeightLight),
-            NSForegroundColorAttributeName: UIColor.white,
+            NSForegroundColorAttributeName: self.centerLabelColor,
             NSParagraphStyleAttributeName: durationStyle
         ]
 
@@ -320,7 +319,7 @@ public class BedtimeClockView: UIView {
 
         let fontAttributes: [String : Any] = [
             NSFontAttributeName: UIFont.systemFont(ofSize: 8),
-            NSForegroundColorAttributeName: thickPointer,
+            NSForegroundColorAttributeName: self.numberColor,
             NSParagraphStyleAttributeName: style
         ]
 
@@ -346,14 +345,14 @@ public class BedtimeClockView: UIView {
 
         // OffsetBackground drawing
         let offsetBackgroundPath = UIBezierPath(ovalIn: CGRect(x: -74, y: -74, width: 148, height: 148))
-        self.offsideWatch.setFill()
+        self.trackBackgroundColor.setFill()
         offsetBackgroundPath.fill()
 
         // TimeBackground drawing
         let timeBackgroundPath = UIBezierPath(ovalIn: CGRect(x: -55, y: -55, width: 110, height: 110))
-        self.centerBackground.setFill()
+        self.centerBackgroundColor.setFill()
         timeBackgroundPath.fill()
-        self.centerBackground.setStroke()
+        self.centerBackgroundColor.setStroke()
         timeBackgroundPath.lineWidth = 1.5
         timeBackgroundPath.stroke()
 
@@ -371,7 +370,7 @@ public class BedtimeClockView: UIView {
             clockwise: true
         )
 
-        self.circleEndOriginal.setStroke()
+        self.circleEndOriginalColor.setStroke()
         trackBackgroundPath.lineWidth = 18.5
         trackBackgroundPath.lineCapStyle = .round
         trackBackgroundPath.stroke()
@@ -424,7 +423,7 @@ public class BedtimeClockView: UIView {
         starsPath.addLine(to: Pt(x: 1.3, y: -0.14))
         starsPath.close()
         starsPath.usesEvenOddFillRule = true
-        self.circleEndOriginal.setFill()
+        self.sleepColor.setFill()
         starsPath.fill()
 
     }
@@ -441,7 +440,7 @@ public class BedtimeClockView: UIView {
         moonPath.addCurve(to: Pt(x: -1.41, y: -4.99), controlPoint1: Pt(x: -2.49, y: -3.17), controlPoint2: Pt(x: -2.09, y: -4.2))
         moonPath.close()
         moonPath.usesEvenOddFillRule = true
-        self.circleEndOriginal.setFill()
+        self.sleepColor.setFill()
         moonPath.fill()
 
     }
@@ -468,7 +467,7 @@ public class BedtimeClockView: UIView {
         bellPath.addCurve(to: Pt(x: 4.5, y: 3.07), controlPoint1: Pt(x: 2.87, y: 1.36), controlPoint2: Pt(x: 3.87, y: 2.39))
         bellPath.close()
         bellPath.usesEvenOddFillRule = true
-        self.circleEndOriginal.setFill()
+        self.wakeColor.setFill()
         bellPath.fill()
 
     }
@@ -489,9 +488,9 @@ public class BedtimeClockView: UIView {
         self.context?.rotate(by: -27 * Fl.pi / 180)
 
         let wakePointPath: UIBezierPath = UIBezierPath(ovalIn: CGRect(x: -65.78, y: -8, width: 16, height: 16))
-        self.centerBackground.setFill()
+        self.wakeBackgroundColor.setFill()
         wakePointPath.fill()
-        self.centerBackground.setStroke()
+        self.wakeBackgroundColor.setStroke()
         wakePointPath.lineWidth = 1.75
         wakePointPath.stroke()
 
@@ -508,9 +507,9 @@ public class BedtimeClockView: UIView {
         self.context?.rotate(by: -510 * Fl.pi / 180)
 
         let sleepPointPath: UIBezierPath = UIBezierPath(ovalIn: CGRect(x: 49.78, y: -8, width: 16, height: 16))
-        self.centerBackground.setFill()
+        self.sleepBackgroundColor.setFill()
         sleepPointPath.fill()
-        self.centerBackground.setStroke()
+        self.sleepBackgroundColor.setStroke()
         sleepPointPath.lineWidth = 1.7
         sleepPointPath.stroke()
 
@@ -637,9 +636,9 @@ public class BedtimeClockView: UIView {
         minutePath.move(to: point)
         minutePath.addLine(to: Pt(x: 0, y: self.hourPointerHeight))
         minutePath.addLine(to: Pt(x: 0, y: self.hourPointerHeight))
-        self.thinPointer.setFill()
+        self.thinPointerColor.setFill()
         minutePath.fill()
-        self.thinPointer.setStroke()
+        self.thinPointerColor.setStroke()
         minutePath.lineWidth = self.minutePointerWidth
         minutePath.stroke()
         
@@ -681,12 +680,42 @@ public class BedtimeClockView: UIView {
     private func drawHourPointer(y: Fl) {
         
         let hourPath: UIBezierPath = UIBezierPath(rect: CGRect(x: -0.5, y: y, width: self.hourPointerWidth, height: self.hourPointerHeight))
-        UIColor.gray.setFill()
+        self.thickPointerColor.setFill()
         hourPath.fill()
         
     }
     
     private func restoreState(times: Int = 1) { for _ in 0 ..< times { self.context?.restoreGState() } }
-    
-    
+
+    public func changePalette(
+        trackBackgroundColor: UIColor? = nil,
+        centerBackgroundColor: UIColor? = nil,
+        wakeBackgroundColor: UIColor? = nil,
+        wakeColor: UIColor? = nil,
+        sleepBackgroundColor: UIColor? = nil,
+        sleepColor: UIColor? = nil,
+        circleStartOriginalColor: UIColor? = nil,
+        circleEndOriginalColor: UIColor? = nil,
+        numberColor: UIColor? = nil,
+        thickPointerColor: UIColor? = nil,
+        thinPointerColor: UIColor? = nil,
+        centerLabelColor: UIColor? = nil) {
+
+        if let color: UIColor = trackBackgroundColor { self.trackBackgroundColor = color }
+        if let color: UIColor = centerBackgroundColor { self.centerBackgroundColor = color }
+        if let color: UIColor = wakeBackgroundColor { self.wakeBackgroundColor = color }
+        if let color: UIColor = wakeColor { self.wakeColor = color }
+        if let color: UIColor = sleepBackgroundColor { self.sleepBackgroundColor = color }
+        if let color: UIColor = sleepColor { self.sleepColor = color }
+        if let color: UIColor = circleStartOriginalColor { self.circleStartOriginalColor = color }
+        if let color: UIColor = circleEndOriginalColor { self.circleEndOriginalColor = color }
+        if let color: UIColor = numberColor { self.numberColor = color }
+        if let color: UIColor = thickPointerColor { self.thickPointerColor = color }
+        if let color: UIColor = thinPointerColor { self.thinPointerColor = color }
+        if let color: UIColor = centerLabelColor { self.centerLabelColor = color }
+
+        self.setNeedsDisplay()
+
+    }
+
 }
