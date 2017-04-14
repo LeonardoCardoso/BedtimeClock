@@ -63,7 +63,7 @@ public class BedtimeClockView: UIView {
     typealias Fl = CGFloat
 
     // MARK: - Callback
-    var observer: (String, String, TimeInterval) -> (Void) = { _, _, _ in } // self.observer("00:00", "21:00", 32400000)
+    var observer: (String, String, Int) -> (Void) = { _, _, _ in }
 
     // MARK: - Position properties
     private let pointersY: Fl = 50
@@ -75,8 +75,8 @@ public class BedtimeClockView: UIView {
     private let rotation: Fl = 0
 
     // MARK: - Position variable properties
-    var dayRotation: Fl = 5 { didSet { self.setNeedsDisplay() } }
-    var nightRotation: Fl = 0 { didSet { self.setNeedsDisplay() } }
+    var dayRotation: Fl = 5 { didSet { self.updatePositions() } }
+    var nightRotation: Fl = 0 { didSet { self.updatePositions() } }
 
     // MARK: - Layout properties
     private let hourPointerWidth: Fl = 1
@@ -128,10 +128,12 @@ public class BedtimeClockView: UIView {
 
     private var minuteDifference: Fl { return fmod(self.difference, 60) }
     private var hourDifference: Fl { return self.startPosition == self.endPosition ? 0 : floor(fmod(self.difference / 60.0, 60)) }
+    private var wakeHour: String { return "\(String(format: "%02d", Int(self.endInMinutes / 60))):\(String(format: "%02d", Int(fmod(self.endInMinutes, 60))))" }
+    private var sleepHour: String { return "\(String(format: "%02d", Int(self.startInMinutes / 60))):\(String(format: "%02d", Int(fmod(self.startInMinutes, 60))))" }
+
     private var timeDifference: String {
 
-        return (
-            self.hourDifference > 0 ? "\(Int(round(self.hourDifference)))" + "h " :
+        return (self.hourDifference > 0 ? "\(Int(round(self.hourDifference)))" + "h " :
                 (self.minuteDifference > 0 ? "" : "24h")) + (self.minuteDifference > 0 ? "\(Int(round(self.minuteDifference)))" + "min" : "")
 
     }
@@ -148,8 +150,6 @@ public class BedtimeClockView: UIView {
         if endHour < 0 || endHour > 86400000 { fatalError("endHour must be between 0 and 86400000, which is 24:00.") }
 
 //        self.dayRotation = CGFloat(startHour) / 60000.0 // calculation missing
-
-        print(self.dayRotation)
 
         super.init(frame: frame)
 
@@ -215,6 +215,14 @@ public class BedtimeClockView: UIView {
     // MARK: - Functions
     private func convertPositionIntoDate() {
 
+
+    }
+
+    private func updatePositions() {
+
+        self.setNeedsDisplay()
+
+        self.observer(self.wakeHour, self.sleepHour, Int(self.difference))
 
     }
 
