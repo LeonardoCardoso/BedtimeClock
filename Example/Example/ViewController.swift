@@ -19,30 +19,20 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
 
         self.bedtimeClockView = BedtimeClockView(
-            frame: CGRect(x: 0, y: 0, width: 320, height: 320),
-            startHour: 3600,
-            endHour: 7200
+            frame: CGRect(x: 0, y: 0, width: 320, height: 320)
         )
 
-        self.bedtimeClockView?.observer = { start, end, durationInMillis in
+        self.bedtimeClockView.observer = { start, end, durationInMinutes in
 
-            print(start, end, durationInMillis)
+            print(start, end, durationInMinutes)
             self.sleep.text = start
             self.wake.text = end
 
         }
 
         self.centerView.addSubview(self.bedtimeClockView)
-
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.0, execute: {
-
-            print("Called")
-            self.bedtimeClockView.dayRotation = 300
-
-        })
 
     }
 
@@ -62,8 +52,8 @@ class ViewController: UIViewController {
         self.bedtimeClockView.changePalette(
             wakeColor: !sender.isOn ? disabledColor : wakeColor,
             sleepColor: !sender.isOn ? disabledColor : sleepColor,
-            circleStartOriginalColor: !sender.isOn ? disabledColor : circleStartOriginalColor,
-            circleEndOriginalColor: !sender.isOn ? disabledColor : circleEndOriginalColor,
+            trackStartColor: !sender.isOn ? disabledColor : circleStartOriginalColor,
+            trackEndColor: !sender.isOn ? disabledColor : circleEndOriginalColor,
             numberColor: !sender.isOn ? disabledColor : numberColor,
             thickPointerColor: !sender.isOn ? disabledColor : thickPointerColor,
             thinPointerColor: !sender.isOn ? disabledColor : thinPointerColor,
