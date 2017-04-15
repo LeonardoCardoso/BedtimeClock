@@ -65,6 +65,11 @@ public class BedtimeClockView: UIView {
     // MARK: - Callback
     var observer: (String, String, Int) -> (Void) = { _, _, _ in }
 
+    // MARK: - Paths
+    private var wakePointPath: UIBezierPath?
+    private var sleepPointPath: UIBezierPath?
+    private var trackBackgroundPath: UIBezierPath?
+
     // MARK: - Position properties
     private let pointersY: Fl = 50
     private let pointers2Y: Fl = -54
@@ -73,6 +78,9 @@ public class BedtimeClockView: UIView {
     private let pointer6Y: Fl = 51
     private let pointer12Y: Fl = -54
     private let rotation: Fl = 0
+
+    // MARK: - Properties
+    private var isAnimating: Bool = false
 
     // MARK: - Position variable properties
     var dayRotation: Fl = 5 { didSet { updatePositions() } }
@@ -155,26 +163,167 @@ public class BedtimeClockView: UIView {
 
         targetFrame = frame
 
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleCircularGesture))
-        self.addGestureRecognizer(panGesture)
+        //        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleCircularGesture))
+        //        self.addGestureRecognizer(panGesture)
+
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapRecognizer))
+//        self.addGestureRecognizer(tapGesture)
+
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panRecognizer))
+//        self.addGestureRecognizer(panGesture)
+
+        backgroundColor = .clear
 
         setNeedsDisplay()
 
     }
 
-    func handleCircularGesture(gesture: UIGestureRecognizer) {
+//    @objc private func tapRecognizer(_ gesture: UITapGestureRecognizer) {
+//
+//        guard let gestureView = gesture.view else { return }
+//        let location = gesture.location(in: gestureView)
+//        self.detectArea(location)
+//
+//    }
 
-        let center = CGPoint(x: gesture.view!.bounds.size.width / 2.0, y: gesture.view!.bounds.size.height / 2.0)
-        let location = gesture.location(in: gesture.view)
-        print(center.x, center.y, location.x, location.y)
+    @objc private func panRecognizer(_ gesture: UIPanGestureRecognizer) {
 
-        // Detect if click is over wake, sleep or track and update stuff
+        guard let gestureView = gesture.view else { return }
+
+        switch gesture.state {
+
+        case .possible:
+
+            return
+
+        case .began:
+
+            let location: CGPoint = gesture.location(in: gestureView)
+            let translation: CGPoint = gesture.translation(in: gestureView)
+            let velocity: CGPoint = gesture.velocity(in: gestureView)
+
+            print(location, translation, velocity)
+
+            self.detectArea(location)
+
+            return
+
+        case .ended:
+
+            return
+
+        case .failed, .cancelled:
+
+            return
+
+        default:
+
+            break
+
+        }
 
     }
+
+    @objc private func detectArea(_ tapLocation: CGPoint){
+
+        guard let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
+
+        if sleep.contains(tapLocation) {
+
+            print("sleep")
+
+        } else if wake.contains(tapLocation) {
+
+            print("wake")
+
+        } else if track.contains(tapLocation) {
+
+            print("track")
+
+        } else {
+
+            print("out")
+
+        }
+
+    }
+
+    //    func handleCircularGesture(gesture: UIGestureRecognizer) {
+    //
+    //        let center = CGPoint(x: gesture.view!.bounds.size.width / 2.0, y: gesture.view!.bounds.size.height / 2.0)
+    //        let location = gesture.location(in: gesture.view)
+    //        print(center.x, center.y, location.x, location.y)
+    //
+    //        // Detect if click is over wake, sleep or track and update stuff
+    //
+    //    }
 
     required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     public override func draw(_ rect: CGRect) { drawActivity() }
+
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+//        print("touchesBegan")
+
+        guard let touch = touches.first, let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
+
+        //        print(touch.location(in: self), wake.cgPath.boundingBox)
+
+        print(self.calculateDegrees(by: touch.location(in: self)))
+
+        isAnimating = true
+
+    }
+
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+//        print("touchesMoved")
+
+        guard let touch = touches.first, let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
+
+        //        print(touch.location(in: self), wake.cgPath.boundingBox)
+
+        print(self.calculateDegrees(by: touch.location(in: self)))
+
+//        if sleep.contains(tapLocation) {
+//
+//            print("sleep")
+//
+//        } else if wake.contains(tapLocation) {
+//
+//            print("wake")
+//
+//        } else if track.contains(tapLocation) {
+//
+//            print("track")
+//            
+//        } else {
+//            
+//            print("out")
+//            
+//        }
+
+    }
+
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+        print("touchesEnded")
+        isAnimating = false
+
+    }
+
+    // MARK: - Functions
+    private func calculateDegrees(by location: CGPoint) -> Int {
+
+        let diffX = location.x - self.frame.width / 2
+        let diffY = location.y - self.frame.height / 2
+        let radians = atan2(diffY, diffX)
+        let degrees = radians * CGFloat(180 / Fl.pi)
+
+        return abs(Int(-degrees < 0 ? 360 - degrees : -degrees))
+
+    }
 
     private func drawActivity(resizing: ResizingBehavior = .aspectFill) {
 
@@ -225,7 +374,6 @@ public class BedtimeClockView: UIView {
 
     }
 
-    // MARK: - Functions
     private func updatePositions() {
 
         setNeedsDisplay()
@@ -377,8 +525,8 @@ public class BedtimeClockView: UIView {
         context?.rotate(by: -angle * Fl.pi / 180)
 
         let trackBackgroundRect = CGRect(x: -65, y: -65, width: 130, height: 130)
-        let trackBackgroundPath = UIBezierPath()
-        trackBackgroundPath.addArc(
+        trackBackgroundPath = UIBezierPath()
+        trackBackgroundPath?.addArc(
             withCenter: Pt(x: trackBackgroundRect.midX, y: trackBackgroundRect.midY),
             radius: trackBackgroundRect.width / 2,
             startAngle: -trackStartAngle * Fl.pi / 180,
@@ -387,9 +535,9 @@ public class BedtimeClockView: UIView {
         )
 
         trackEndColor.setStroke()
-        trackBackgroundPath.lineWidth = 18.5
-        trackBackgroundPath.lineCapStyle = .round
-        trackBackgroundPath.stroke()
+        trackBackgroundPath?.lineWidth = 18.5
+        trackBackgroundPath?.lineCapStyle = .round
+        trackBackgroundPath?.stroke()
 
     }
 
@@ -503,12 +651,12 @@ public class BedtimeClockView: UIView {
         context?.translateBy(x: -6.44, y: 3.28)
         context?.rotate(by: -27 * Fl.pi / 180)
 
-        let wakePointPath: UIBezierPath = UIBezierPath(ovalIn: CGRect(x: -65.78, y: -8, width: 16, height: 16))
+        wakePointPath = UIBezierPath(ovalIn: CGRect(x: -65.78, y: -8, width: 16, height: 16))
         wakeBackgroundColor.setFill()
-        wakePointPath.fill()
+        wakePointPath?.fill()
         wakeBackgroundColor.setStroke()
-        wakePointPath.lineWidth = 1.75
-        wakePointPath.stroke()
+        wakePointPath?.lineWidth = 1.75
+        wakePointPath?.stroke()
 
     }
 
@@ -522,12 +670,12 @@ public class BedtimeClockView: UIView {
         context?.translateBy(x: -6.25, y: -3.61)
         context?.rotate(by: -510 * Fl.pi / 180)
 
-        let sleepPointPath: UIBezierPath = UIBezierPath(ovalIn: CGRect(x: 49.78, y: -8, width: 16, height: 16))
+        sleepPointPath = UIBezierPath(ovalIn: CGRect(x: 49.78, y: -8, width: 16, height: 16))
         sleepBackgroundColor.setFill()
-        sleepPointPath.fill()
+        sleepPointPath?.fill()
         sleepBackgroundColor.setStroke()
-        sleepPointPath.lineWidth = 1.7
-        sleepPointPath.stroke()
+        sleepPointPath?.lineWidth = 1.7
+        sleepPointPath?.stroke()
 
         restoreState()
 
@@ -690,17 +838,17 @@ public class BedtimeClockView: UIView {
 
         drawHourPointer(y: pointers2Y)
         drawHourPointer(y: pointers3Y)
-
+        
     }
-
+    
     private func drawHourPointer(y: Fl) {
-
+        
         let hourPath: UIBezierPath = UIBezierPath(rect: CGRect(x: -0.5, y: y, width: hourPointerWidth, height: hourPointerHeight))
         thickPointerColor.setFill()
         hourPath.fill()
-
+        
     }
-
+    
     private func restoreState(times: Int = 1) { for _ in 0 ..< times { context?.restoreGState() } }
     
     public func changePalette(
