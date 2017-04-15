@@ -11,10 +11,10 @@ import UIKit
 @objc(BedtimeClockViewResizingBehavior)
 public enum ResizingBehavior: Int {
 
-    case aspectFit /// The content is proportionally resized to fit into the target rectangle.
-    case aspectFill /// The content is proportionally resized to completely fill the target rectangle.
-    case stretch /// The content is stretched to match the entire target rectangle.
-    case center /// The content is centered in the target rectangle, but it is NOT resized.
+    case aspectFit
+    case aspectFill
+    case stretch
+    case center
 
     public func apply(rect: CGRect, target: CGRect) -> CGRect {
 
@@ -155,7 +155,20 @@ public class BedtimeClockView: UIView {
 
         targetFrame = frame
 
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleCircularGesture))
+        self.addGestureRecognizer(panGesture)
+
         setNeedsDisplay()
+
+    }
+
+    func handleCircularGesture(gesture: UIGestureRecognizer) {
+
+        let center = CGPoint(x: gesture.view!.bounds.size.width / 2.0, y: gesture.view!.bounds.size.height / 2.0)
+        let location = gesture.location(in: gesture.view)
+        print(center.x, center.y, location.x, location.y)
+
+        // Detect if click is over wake, sleep or track and update stuff
 
     }
 
