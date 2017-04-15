@@ -60,6 +60,8 @@ class ViewController: UIViewController {
             centerLabelColor: !sender.isOn ? disabledColor : centerLabelColor
         )
 
+        self.bedtimeClockView.isEnabled = sender.isOn
+
     }
 
 }

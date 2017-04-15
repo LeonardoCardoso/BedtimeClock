@@ -62,8 +62,22 @@ public class BedtimeClockView: UIView {
     typealias Pt = CGPoint
     typealias Fl = CGFloat
 
-    // MARK: - Callback
+    // MARK: - Accessible properties
     var observer: (String, String, Int) -> (Void) = { _, _, _ in }
+    var isEnabled: Bool = true {
+        didSet {
+
+            if isEnabled == false {
+
+                isAnimatingWake = false
+                isAnimatingSleep = false
+                isAnimatingTrack = false
+
+            }
+
+        }
+
+    }
 
     // MARK: - Paths
     private var wakePointPath: UIBezierPath?
@@ -168,11 +182,11 @@ public class BedtimeClockView: UIView {
         //        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleCircularGesture))
         //        self.addGestureRecognizer(panGesture)
 
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapRecognizer))
-//        self.addGestureRecognizer(tapGesture)
+        //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapRecognizer))
+        //        self.addGestureRecognizer(tapGesture)
 
-//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panRecognizer))
-//        self.addGestureRecognizer(panGesture)
+        //        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panRecognizer))
+        //        self.addGestureRecognizer(panGesture)
 
         backgroundColor = .clear
 
@@ -180,13 +194,13 @@ public class BedtimeClockView: UIView {
 
     }
 
-//    @objc private func tapRecognizer(_ gesture: UITapGestureRecognizer) {
-//
-//        guard let gestureView = gesture.view else { return }
-//        let location = gesture.location(in: gestureView)
-//        self.detectArea(location)
-//
-//    }
+    //    @objc private func tapRecognizer(_ gesture: UITapGestureRecognizer) {
+    //
+    //        guard let gestureView = gesture.view else { return }
+    //        let location = gesture.location(in: gestureView)
+    //        self.detectArea(location)
+    //
+    //    }
 
     @objc private func panRecognizer(_ gesture: UIPanGestureRecognizer) {
 
@@ -266,23 +280,25 @@ public class BedtimeClockView: UIView {
 
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-//        guard let touch = touches.first, let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
+        // guard let touch = touches.first, let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
 
         // calculate which path is being animated
+        // only allow touches on wake, sleep and track
+        // detect which rotation is closer to the touch
 
-        isAnimatingWake = true
-//        isAnimatingSleep = true
-//        isAnimatingTrack = true
+        if isEnabled {
+
+            isAnimatingWake = true
+            //        isAnimatingSleep = true
+            //        isAnimatingTrack = true
+
+        }
 
     }
 
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-//        print("touchesMoved")
-
-        guard let touch = touches.first, let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
-
-                print(touch.location(in: self), wake.cgPath.boundingBox)
+        guard let touch = touches.first else { return }
 
         let degrees = self.calculateDegrees(by: touch.location(in: self))
 
@@ -291,25 +307,23 @@ public class BedtimeClockView: UIView {
 
         updatePositions()
 
-//        print(self.calculateDegrees(by: touch.location(in: self)))
-
-//        if sleep.contains(tapLocation) {
-//
-//            print("sleep")
-//
-//        } else if wake.contains(tapLocation) {
-//
-//            print("wake")
-//
-//        } else if track.contains(tapLocation) {
-//
-//            print("track")
-//            
-//        } else {
-//            
-//            print("out")
-//            
-//        }
+        //        if sleep.contains(tapLocation) {
+        //
+        //            print("sleep")
+        //
+        //        } else if wake.contains(tapLocation) {
+        //
+        //            print("wake")
+        //
+        //        } else if track.contains(tapLocation) {
+        //
+        //            print("track")
+        //
+        //        } else {
+        //
+        //            print("out")
+        //
+        //        }
 
     }
 
@@ -836,14 +850,14 @@ public class BedtimeClockView: UIView {
 
         drawHourGroup(rotate: -60)
         drawHourGroup(rotate: -90)
-
+        
     }
-
+    
     private func drawHourGroup(rotate: Fl) {
-
+        
         context?.saveGState()
         context?.rotate(by: rotate * Fl.pi / 180)
-
+        
         drawHourPointer(y: pointers2Y)
         drawHourPointer(y: pointers3Y)
         
