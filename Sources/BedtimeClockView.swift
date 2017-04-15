@@ -179,100 +179,11 @@ public class BedtimeClockView: UIView {
 
         targetFrame = frame
 
-        //        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleCircularGesture))
-        //        self.addGestureRecognizer(panGesture)
-
-        //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapRecognizer))
-        //        self.addGestureRecognizer(tapGesture)
-
-        //        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panRecognizer))
-        //        self.addGestureRecognizer(panGesture)
-
         backgroundColor = .clear
 
         setNeedsDisplay()
 
     }
-
-    //    @objc private func tapRecognizer(_ gesture: UITapGestureRecognizer) {
-    //
-    //        guard let gestureView = gesture.view else { return }
-    //        let location = gesture.location(in: gestureView)
-    //        self.detectArea(location)
-    //
-    //    }
-
-    @objc private func panRecognizer(_ gesture: UIPanGestureRecognizer) {
-
-        guard let gestureView = gesture.view else { return }
-
-        switch gesture.state {
-
-        case .possible:
-
-            return
-
-        case .began:
-
-            let location: CGPoint = gesture.location(in: gestureView)
-            let translation: CGPoint = gesture.translation(in: gestureView)
-            let velocity: CGPoint = gesture.velocity(in: gestureView)
-
-            print(location, translation, velocity)
-
-            self.detectArea(location)
-
-            return
-
-        case .ended:
-
-            return
-
-        case .failed, .cancelled:
-
-            return
-
-        default:
-
-            break
-
-        }
-
-    }
-
-    @objc private func detectArea(_ tapLocation: CGPoint){
-
-        guard let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
-
-        if sleep.contains(tapLocation) {
-
-            print("sleep")
-
-        } else if wake.contains(tapLocation) {
-
-            print("wake")
-
-        } else if track.contains(tapLocation) {
-
-            print("track")
-
-        } else {
-
-            print("out")
-
-        }
-
-    }
-
-    //    func handleCircularGesture(gesture: UIGestureRecognizer) {
-    //
-    //        let center = CGPoint(x: gesture.view!.bounds.size.width / 2.0, y: gesture.view!.bounds.size.height / 2.0)
-    //        let location = gesture.location(in: gesture.view)
-    //        print(center.x, center.y, location.x, location.y)
-    //
-    //        // Detect if click is over wake, sleep or track and update stuff
-    //
-    //    }
 
     required public init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
@@ -280,11 +191,12 @@ public class BedtimeClockView: UIView {
 
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        // guard let touch = touches.first, let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
+        // 1. Detect if touch only in track area, wake or sleep
+        // 2. Detect if nightRotation position is closer to degrees
+        // 3. Detect if dayRotation position is closer to degrees
+        // 4. Detect if degrees is inside the track
 
-        // calculate which path is being animated
-        // only allow touches on wake, sleep and track
-        // detect which rotation is closer to the touch
+        // guard let touch = touches.first else { return }
 
         if isEnabled {
 
@@ -306,24 +218,6 @@ public class BedtimeClockView: UIView {
         if isAnimatingSleep { nightRotation = degrees - 90 }
 
         updatePositions()
-
-        //        if sleep.contains(tapLocation) {
-        //
-        //            print("sleep")
-        //
-        //        } else if wake.contains(tapLocation) {
-        //
-        //            print("wake")
-        //
-        //        } else if track.contains(tapLocation) {
-        //
-        //            print("track")
-        //
-        //        } else {
-        //
-        //            print("out")
-        //
-        //        }
 
     }
 
