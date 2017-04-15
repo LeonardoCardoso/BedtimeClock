@@ -80,11 +80,13 @@ public class BedtimeClockView: UIView {
     private let rotation: Fl = 0
 
     // MARK: - Properties
-    private var isAnimating: Bool = false
+    private var isAnimatingWake: Bool = false
+    private var isAnimatingSleep: Bool = false
+    private var isAnimatingTrack: Bool = false
 
     // MARK: - Position variable properties
-    var dayRotation: Fl = 5 { didSet { updatePositions() } }
-    var nightRotation: Fl = 0 { didSet { updatePositions() } }
+    private var dayRotation: Fl = 0 { didSet { updatePositions() } }
+    private var nightRotation: Fl = 0 { didSet { updatePositions() } }
 
     // MARK: - Layout properties
     private let hourPointerWidth: Fl = 1
@@ -264,15 +266,13 @@ public class BedtimeClockView: UIView {
 
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-//        print("touchesBegan")
+//        guard let touch = touches.first, let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
 
-        guard let touch = touches.first, let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
+        // calculate which path is being animated
 
-        //        print(touch.location(in: self), wake.cgPath.boundingBox)
-
-        print(self.calculateDegrees(by: touch.location(in: self)))
-
-        isAnimating = true
+        isAnimatingWake = true
+//        isAnimatingSleep = true
+//        isAnimatingTrack = true
 
     }
 
@@ -282,9 +282,16 @@ public class BedtimeClockView: UIView {
 
         guard let touch = touches.first, let wake = wakePointPath, let sleep = sleepPointPath, let track = trackBackgroundPath else { return }
 
-        //        print(touch.location(in: self), wake.cgPath.boundingBox)
+                print(touch.location(in: self), wake.cgPath.boundingBox)
 
-        print(self.calculateDegrees(by: touch.location(in: self)))
+        let degrees = self.calculateDegrees(by: touch.location(in: self))
+
+        if isAnimatingWake { dayRotation = degrees + 90 }
+        if isAnimatingSleep { nightRotation = degrees - 90 }
+
+        updatePositions()
+
+//        print(self.calculateDegrees(by: touch.location(in: self)))
 
 //        if sleep.contains(tapLocation) {
 //
@@ -308,20 +315,21 @@ public class BedtimeClockView: UIView {
 
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        print("touchesEnded")
-        isAnimating = false
+        isAnimatingWake = false
+        isAnimatingSleep = false
+        isAnimatingTrack = false
 
     }
 
     // MARK: - Functions
-    private func calculateDegrees(by location: CGPoint) -> Int {
+    private func calculateDegrees(by location: CGPoint) -> Fl {
 
         let diffX = location.x - self.frame.width / 2
         let diffY = location.y - self.frame.height / 2
         let radians = atan2(diffY, diffX)
         let degrees = radians * CGFloat(180 / Fl.pi)
 
-        return abs(Int(-degrees < 0 ? 360 - degrees : -degrees))
+        return abs(-degrees < 0 ? 360 - degrees : -degrees)
 
     }
 
