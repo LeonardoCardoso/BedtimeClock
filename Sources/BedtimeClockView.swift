@@ -63,7 +63,7 @@ public class BedtimeClockView: UIView {
     typealias Fl = CGFloat
 
     // MARK: - Accessible properties
-    var observer: (String, String, Int) -> (Void) = { _, _, _ in } { didSet { self.updatePositions() } }
+    var observer: (String, String, Int) -> (Void) = { _, _, _ in } { didSet { updatePositions() } }
     var isEnabled: Bool = true {
         didSet {
 
@@ -173,13 +173,11 @@ public class BedtimeClockView: UIView {
         if sleepTimeInMinutes < 0 || sleepTimeInMinutes > 1440 { fatalError("sleepTimeInMinutes must be between 0 and 1440, which is 24:00.") }
         if wakeTimeInMinutes < 0 || wakeTimeInMinutes > 1440 { fatalError("wakeTimeInMinutes must be between 0 and 1440, which is 24:00.") }
 
-        let modNight = fmod(sleepTimeInMinutes, 10)
-        nightRotation = Fl(720 - (modNight > 5 ? ceil(sleepTimeInMinutes / 2) : floor(sleepTimeInMinutes / 2)))
-
-        let modDay = fmod(wakeTimeInMinutes, 10)
-        dayRotation = Fl(540 - (modDay > 5 ? floor(wakeTimeInMinutes / 2) : ceil(wakeTimeInMinutes / 2)))
-
         super.init(frame: frame)
+
+        nightRotation = calculateNightRotation(Fl(sleepTimeInMinutes))
+
+        dayRotation = calculateDayRotation(Fl(wakeTimeInMinutes))
 
         targetFrame = frame
 
@@ -195,18 +193,32 @@ public class BedtimeClockView: UIView {
 
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
-        // 1. Detect if touch only in track area, wake or sleep
-        // 2. Detect if nightRotation position is closer to degrees
-        // 3. Detect if dayRotation position is closer to degrees
-        // 4. Detect if degrees is inside the track
-
-        // guard let touch = touches.first else { return }
-
         if isEnabled {
 
-            isAnimatingWake = true
-            //        isAnimatingSleep = true
-            //        isAnimatingTrack = true
+            guard let touch = touches.first else { return }
+
+            let degrees = calculateDegrees(by: touch.location(in: self), counterclockwise: false)
+
+            let degreesHours = Int(floor(degrees / 30.0))
+            let degreesMinutes = Int(floor(fmod(floor(degrees), 30) * 2 / 5.0) * 5)
+            var degreesFullTimeInMinutes = Fl(degreesHours * 60 + degreesMinutes)
+
+            let startInMinutes = fmod(self.startInMinutes, 720)
+            let endInMinutes = fmod(self.endInMinutes, 720)
+
+//            print(degreesFullTimeInMinutes, startInMinutes, endInMinutes)
+
+            if degreesFullTimeInMinutes >= 700 { degreesFullTimeInMinutes = degreesFullTimeInMinutes - 720 }
+
+//            print(degreesFullTimeInMinutes, startInMinutes, endInMinutes)
+
+            isAnimatingSleep = endInMinutes - 20 <= degreesFullTimeInMinutes && endInMinutes + 20 >= degreesFullTimeInMinutes
+            if !isAnimatingSleep { isAnimatingWake = startInMinutes - 20 <= degreesFullTimeInMinutes && startInMinutes + 20 >= degreesFullTimeInMinutes }
+            if !isAnimatingWake { /* isAnimatingTrack = true */ }
+
+            print("isAnimatingWake", startInMinutes - 20 <= degreesFullTimeInMinutes && startInMinutes + 20 >= degreesFullTimeInMinutes)
+            print("isAnimatingSleep", endInMinutes - 20 <= degreesFullTimeInMinutes && endInMinutes + 20 >= degreesFullTimeInMinutes)
+
 
         }
 
@@ -216,7 +228,7 @@ public class BedtimeClockView: UIView {
 
         guard let touch = touches.first else { return }
 
-        let degrees = self.calculateDegrees(by: touch.location(in: self))
+        let degrees = calculateDegrees(by: touch.location(in: self), counterclockwise: true)
 
         if isAnimatingWake { dayRotation = degrees + 90 }
         if isAnimatingSleep { nightRotation = degrees - 90 }
@@ -234,11 +246,25 @@ public class BedtimeClockView: UIView {
     }
 
     // MARK: - Functions
-    private func calculateDegrees(by location: CGPoint) -> Fl {
+    private func calculateNightRotation(_ number: Fl) -> Fl {
+
+        let modNight = fmod(number, 10)
+        return Fl(720 - (modNight > 5 ? ceil(number / 2) : floor(number / 2)))
+
+    }
+
+    private func calculateDayRotation(_ number: Fl) -> Fl {
+
+        let modDay = fmod(number, 10)
+        return Fl(540 - (modDay > 5 ? floor(number / 2) : ceil(number / 2)))
+
+    }
+
+    private func calculateDegrees(by location: CGPoint, counterclockwise: Bool) -> Fl {
 
         let diffX = location.x - self.frame.width / 2
         let diffY = location.y - self.frame.height / 2
-        let radians = atan2(diffY, diffX)
+        let radians = counterclockwise ? atan2(diffY, diffX) : atan2(-diffX, -diffY) // clockwise and shift 90 degrees from left to right
         let degrees = radians * CGFloat(180 / Fl.pi)
 
         return abs(-degrees < 0 ? 360 - degrees : -degrees)
@@ -748,11 +774,11 @@ public class BedtimeClockView: UIView {
 
         drawHourGroup(rotate: -60)
         drawHourGroup(rotate: -90)
-        
+
     }
-    
+
     private func drawHourGroup(rotate: Fl) {
-        
+
         context?.saveGState()
         context?.rotate(by: rotate * Fl.pi / 180)
         
