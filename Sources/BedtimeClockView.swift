@@ -63,7 +63,7 @@ public class BedtimeClockView: UIView {
     typealias Fl = CGFloat
 
     // MARK: - Accessible properties
-    var observer: (String, String, Int) -> (Void) = { _, _, _ in }
+    var observer: (String, String, Int) -> (Void) = { _, _, _ in } { didSet { self.updatePositions() } }
     var isEnabled: Bool = true {
         didSet {
 
@@ -168,12 +168,16 @@ public class BedtimeClockView: UIView {
     var context: CGContext?
     var targetFrame: CGRect = .zero
 
-    init(frame: CGRect, startTimeInMinutes: TimeInterval = 0, endTimeInMinutes: TimeInterval = 480) {
+    init(frame: CGRect, sleepTimeInMinutes: TimeInterval = 0, wakeTimeInMinutes: TimeInterval = 480) {
 
-        if startTimeInMinutes < 0 || startTimeInMinutes > 1440 { fatalError("startTimeInMinutes must be between 0 and 1440, which is 24:00.") }
-        if endTimeInMinutes < 0 || endTimeInMinutes > 1440 { fatalError("endTimeInMinutes must be between 0 and 1440, which is 24:00.") }
+        if sleepTimeInMinutes < 0 || sleepTimeInMinutes > 1440 { fatalError("sleepTimeInMinutes must be between 0 and 1440, which is 24:00.") }
+        if wakeTimeInMinutes < 0 || wakeTimeInMinutes > 1440 { fatalError("wakeTimeInMinutes must be between 0 and 1440, which is 24:00.") }
 
-        //        dayRotation = CGFloat(startHour) / 60000.0 // calculation missing
+        let modNight = fmod(sleepTimeInMinutes, 10)
+        nightRotation = Fl(720 - (modNight > 5 ? ceil(sleepTimeInMinutes / 2) : floor(sleepTimeInMinutes / 2)))
+
+        let modDay = fmod(wakeTimeInMinutes, 10)
+        dayRotation = Fl(540 - (modDay > 5 ? floor(wakeTimeInMinutes / 2) : ceil(wakeTimeInMinutes / 2)))
 
         super.init(frame: frame)
 

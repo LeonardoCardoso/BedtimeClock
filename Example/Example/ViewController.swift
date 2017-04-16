@@ -21,7 +21,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         self.bedtimeClockView = BedtimeClockView(
-            frame: CGRect(x: 0, y: 0, width: 320, height: 320)
+            frame: CGRect(x: 0, y: 0, width: 320, height: 320),
+            sleepTimeInMinutes: 0,
+            wakeTimeInMinutes: 480
         )
 
         self.bedtimeClockView.observer = { start, end, durationInMinutes in
