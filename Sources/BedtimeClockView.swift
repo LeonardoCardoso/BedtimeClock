@@ -8,8 +8,7 @@
 
 import UIKit
 
-@objc(BedtimeClockViewResizingBehavior)
-public enum ResizingBehavior: Int {
+fileprivate enum ResizingBehavior: Int {
 
     case aspectFit
     case aspectFill
@@ -59,11 +58,8 @@ public enum ResizingBehavior: Int {
 
 public class BedtimeClockView: UIView {
 
-    typealias Pt = CGPoint
-    typealias Fl = CGFloat
-
     // MARK: - Accessible properties
-    var observer: (String, String, Int) -> (Void) = { _, _, _ in } { didSet { updatePositions() } }
+    var observer: (String, String, Int) -> (Void) = { _, _, _ in } { didSet { updateLayout() } }
     var isEnabled: Bool = true {
         didSet {
 
@@ -85,13 +81,13 @@ public class BedtimeClockView: UIView {
     private var trackBackgroundPath: UIBezierPath?
 
     // MARK: - Position properties
-    private let pointersY: Fl = 50
-    private let pointers2Y: Fl = -54
-    private let pointers3Y: Fl = 51
-    private let pointers4Y: Fl = -55
-    private let pointer6Y: Fl = 51
-    private let pointer12Y: Fl = -54
-    private let rotation: Fl = 0
+    private let pointersY: CGFloat = 50
+    private let pointers2Y: CGFloat = -54
+    private let pointers3Y: CGFloat = 51
+    private let pointers4Y: CGFloat = -55
+    private let pointer6Y: CGFloat = 51
+    private let pointer12Y: CGFloat = -54
+    private let rotation: CGFloat = 0
 
     // MARK: - Properties
     private var isAnimatingWake: Bool = false
@@ -99,13 +95,13 @@ public class BedtimeClockView: UIView {
     private var isAnimatingTrack: Bool = false
 
     // MARK: - Position variable properties
-    private var dayRotation: Fl = 0 { didSet { updatePositions() } }
-    private var nightRotation: Fl = 0 { didSet { updatePositions() } }
+    private var dayRotation: CGFloat = 0 { didSet { updateLayout() } }
+    private var nightRotation: CGFloat = 0 { didSet { updateLayout() } }
 
     // MARK: - Layout properties
-    private let hourPointerWidth: Fl = 1
-    private let hourPointerHeight: Fl = 3
-    private let minutePointerWidth: Fl = 0.5
+    private let hourPointerWidth: CGFloat = 1
+    private let hourPointerHeight: CGFloat = 3
+    private let minutePointerWidth: CGFloat = 0.5
 
     // MARK: - Color properties
     private var trackBackgroundColor = UIColor(red: 0.087, green: 0.088, blue: 0.087, alpha: 1.000)
@@ -122,38 +118,44 @@ public class BedtimeClockView: UIView {
     private var centerLabelColor = UIColor.white
 
     // MARK: - Fixed properties
-    private var angle: Fl { return -720 * rotation }
+    private let minutesPerHour: CGFloat = 60
+    private let degreesPerHour: CGFloat = 30
+    private let minutesInHour: CGFloat = 720
+    private let degreesInCircle: CGFloat = 360
 
-    private var dayRotationModulus: Fl { return fmod(dayRotation, 720) }
-    private var nightRotationModulus: Fl { return fmod(nightRotation, 720) }
+    private var angle: CGFloat { return -minutesInHour * rotation }
 
-    private var trackEndAngle: Fl { return abs(dayRotationModulus + 541) }
-    private var trackStartAngle: Fl { return equalPositionInCircle ? nightRotationModulus + 359 : nightRotationModulus + 0.01 }
+    private var dayRotationModulus: CGFloat { return fmod(dayRotation, minutesInHour) }
+    private var nightRotationModulus: CGFloat { return fmod(nightRotation, minutesInHour) }
 
-    private var startPosition: Fl { return fmod((720 - fmod((180 + dayRotationModulus), 720)), 720) }
-    private var endPosition: Fl { return fmod((720 - nightRotationModulus), 720) }
+    private var trackEndAngle: CGFloat { return abs(dayRotationModulus + 540) }
+    private var trackStartAngle: CGFloat { return abs(nightRotationModulus + 360) + (equalPositionInCircle ? 0.0001 : 0) }
+    private var fixedTrackBackgroundColor: UIColor { return equalPositionInCircle ? trackEndColor : trackBackgroundColor }
 
-    private var startPositionHour: Fl { return floor(startPosition / 30.0) }
-    private var endPositionHour: Fl { return floor(endPosition / 30.0) }
+    private var startPosition: CGFloat { return fmod((minutesInHour - fmod((180 + dayRotationModulus), minutesInHour)), minutesInHour) }
+    private var endPosition: CGFloat { return fmod((minutesInHour - nightRotationModulus), minutesInHour) }
 
-    private var startPositionMinute: Fl { return floor(fmod(floor(startPosition), 30) * 2 / 5.0) * 5 }
-    private var endPositionMinute: Fl { return ceil(fmod(floor(endPosition), 30) * 2 / 5.0) * 5 }
+    private var startPositionHour: CGFloat { return floor(startPosition / degreesPerHour) }
+    private var endPositionHour: CGFloat { return floor(endPosition / degreesPerHour) }
 
-    private var startInMinutes: Fl { return startPositionHour * 60 + startPositionMinute }
-    private var endInMinutes: Fl { return endPositionHour * 60 + endPositionMinute }
+    private var startPositionMinute: CGFloat { return floor(fmod(floor(startPosition), degreesPerHour) * 2 / 5.0) * 5 }
+    private var endPositionMinute: CGFloat { return ceil(fmod(floor(endPosition), degreesPerHour) * 2 / 5.0) * 5 }
 
-    private var dayFrameAngle: Fl { return dayRotation - 26 }
-    private var nightFrameAngle: Fl { return nightRotation + 210 }
+    private var startInMinutes: CGFloat { return startPositionHour * minutesPerHour + startPositionMinute }
+    private var endInMinutes: CGFloat { return endPositionHour * minutesPerHour + endPositionMinute }
 
-    private var dayIconAngle: Fl { return -(dayRotation + 64.5) }
-    private var nightIconAngle: Fl { return -(nightRotation + 220) }
+    private var dayFrameAngle: CGFloat { return dayRotation - 27 }
+    private var nightFrameAngle: CGFloat { return nightRotation + 210 }
 
-    private var difference: Fl { return endInMinutes > startInMinutes ? 1440 - endInMinutes + startInMinutes : abs(endInMinutes - startInMinutes) }
+    private var dayIconAngle: CGFloat { return -(dayRotation + 64.5) }
+    private var nightIconAngle: CGFloat { return -(nightRotation + 220) }
 
-    private var minuteDifference: Fl { return fmod(difference, 60) }
-    private var hourDifference: Fl { return startPosition == endPosition ? 0 : floor(fmod(difference / 60.0, 60)) }
-    private var wakeHour: String { return "\(String(format: "%02d", Int(endInMinutes / 60))):\(String(format: "%02d", Int(fmod(endInMinutes, 60))))" }
-    private var sleepHour: String { return "\(String(format: "%02d", Int(startInMinutes / 60))):\(String(format: "%02d", Int(fmod(startInMinutes, 60))))" }
+    private var difference: CGFloat { return endInMinutes > startInMinutes ? 1440 - endInMinutes + startInMinutes : abs(endInMinutes - startInMinutes) }
+
+    private var minuteDifference: CGFloat { return fmod(difference, minutesPerHour) }
+    private var hourDifference: CGFloat { return startPosition == endPosition ? 0 : floor(fmod(difference / minutesPerHour, minutesPerHour)) }
+    private var sleepHour: String { return "\(String(format: "%02d", Int(endInMinutes / minutesPerHour))):\(String(format: "%02d", Int(fmod(endInMinutes, minutesPerHour))))" }
+    private var wakeHour: String { return "\(String(format: "%02d", Int(startInMinutes / minutesPerHour))):\(String(format: "%02d", Int(fmod(startInMinutes, minutesPerHour))))" }
 
     private var timeDifference: String {
 
@@ -162,7 +164,7 @@ public class BedtimeClockView: UIView {
 
     }
 
-    private var equalPositionInCircle: Bool { return fmod(startPosition, 30) == fmod(endPosition, 30) + 2 }
+    private var equalPositionInCircle: Bool { return fmod(startPosition, degreesInCircle) == fmod(endPosition, degreesInCircle) }
 
     // MARK: - Properties
     var context: CGContext?
@@ -175,9 +177,8 @@ public class BedtimeClockView: UIView {
 
         super.init(frame: frame)
 
-        nightRotation = calculateNightRotation(Fl(sleepTimeInMinutes))
-
-        dayRotation = calculateDayRotation(Fl(wakeTimeInMinutes))
+        nightRotation = calculateNightRotation(CGFloat(sleepTimeInMinutes))
+        dayRotation = calculateDayRotation(CGFloat(wakeTimeInMinutes))
 
         targetFrame = frame
 
@@ -193,32 +194,24 @@ public class BedtimeClockView: UIView {
 
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 
+        super.touchesBegan(touches, with: event)
+
         if isEnabled {
 
             guard let touch = touches.first else { return }
 
-            let degrees = calculateDegrees(by: touch.location(in: self), counterclockwise: false)
+            let location = touch.location(in: self)
+            let degrees = calculateDegrees(by: location, counterclockwise: false)
+            var degreesInMinutes = calculateFullTimeFromDegrees(degrees)
 
-            let degreesHours = Int(floor(degrees / 30.0))
-            let degreesMinutes = Int(floor(fmod(floor(degrees), 30) * 2 / 5.0) * 5)
-            var degreesFullTimeInMinutes = Fl(degreesHours * 60 + degreesMinutes)
+            let startInMinutes = fmod(self.startInMinutes, minutesInHour)
+            let endInMinutes = fmod(self.endInMinutes, minutesInHour)
 
-            let startInMinutes = fmod(self.startInMinutes, 720)
-            let endInMinutes = fmod(self.endInMinutes, 720)
+            if degreesInMinutes >= 700 { degreesInMinutes = degreesInMinutes - minutesInHour }
 
-//            print(degreesFullTimeInMinutes, startInMinutes, endInMinutes)
-
-            if degreesFullTimeInMinutes >= 700 { degreesFullTimeInMinutes = degreesFullTimeInMinutes - 720 }
-
-//            print(degreesFullTimeInMinutes, startInMinutes, endInMinutes)
-
-            isAnimatingSleep = endInMinutes - 20 <= degreesFullTimeInMinutes && endInMinutes + 20 >= degreesFullTimeInMinutes
-            if !isAnimatingSleep { isAnimatingWake = startInMinutes - 20 <= degreesFullTimeInMinutes && startInMinutes + 20 >= degreesFullTimeInMinutes }
-            if !isAnimatingWake { /* isAnimatingTrack = true */ }
-
-            print("isAnimatingWake", startInMinutes - 20 <= degreesFullTimeInMinutes && startInMinutes + 20 >= degreesFullTimeInMinutes)
-            print("isAnimatingSleep", endInMinutes - 20 <= degreesFullTimeInMinutes && endInMinutes + 20 >= degreesFullTimeInMinutes)
-
+            isAnimatingSleep = endInMinutes - 20 <= degreesInMinutes && endInMinutes + 20 >= degreesInMinutes
+            if !isAnimatingSleep { isAnimatingWake = startInMinutes - 20 <= degreesInMinutes && startInMinutes + 20 >= degreesInMinutes }
+            else if !isAnimatingWake { /* isAnimatingTrack = true */ }
 
         }
 
@@ -226,18 +219,36 @@ public class BedtimeClockView: UIView {
 
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
 
+        super.touchesMoved(touches, with: event)
+
         guard let touch = touches.first else { return }
 
-        let degrees = calculateDegrees(by: touch.location(in: self), counterclockwise: true)
+        let degrees = calculateDegrees(by: touch.location(in: self), counterclockwise: false)
+        let degreesInMinutes = calculateFullTimeFromDegrees(degrees)
 
-        if isAnimatingWake { dayRotation = degrees + 90 }
-        if isAnimatingSleep { nightRotation = degrees - 90 }
+        if isAnimatingSleep { nightRotation = calculateNightRotation(degreesInMinutes) }
 
-        updatePositions()
+//        if isAnimatingSleep {
+//
+//            let rotationCandidate = calculateNightRotation(degreesInMinutes)
+//            nightRotation = nightRotation + 1 > minutesInHour ? rotationCandidate : rotationCandidate
+//            
+//        }
+
+//        if isAnimatingWake {
+//
+//            let rotationCandidate = calculateDayRotation(degreesInMinutes)
+//            dayRotation = dayRotation + 1 > minutesInHour ? rotationCandidate : rotationCandidate
+//
+//        }
+
+        updateLayout()
 
     }
 
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+        super.touchesEnded(touches, with: event)
 
         isAnimatingWake = false
         isAnimatingSleep = false
@@ -246,29 +257,38 @@ public class BedtimeClockView: UIView {
     }
 
     // MARK: - Functions
-    private func calculateNightRotation(_ number: Fl) -> Fl {
+    private func calculateFullTimeFromDegrees(_ degrees: CGFloat) -> CGFloat {
+
+        let degreesHours = floor(degrees / degreesPerHour)
+        let degreesMinutes = floor(fmod(floor(degrees), degreesPerHour) * 2 / 5.0) * 5
+        return degreesHours * minutesPerHour + degreesMinutes
+
+    }
+
+    private func calculateNightRotation(_ number: CGFloat) -> CGFloat {
 
         let modNight = fmod(number, 10)
-        return Fl(720 - (modNight > 5 ? ceil(number / 2) : floor(number / 2)))
+        return CGFloat(minutesInHour - (modNight > 5 ? ceil(number / 2) : floor(number / 2)))
 
     }
 
-    private func calculateDayRotation(_ number: Fl) -> Fl {
+    private func calculateDayRotation(_ number: CGFloat) -> CGFloat {
 
         let modDay = fmod(number, 10)
-        return Fl(540 - (modDay > 5 ? floor(number / 2) : ceil(number / 2)))
+        return CGFloat(540 - (modDay > 5 ? floor(number / 2) : ceil(number / 2)))
 
     }
 
-    private func calculateDegrees(by location: CGPoint, counterclockwise: Bool) -> Fl {
+    private func calculateDegrees(by location: CGPoint, counterclockwise: Bool) -> CGFloat {
 
         let diffX = location.x - self.frame.width / 2
         let diffY = location.y - self.frame.height / 2
         let radians = counterclockwise ? atan2(diffY, diffX) : atan2(-diffX, -diffY) // clockwise and shift 90 degrees from left to right
-        let degrees = radians * CGFloat(180 / Fl.pi)
 
-        return abs(-degrees < 0 ? 360 - degrees : -degrees)
+        let degrees = radians * CGFloat(180 / CGFloat.pi)
 
+        return abs(-degrees < 0 ? degreesInCircle - degrees : -degrees)
+        
     }
 
     private func drawActivity(resizing: ResizingBehavior = .aspectFill) {
@@ -320,18 +340,18 @@ public class BedtimeClockView: UIView {
 
     }
 
-    private func updatePositions() {
+    private func updateLayout() {
 
         setNeedsDisplay()
 
-        observer(wakeHour, sleepHour, Int(difference))
+        observer(sleepHour, wakeHour, Int(difference))
 
     }
 
     // MARK: - Drawing functions
     private func drawCenterLabel() {
 
-        let durationRect: CGRect = CGRect(x: 44, y: 82, width: 69, height: 30)
+        let durationRect: CGRect = CGRect(x: 44, y: 82, width: 69, height: degreesPerHour)
         let durationStyle: NSMutableParagraphStyle = NSMutableParagraphStyle()
         durationStyle.alignment = .center
 
@@ -341,8 +361,8 @@ public class BedtimeClockView: UIView {
             NSParagraphStyleAttributeName: durationStyle
         ]
 
-        let durationTextHeight: Fl = timeDifference.boundingRect(
-            with: CGSize(width: durationRect.width, height: Fl.infinity),
+        let durationTextHeight: CGFloat = timeDifference.boundingRect(
+            with: CGSize(width: durationRect.width, height: CGFloat.infinity),
             options: .usesLineFragmentOrigin,
             attributes: durationFontAttributes,
             context: nil).height
@@ -368,59 +388,59 @@ public class BedtimeClockView: UIView {
 
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -360 * Fl.pi / 180)
+        context?.rotate(by: -360 * CGFloat.pi / 180)
 
-        drawNumber(text: "12", position: Pt(x: -5, y: -47.5))
-
-        restoreState()
-
-        drawNumber(text: "2", position: Pt(x: 34, y: -26))
+        drawNumber(text: "12", position: CGPoint(x: -5, y: -47.5))
 
         restoreState()
 
-        drawNumber(text: "3", position: Pt(x: 40, y: -5))
+        drawNumber(text: "2", position: CGPoint(x: 34, y: -26))
 
         restoreState()
 
-        drawNumber(text: "4", position: Pt(x: 34, y: 16))
+        drawNumber(text: "3", position: CGPoint(x: 40, y: -5))
 
         restoreState()
 
-        drawNumber(text: "5", position: Pt(x: 18, y: 32))
+        drawNumber(text: "4", position: CGPoint(x: 34, y: 16))
 
         restoreState()
 
-        drawNumber(text: "6", position: Pt(x: -5, y: 39))
+        drawNumber(text: "5", position: CGPoint(x: 18, y: 32))
 
         restoreState()
 
-        drawNumber(text: "7", position: Pt(x: -26, y: 32))
+        drawNumber(text: "6", position: CGPoint(x: -5, y: 39))
 
         restoreState()
 
-        drawNumber(text: "8", position: Pt(x: -43, y: 16))
+        drawNumber(text: "7", position: CGPoint(x: -26, y: 32))
 
         restoreState()
 
-        drawNumber(text: "9", position: Pt(x: -50, y: -5))
+        drawNumber(text: "8", position: CGPoint(x: -43, y: 16))
 
         restoreState()
 
-        drawNumber(text: "10", position: Pt(x: -42, y: -26))
+        drawNumber(text: "9", position: CGPoint(x: -50, y: -5))
 
         restoreState()
 
-        drawNumber(text: "1", position: Pt(x: 16, y: -43))
+        drawNumber(text: "10", position: CGPoint(x: -42, y: -26))
 
         restoreState()
 
-        drawNumber(text: "11", position: Pt(x: -24, y: -43))
+        drawNumber(text: "1", position: CGPoint(x: 16, y: -43))
+
+        restoreState()
+
+        drawNumber(text: "11", position: CGPoint(x: -24, y: -43))
 
         restoreState(times: 2)
 
     }
 
-    private func drawNumber(text: String, position: Pt) {
+    private func drawNumber(text: String, position: CGPoint) {
 
         let rect = CGRect(x: position.x, y: position.y, width: 10, height: 10)
 
@@ -433,8 +453,8 @@ public class BedtimeClockView: UIView {
             NSParagraphStyleAttributeName: style
         ]
 
-        let height: Fl = text.boundingRect(
-            with: CGSize(width: rect.width, height: Fl.infinity),
+        let height: CGFloat = text.boundingRect(
+            with: CGSize(width: rect.width, height: CGFloat.infinity),
             options: .usesLineFragmentOrigin,
             attributes: fontAttributes,
             context: nil).height
@@ -451,11 +471,11 @@ public class BedtimeClockView: UIView {
         // BackgroundsGroup
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -90 * Fl.pi / 180)
+        context?.rotate(by: -90 * CGFloat.pi / 180)
 
         // OffsetBackground drawing
-        let offsetBackgroundPath = UIBezierPath(ovalIn: CGRect(x: -74, y: -74, width: 148, height: 148))
-        trackBackgroundColor.setFill()
+        let offsetBackgroundPath = UIBezierPath(ovalIn: CGRect(x: -74.28, y: -74.28, width: 148.5, height: 148.5))
+        fixedTrackBackgroundColor.setFill()
         offsetBackgroundPath.fill()
 
         // TimeBackground drawing
@@ -468,15 +488,15 @@ public class BedtimeClockView: UIView {
 
         // TrackBackground drawing
         context?.saveGState()
-        context?.rotate(by: -angle * Fl.pi / 180)
+        context?.rotate(by: -angle * CGFloat.pi / 180)
 
         let trackBackgroundRect = CGRect(x: -65, y: -65, width: 130, height: 130)
         trackBackgroundPath = UIBezierPath()
         trackBackgroundPath?.addArc(
-            withCenter: Pt(x: trackBackgroundRect.midX, y: trackBackgroundRect.midY),
+            withCenter: CGPoint(x: trackBackgroundRect.midX, y: trackBackgroundRect.midY),
             radius: trackBackgroundRect.width / 2,
-            startAngle: -trackStartAngle * Fl.pi / 180,
-            endAngle: -trackEndAngle * Fl.pi / 180,
+            startAngle: -trackStartAngle * CGFloat.pi / 180,
+            endAngle: -trackEndAngle * CGFloat.pi / 180,
             clockwise: true
         )
 
@@ -490,47 +510,47 @@ public class BedtimeClockView: UIView {
     private func drawStarsPath() {
 
         let starsPath: UIBezierPath = UIBezierPath()
-        starsPath.move(to: Pt(x: 2.19, y: -3.11))
-        starsPath.addCurve(to: Pt(x: 1.6, y: -3.7), controlPoint1: Pt(x: 2.09, y: -3.35), controlPoint2: Pt(x: 1.83, y: -3.61))
-        starsPath.addLine(to: Pt(x: 1.29, y: -3.82))
-        starsPath.addLine(to: Pt(x: 1.6, y: -3.95))
-        starsPath.addCurve(to: Pt(x: 2.19, y: -4.53), controlPoint1: Pt(x: 1.83, y: -4.04), controlPoint2: Pt(x: 2.09, y: -4.3))
-        starsPath.addLine(to: Pt(x: 2.31, y: -4.85))
-        starsPath.addLine(to: Pt(x: 2.43, y: -4.53))
-        starsPath.addCurve(to: Pt(x: 3.02, y: -3.95), controlPoint1: Pt(x: 2.52, y: -4.3), controlPoint2: Pt(x: 2.78, y: -4.04))
-        starsPath.addLine(to: Pt(x: 3.33, y: -3.82))
-        starsPath.addLine(to: Pt(x: 3.02, y: -3.7))
-        starsPath.addCurve(to: Pt(x: 2.43, y: -3.11), controlPoint1: Pt(x: 2.78, y: -3.61), controlPoint2: Pt(x: 2.52, y: -3.35))
-        starsPath.addLine(to: Pt(x: 2.31, y: -2.8))
-        starsPath.addLine(to: Pt(x: 2.19, y: -3.11))
+        starsPath.move(to: CGPoint(x: 2.19, y: -3.11))
+        starsPath.addCurve(to: CGPoint(x: 1.6, y: -3.7), controlPoint1: CGPoint(x: 2.09, y: -3.35), controlPoint2: CGPoint(x: 1.83, y: -3.61))
+        starsPath.addLine(to: CGPoint(x: 1.29, y: -3.82))
+        starsPath.addLine(to: CGPoint(x: 1.6, y: -3.95))
+        starsPath.addCurve(to: CGPoint(x: 2.19, y: -4.53), controlPoint1: CGPoint(x: 1.83, y: -4.04), controlPoint2: CGPoint(x: 2.09, y: -4.3))
+        starsPath.addLine(to: CGPoint(x: 2.31, y: -4.85))
+        starsPath.addLine(to: CGPoint(x: 2.43, y: -4.53))
+        starsPath.addCurve(to: CGPoint(x: 3.02, y: -3.95), controlPoint1: CGPoint(x: 2.52, y: -4.3), controlPoint2: CGPoint(x: 2.78, y: -4.04))
+        starsPath.addLine(to: CGPoint(x: 3.33, y: -3.82))
+        starsPath.addLine(to: CGPoint(x: 3.02, y: -3.7))
+        starsPath.addCurve(to: CGPoint(x: 2.43, y: -3.11), controlPoint1: CGPoint(x: 2.78, y: -3.61), controlPoint2: CGPoint(x: 2.52, y: -3.35))
+        starsPath.addLine(to: CGPoint(x: 2.31, y: -2.8))
+        starsPath.addLine(to: CGPoint(x: 2.19, y: -3.11))
         starsPath.close()
-        starsPath.move(to: Pt(x: 3.28, y: -1.27))
-        starsPath.addCurve(to: Pt(x: 2.92, y: -1.64), controlPoint1: Pt(x: 3.23, y: -1.42), controlPoint2: Pt(x: 3.07, y: -1.58))
-        starsPath.addLine(to: Pt(x: 2.9, y: -1.65))
-        starsPath.addLine(to: Pt(x: 2.92, y: -1.66))
-        starsPath.addCurve(to: Pt(x: 3.28, y: -2.02), controlPoint1: Pt(x: 3.06, y: -1.71), controlPoint2: Pt(x: 3.23, y: -1.88))
-        starsPath.addLine(to: Pt(x: 3.29, y: -2.04))
-        starsPath.addLine(to: Pt(x: 3.3, y: -2.02))
-        starsPath.addCurve(to: Pt(x: 3.67, y: -1.66), controlPoint1: Pt(x: 3.36, y: -1.88), controlPoint2: Pt(x: 3.52, y: -1.71))
-        starsPath.addLine(to: Pt(x: 3.69, y: -1.65))
-        starsPath.addLine(to: Pt(x: 3.67, y: -1.64))
-        starsPath.addCurve(to: Pt(x: 3.3, y: -1.27), controlPoint1: Pt(x: 3.52, y: -1.58), controlPoint2: Pt(x: 3.36, y: -1.42))
-        starsPath.addLine(to: Pt(x: 3.29, y: -1.25))
-        starsPath.addLine(to: Pt(x: 3.28, y: -1.27))
+        starsPath.move(to: CGPoint(x: 3.28, y: -1.27))
+        starsPath.addCurve(to: CGPoint(x: 2.92, y: -1.64), controlPoint1: CGPoint(x: 3.23, y: -1.42), controlPoint2: CGPoint(x: 3.07, y: -1.58))
+        starsPath.addLine(to: CGPoint(x: 2.9, y: -1.65))
+        starsPath.addLine(to: CGPoint(x: 2.92, y: -1.66))
+        starsPath.addCurve(to: CGPoint(x: 3.28, y: -2.02), controlPoint1: CGPoint(x: 3.06, y: -1.71), controlPoint2: CGPoint(x: 3.23, y: -1.88))
+        starsPath.addLine(to: CGPoint(x: 3.29, y: -2.04))
+        starsPath.addLine(to: CGPoint(x: 3.3, y: -2.02))
+        starsPath.addCurve(to: CGPoint(x: 3.67, y: -1.66), controlPoint1: CGPoint(x: 3.36, y: -1.88), controlPoint2: CGPoint(x: 3.52, y: -1.71))
+        starsPath.addLine(to: CGPoint(x: 3.69, y: -1.65))
+        starsPath.addLine(to: CGPoint(x: 3.67, y: -1.64))
+        starsPath.addCurve(to: CGPoint(x: 3.3, y: -1.27), controlPoint1: CGPoint(x: 3.52, y: -1.58), controlPoint2: CGPoint(x: 3.36, y: -1.42))
+        starsPath.addLine(to: CGPoint(x: 3.29, y: -1.25))
+        starsPath.addLine(to: CGPoint(x: 3.28, y: -1.27))
         starsPath.close()
-        starsPath.move(to: Pt(x: 1.3, y: -0.14))
-        starsPath.addCurve(to: Pt(x: 0.93, y: -0.5), controlPoint1: Pt(x: 1.24, y: -0.28), controlPoint2: Pt(x: 1.08, y: -0.45))
-        starsPath.addLine(to: Pt(x: 0.91, y: -0.51))
-        starsPath.addLine(to: Pt(x: 0.93, y: -0.52))
-        starsPath.addCurve(to: Pt(x: 1.3, y: -0.89), controlPoint1: Pt(x: 1.08, y: -0.58), controlPoint2: Pt(x: 1.24, y: -0.74))
-        starsPath.addLine(to: Pt(x: 1.31, y: -0.91))
-        starsPath.addLine(to: Pt(x: 1.32, y: -0.89))
-        starsPath.addCurve(to: Pt(x: 1.68, y: -0.52), controlPoint1: Pt(x: 1.37, y: -0.74), controlPoint2: Pt(x: 1.53, y: -0.58))
-        starsPath.addLine(to: Pt(x: 1.7, y: -0.51))
-        starsPath.addLine(to: Pt(x: 1.68, y: -0.5))
-        starsPath.addCurve(to: Pt(x: 1.32, y: -0.14), controlPoint1: Pt(x: 1.54, y: -0.45), controlPoint2: Pt(x: 1.37, y: -0.29))
-        starsPath.addLine(to: Pt(x: 1.31, y: -0.12))
-        starsPath.addLine(to: Pt(x: 1.3, y: -0.14))
+        starsPath.move(to: CGPoint(x: 1.3, y: -0.14))
+        starsPath.addCurve(to: CGPoint(x: 0.93, y: -0.5), controlPoint1: CGPoint(x: 1.24, y: -0.28), controlPoint2: CGPoint(x: 1.08, y: -0.45))
+        starsPath.addLine(to: CGPoint(x: 0.91, y: -0.51))
+        starsPath.addLine(to: CGPoint(x: 0.93, y: -0.52))
+        starsPath.addCurve(to: CGPoint(x: 1.3, y: -0.89), controlPoint1: CGPoint(x: 1.08, y: -0.58), controlPoint2: CGPoint(x: 1.24, y: -0.74))
+        starsPath.addLine(to: CGPoint(x: 1.31, y: -0.91))
+        starsPath.addLine(to: CGPoint(x: 1.32, y: -0.89))
+        starsPath.addCurve(to: CGPoint(x: 1.68, y: -0.52), controlPoint1: CGPoint(x: 1.37, y: -0.74), controlPoint2: CGPoint(x: 1.53, y: -0.58))
+        starsPath.addLine(to: CGPoint(x: 1.7, y: -0.51))
+        starsPath.addLine(to: CGPoint(x: 1.68, y: -0.5))
+        starsPath.addCurve(to: CGPoint(x: 1.32, y: -0.14), controlPoint1: CGPoint(x: 1.54, y: -0.45), controlPoint2: CGPoint(x: 1.37, y: -0.29))
+        starsPath.addLine(to: CGPoint(x: 1.31, y: -0.12))
+        starsPath.addLine(to: CGPoint(x: 1.3, y: -0.14))
         starsPath.close()
         starsPath.usesEvenOddFillRule = true
         sleepColor.setFill()
@@ -541,13 +561,13 @@ public class BedtimeClockView: UIView {
     private func drawMoonPath() {
 
         let moonPath: UIBezierPath = UIBezierPath()
-        moonPath.move(to: Pt(x: -1.41, y: -4.99))
-        moonPath.addCurve(to: Pt(x: -4.99, y: -0.12), controlPoint1: Pt(x: -3.48, y: -4.34), controlPoint2: Pt(x: -4.99, y: -2.4))
-        moonPath.addCurve(to: Pt(x: 0.12, y: 4.99), controlPoint1: Pt(x: -4.99, y: 2.7), controlPoint2: Pt(x: -2.7, y: 4.99))
-        moonPath.addCurve(to: Pt(x: 4.99, y: 1.41), controlPoint1: Pt(x: 2.4, y: 4.99), controlPoint2: Pt(x: 4.34, y: 3.48))
-        moonPath.addCurve(to: Pt(x: 2.04, y: 2.49), controlPoint1: Pt(x: 4.2, y: 2.09), controlPoint2: Pt(x: 3.17, y: 2.49))
-        moonPath.addCurve(to: Pt(x: -2.49, y: -2.04), controlPoint1: Pt(x: -0.46, y: 2.49), controlPoint2: Pt(x: -2.49, y: 0.46))
-        moonPath.addCurve(to: Pt(x: -1.41, y: -4.99), controlPoint1: Pt(x: -2.49, y: -3.17), controlPoint2: Pt(x: -2.09, y: -4.2))
+        moonPath.move(to: CGPoint(x: -1.41, y: -4.99))
+        moonPath.addCurve(to: CGPoint(x: -4.99, y: -0.12), controlPoint1: CGPoint(x: -3.48, y: -4.34), controlPoint2: CGPoint(x: -4.99, y: -2.4))
+        moonPath.addCurve(to: CGPoint(x: 0.12, y: 4.99), controlPoint1: CGPoint(x: -4.99, y: 2.7), controlPoint2: CGPoint(x: -2.7, y: 4.99))
+        moonPath.addCurve(to: CGPoint(x: 4.99, y: 1.41), controlPoint1: CGPoint(x: 2.4, y: 4.99), controlPoint2: CGPoint(x: 4.34, y: 3.48))
+        moonPath.addCurve(to: CGPoint(x: 2.04, y: 2.49), controlPoint1: CGPoint(x: 4.2, y: 2.09), controlPoint2: CGPoint(x: 3.17, y: 2.49))
+        moonPath.addCurve(to: CGPoint(x: -2.49, y: -2.04), controlPoint1: CGPoint(x: -0.46, y: 2.49), controlPoint2: CGPoint(x: -2.49, y: 0.46))
+        moonPath.addCurve(to: CGPoint(x: -1.41, y: -4.99), controlPoint1: CGPoint(x: -2.49, y: -3.17), controlPoint2: CGPoint(x: -2.09, y: -4.2))
         moonPath.close()
         moonPath.usesEvenOddFillRule = true
         sleepColor.setFill()
@@ -559,22 +579,22 @@ public class BedtimeClockView: UIView {
 
         context?.saveGState()
         context?.translateBy(x: -58, y: 29.5)
-        context?.rotate(by: -dayIconAngle * Fl.pi / 180)
+        context?.rotate(by: -dayIconAngle * CGFloat.pi / 180)
 
         let bellPath: UIBezierPath = UIBezierPath()
-        bellPath.move(to: Pt(x: 4.5, y: 3.07))
-        bellPath.addCurve(to: Pt(x: 1.29, y: 3.9), controlPoint1: Pt(x: 4.5, y: 3.07), controlPoint2: Pt(x: 2.79, y: 3.64))
-        bellPath.addCurve(to: Pt(x: 0, y: 5), controlPoint1: Pt(x: 1.19, y: 4.52), controlPoint2: Pt(x: 0.65, y: 5))
-        bellPath.addCurve(to: Pt(x: -1.28, y: 3.89), controlPoint1: Pt(x: -0.65, y: 5), controlPoint2: Pt(x: -1.19, y: 4.52))
-        bellPath.addCurve(to: Pt(x: -4.5, y: 3.08), controlPoint1: Pt(x: -2.79, y: 3.63), controlPoint2: Pt(x: -4.5, y: 3.08))
-        bellPath.addCurve(to: Pt(x: -2.83, y: 0.56), controlPoint1: Pt(x: -3.9, y: 2.34), controlPoint2: Pt(x: -2.81, y: 1.35))
-        bellPath.addLine(to: Pt(x: -2.88, y: -1.04))
-        bellPath.addCurve(to: Pt(x: -0.89, y: -4.22), controlPoint1: Pt(x: -2.87, y: -2.58), controlPoint2: Pt(x: -2.34, y: -3.85))
-        bellPath.addCurve(to: Pt(x: 0, y: -5), controlPoint1: Pt(x: -0.83, y: -4.66), controlPoint2: Pt(x: -0.45, y: -5))
-        bellPath.addCurve(to: Pt(x: 0.89, y: -4.22), controlPoint1: Pt(x: 0.46, y: -5), controlPoint2: Pt(x: 0.84, y: -4.66))
-        bellPath.addCurve(to: Pt(x: 2.93, y: -1.03), controlPoint1: Pt(x: 2.33, y: -3.86), controlPoint2: Pt(x: 2.91, y: -2.58))
-        bellPath.addLine(to: Pt(x: 2.89, y: 0.56))
-        bellPath.addCurve(to: Pt(x: 4.5, y: 3.07), controlPoint1: Pt(x: 2.87, y: 1.36), controlPoint2: Pt(x: 3.87, y: 2.39))
+        bellPath.move(to: CGPoint(x: 4.5, y: 3.07))
+        bellPath.addCurve(to: CGPoint(x: 1.29, y: 3.9), controlPoint1: CGPoint(x: 4.5, y: 3.07), controlPoint2: CGPoint(x: 2.79, y: 3.64))
+        bellPath.addCurve(to: CGPoint(x: 0, y: 5), controlPoint1: CGPoint(x: 1.19, y: 4.52), controlPoint2: CGPoint(x: 0.65, y: 5))
+        bellPath.addCurve(to: CGPoint(x: -1.28, y: 3.89), controlPoint1: CGPoint(x: -0.65, y: 5), controlPoint2: CGPoint(x: -1.19, y: 4.52))
+        bellPath.addCurve(to: CGPoint(x: -4.5, y: 3.08), controlPoint1: CGPoint(x: -2.79, y: 3.63), controlPoint2: CGPoint(x: -4.5, y: 3.08))
+        bellPath.addCurve(to: CGPoint(x: -2.83, y: 0.56), controlPoint1: CGPoint(x: -3.9, y: 2.34), controlPoint2: CGPoint(x: -2.81, y: 1.35))
+        bellPath.addLine(to: CGPoint(x: -2.88, y: -1.04))
+        bellPath.addCurve(to: CGPoint(x: -0.89, y: -4.22), controlPoint1: CGPoint(x: -2.87, y: -2.58), controlPoint2: CGPoint(x: -2.34, y: -3.85))
+        bellPath.addCurve(to: CGPoint(x: 0, y: -5), controlPoint1: CGPoint(x: -0.83, y: -4.66), controlPoint2: CGPoint(x: -0.45, y: -5))
+        bellPath.addCurve(to: CGPoint(x: 0.89, y: -4.22), controlPoint1: CGPoint(x: 0.46, y: -5), controlPoint2: CGPoint(x: 0.84, y: -4.66))
+        bellPath.addCurve(to: CGPoint(x: 2.93, y: -1.03), controlPoint1: CGPoint(x: 2.33, y: -3.86), controlPoint2: CGPoint(x: 2.91, y: -2.58))
+        bellPath.addLine(to: CGPoint(x: 2.89, y: 0.56))
+        bellPath.addCurve(to: CGPoint(x: 4.5, y: 3.07), controlPoint1: CGPoint(x: 2.87, y: 1.36), controlPoint2: CGPoint(x: 3.87, y: 2.39))
         bellPath.close()
         bellPath.usesEvenOddFillRule = true
         wakeColor.setFill()
@@ -587,21 +607,21 @@ public class BedtimeClockView: UIView {
         // TimeGroup
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -90 * Fl.pi / 180)
+        context?.rotate(by: -90 * CGFloat.pi / 180)
 
         context?.saveGState()
-        context?.rotate(by: -dayFrameAngle * Fl.pi / 180)
+        context?.rotate(by: -dayFrameAngle * CGFloat.pi / 180)
 
         // WakePoint drawing
         context?.saveGState()
         context?.translateBy(x: -6.44, y: 3.28)
-        context?.rotate(by: -27 * Fl.pi / 180)
+        context?.rotate(by: -27 * CGFloat.pi / 180)
 
-        wakePointPath = UIBezierPath(ovalIn: CGRect(x: -65.78, y: -8, width: 16, height: 16))
+        wakePointPath = UIBezierPath(ovalIn: CGRect(x: -66.78, y: -9, width: 18, height: 18))
         wakeBackgroundColor.setFill()
         wakePointPath?.fill()
-        wakeBackgroundColor.setStroke()
-        wakePointPath?.lineWidth = 1.75
+        trackStartColor.setStroke()
+        wakePointPath?.lineWidth = 0.5
         wakePointPath?.stroke()
 
     }
@@ -609,18 +629,18 @@ public class BedtimeClockView: UIView {
     private func drawSleepPoint() {
 
         context?.saveGState()
-        context?.rotate(by: -(nightFrameAngle - 720) * Fl.pi / 180)
+        context?.rotate(by: -(nightFrameAngle - minutesInHour) * CGFloat.pi / 180)
 
         // SleepPoint drawing
         context?.saveGState()
         context?.translateBy(x: -6.25, y: -3.61)
-        context?.rotate(by: -510 * Fl.pi / 180)
+        context?.rotate(by: -510 * CGFloat.pi / 180)
 
-        sleepPointPath = UIBezierPath(ovalIn: CGRect(x: 49.78, y: -8, width: 16, height: 16))
+        sleepPointPath = UIBezierPath(ovalIn: CGRect(x: 48.78, y: -9, width: 18, height: 18))
         sleepBackgroundColor.setFill()
         sleepPointPath?.fill()
-        sleepBackgroundColor.setStroke()
-        sleepPointPath?.lineWidth = 1.7
+        trackEndColor.setStroke()
+        sleepPointPath?.lineWidth = 0.5
         sleepPointPath?.stroke()
 
         restoreState()
@@ -628,12 +648,12 @@ public class BedtimeClockView: UIView {
         // MoonIcon
         context?.saveGState()
         context?.translateBy(x: -51.77, y: -37.47)
-        context?.rotate(by: 90 * Fl.pi / 180)
+        context?.rotate(by: 90 * CGFloat.pi / 180)
 
         // Sleep
         context?.saveGState()
         context?.translateBy(x: 4.99, y: 4.99)
-        context?.rotate(by: -nightIconAngle * Fl.pi / 180)
+        context?.rotate(by: -nightIconAngle * CGFloat.pi / 180)
 
     }
 
@@ -642,86 +662,86 @@ public class BedtimeClockView: UIView {
         // MinutePointers
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -360 * Fl.pi / 180)
+        context?.rotate(by: -360 * CGFloat.pi / 180)
 
-        drawMinuteGroup(group: (Pt(x: 0, y: 1), -7.5), pointer: (Pt(x: 0, y: pointers4Y), Pt(x: 0, y: 0)), opposite: (Pt(x: -0, y: pointersY), Pt(x: 0, y: 0)))
-
-        restoreState(times: 2)
-
-        drawMinuteGroup(group: (Pt(x: 0, y: 1), -15), pointer: (Pt(x: -0, y: pointers4Y), Pt(x: 0, y: -0)), opposite: (Pt(x: -0, y: pointersY), Pt(x: 0, y: 0)))
+        drawMinuteGroup(group: (CGPoint(x: 0, y: 1), -7.5), pointer: (CGPoint(x: 0, y: pointers4Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: -0, y: pointersY), CGPoint(x: 0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (Pt(x: 0, y: 1), -22.5), pointer: (Pt(x: -0, y: pointers4Y), Pt(x: 0, y: 0)), opposite: (Pt(x: -0, y: pointersY), Pt(x: 0, y: 0)))
+        drawMinuteGroup(group: (CGPoint(x: 0, y: 1), -15), pointer: (CGPoint(x: -0, y: pointers4Y), CGPoint(x: 0, y: -0)), opposite: (CGPoint(x: -0, y: pointersY), CGPoint(x: 0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (nil, -37.5), pointer: (Pt(x: 0, y: pointers2Y), Pt(x: 0, y: 0)), opposite: (Pt(x: 0, y: pointers3Y), Pt(x: -0, y: 0)))
+        drawMinuteGroup(group: (CGPoint(x: 0, y: 1), -22.5), pointer: (CGPoint(x: -0, y: pointers4Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: -0, y: pointersY), CGPoint(x: 0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (nil, -45), pointer: (Pt(x: -0, y: pointers2Y), Pt(x: -0, y: 0)), opposite: (Pt(x: -0, y: pointers3Y), Pt(x: 0, y: 0)))
+        drawMinuteGroup(group: (nil, -37.5), pointer: (CGPoint(x: 0, y: pointers2Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: 0, y: pointers3Y), CGPoint(x: -0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (nil, -52.5), pointer: (Pt(x: -0, y: pointers2Y), Pt(x: -0, y: 0)), opposite: (Pt(x: -0, y: pointers3Y), Pt(x: -0, y: 0)))
+        drawMinuteGroup(group: (nil, -45), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: -0, y: 0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: 0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (nil, -97.5), pointer: (Pt(x: -0, y: pointers2Y), Pt(x: 0, y: -0)), opposite: (Pt(x: -0, y: pointers3Y), Pt(x: 0, y: -0)))
+        drawMinuteGroup(group: (nil, -52.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: -0, y: 0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: -0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (nil, -105), pointer: (Pt(x: -0, y: pointers2Y), Pt(x: 0, y: -0)), opposite: (Pt(x: -0, y: pointers3Y), Pt(x: 0, y: 0)))
+        drawMinuteGroup(group: (nil, -97.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: 0, y: -0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: 0, y: -0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (nil, -112.5), pointer: (Pt(x: -0, y: pointers2Y), Pt(x: 0, y: 0)), opposite: (Pt(x: -0, y: pointers3Y), Pt(x: -0, y: 0)))
+        drawMinuteGroup(group: (nil, -105), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: 0, y: -0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: 0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (nil, -127.5), pointer: (Pt(x: -0, y: pointers2Y), Pt(x: -0, y: -0)), opposite: (Pt(x: -0, y: pointers3Y), Pt(x: -0, y: -0)))
+        drawMinuteGroup(group: (nil, -112.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: -0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (nil, -135), pointer: (Pt(x: -0, y: pointers2Y), Pt(x: 0, y: -0)), opposite: (Pt(x: -0, y: pointers3Y), Pt(x: 0, y: -0)))
+        drawMinuteGroup(group: (nil, -127.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: -0, y: -0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: -0, y: -0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (nil, -142.5), pointer: (Pt(x: -0, y: pointers2Y), Pt(x: -0, y: -0)), opposite: (Pt(x: -0, y: pointers3Y), Pt(x: -0, y: -0)))
+        drawMinuteGroup(group: (nil, -135), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: 0, y: -0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: 0, y: -0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (Pt(x: 0.08, y: -0.05), -157.5), pointer: (Pt(x: -0, y: pointers2Y), Pt(x: -0, y: 0)), opposite: (Pt(x: -0, y: pointers3Y), Pt(x: -0, y: 0)))
+        drawMinuteGroup(group: (nil, -142.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: -0, y: -0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: -0, y: -0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (Pt(x: 0.08, y: -0.05), -165), pointer: (Pt(x: 0, y: pointers2Y), Pt(x: 0, y: 0)), opposite: (Pt(x: 0, y: pointers3Y), Pt(x: 0, y: -0)))
+        drawMinuteGroup(group: (CGPoint(x: 0.08, y: -0.05), -157.5), pointer: (CGPoint(x: -0, y: pointers2Y), CGPoint(x: -0, y: 0)), opposite: (CGPoint(x: -0, y: pointers3Y), CGPoint(x: -0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (Pt(x: 0.08, y: -0.05), -172.5), pointer: (Pt(x: 0, y: pointers2Y), Pt(x: -0, y: 0)), opposite: (Pt(x: 0, y: pointers3Y), Pt(x: -0, y: 0)))
+        drawMinuteGroup(group: (CGPoint(x: 0.08, y: -0.05), -165), pointer: (CGPoint(x: 0, y: pointers2Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: 0, y: pointers3Y), CGPoint(x: 0, y: -0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (Pt(x: -1.05, y: -0.08), 112.5), pointer: (Pt(x: 0, y: pointers4Y), Pt(x: 0, y: 0)), opposite: (Pt(x: 0, y: pointersY), Pt(x: 0, y: 0)))
+        drawMinuteGroup(group: (CGPoint(x: 0.08, y: -0.05), -172.5), pointer: (CGPoint(x: 0, y: pointers2Y), CGPoint(x: -0, y: 0)), opposite: (CGPoint(x: 0, y: pointers3Y), CGPoint(x: -0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (Pt(x: -1.05, y: -0.08), 105), pointer: (Pt(x: 0, y: pointers4Y), Pt(x: 0, y: 0)), opposite: (Pt(x: 0, y: pointersY), Pt(x: 0, y: 0)))
+        drawMinuteGroup(group: (CGPoint(x: -1.05, y: -0.08), 112.5), pointer: (CGPoint(x: 0, y: pointers4Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: 0, y: pointersY), CGPoint(x: 0, y: 0)))
 
         restoreState(times: 2)
 
-        drawMinuteGroup(group: (Pt(x: -1.05, y: -0.08), 97.5), pointer: (Pt(x: -0, y: pointers4Y), Pt(x: 0, y: -0)), opposite: (Pt(x: 0, y: pointersY), Pt(x: 0, y: 0)))
+        drawMinuteGroup(group: (CGPoint(x: -1.05, y: -0.08), 105), pointer: (CGPoint(x: 0, y: pointers4Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: 0, y: pointersY), CGPoint(x: 0, y: 0)))
+
+        restoreState(times: 2)
+
+        drawMinuteGroup(group: (CGPoint(x: -1.05, y: -0.08), 97.5), pointer: (CGPoint(x: -0, y: pointers4Y), CGPoint(x: 0, y: -0)), opposite: (CGPoint(x: 0, y: pointersY), CGPoint(x: 0, y: 0)))
 
     }
 
-    private func drawMinuteGroup(group: (translate: Pt?, rotate: Fl), pointer: (translate: Pt, position: Pt), opposite: (translate: Pt, position: Pt)) {
+    private func drawMinuteGroup(group: (translate: CGPoint?, rotate: CGFloat), pointer: (translate: CGPoint, position: CGPoint), opposite: (translate: CGPoint, position: CGPoint)) {
 
         context?.saveGState()
 
-        if let translate: Pt = group.translate { context?.translateBy(x: translate.x, y: translate.y) }
-        context?.rotate(by: group.rotate * Fl.pi / 180)
+        if let translate: CGPoint = group.translate { context?.translateBy(x: translate.x, y: translate.y) }
+        context?.rotate(by: group.rotate * CGFloat.pi / 180)
 
         drawMinuteWrap(translate: pointer.translate, point: pointer.position)
 
@@ -731,7 +751,7 @@ public class BedtimeClockView: UIView {
 
     }
 
-    private func drawMinuteWrap(translate: Pt, point: Pt) {
+    private func drawMinuteWrap(translate: CGPoint, point: CGPoint) {
 
         context?.saveGState()
         context?.translateBy(x: translate.x, y: translate.y)
@@ -740,12 +760,12 @@ public class BedtimeClockView: UIView {
 
     }
 
-    private func drawMinutePointer(_ point: Pt) {
+    private func drawMinutePointer(_ point: CGPoint) {
 
         let minutePath: UIBezierPath = UIBezierPath()
         minutePath.move(to: point)
-        minutePath.addLine(to: Pt(x: 0, y: hourPointerHeight))
-        minutePath.addLine(to: Pt(x: 0, y: hourPointerHeight))
+        minutePath.addLine(to: CGPoint(x: 0, y: hourPointerHeight))
+        minutePath.addLine(to: CGPoint(x: 0, y: hourPointerHeight))
         thinPointerColor.setFill()
         minutePath.fill()
         thinPointerColor.setStroke()
@@ -758,7 +778,7 @@ public class BedtimeClockView: UIView {
 
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -360 * Fl.pi / 180)
+        context?.rotate(by: -360 * CGFloat.pi / 180)
 
         drawHourGroup(rotate: -90)
 
@@ -767,7 +787,7 @@ public class BedtimeClockView: UIView {
         drawHourPointer(y: pointer12Y)
         drawHourPointer(y: pointer6Y)
 
-        drawHourGroup(rotate: -30)
+        drawHourGroup(rotate: -degreesPerHour)
         drawHourGroup(rotate: -90)
 
         restoreState(times: 2)
@@ -777,17 +797,17 @@ public class BedtimeClockView: UIView {
 
     }
 
-    private func drawHourGroup(rotate: Fl) {
-
+    private func drawHourGroup(rotate: CGFloat) {
+        
         context?.saveGState()
-        context?.rotate(by: rotate * Fl.pi / 180)
+        context?.rotate(by: rotate * CGFloat.pi / 180)
         
         drawHourPointer(y: pointers2Y)
         drawHourPointer(y: pointers3Y)
         
     }
     
-    private func drawHourPointer(y: Fl) {
+    private func drawHourPointer(y: CGFloat) {
         
         let hourPath: UIBezierPath = UIBezierPath(rect: CGRect(x: -0.5, y: y, width: hourPointerWidth, height: hourPointerHeight))
         thickPointerColor.setFill()
