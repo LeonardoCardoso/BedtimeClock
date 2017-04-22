@@ -22,8 +22,8 @@ class ViewController: UIViewController {
 
         self.bedtimeClockView = BedtimeClockView(
             frame: CGRect(x: 0, y: 0, width: 320, height: 320),
-            sleepTimeInMinutes: 0,
-            wakeTimeInMinutes: 480
+            sleepTimeInMinutes: 1020,
+            wakeTimeInMinutes: 1140
         )
 
         self.bedtimeClockView.observer = { sleepHour, wakeHour, durationInMinutes in

@@ -99,6 +99,7 @@ public class BedtimeClockView: UIView {
     private var nightRotation: CGFloat = 0 { didSet { updateLayout() } }
 
     // MARK: - Layout properties
+    private let stateCircleDimension: CGFloat = 18
     private let hourPointerWidth: CGFloat = 1
     private let hourPointerHeight: CGFloat = 3
     private let minutePointerWidth: CGFloat = 0.5
@@ -110,7 +111,7 @@ public class BedtimeClockView: UIView {
     private var wakeColor = UIColor(red: 0.918, green: 0.764, blue: 0.153, alpha: 1.000)
     private var sleepBackgroundColor = UIColor(red: 0.049, green: 0.049, blue: 0.049, alpha: 1.000)
     private var sleepColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000)
-    private var trackStartColor = UIColor(red: 0.918, green: 0.764, blue: 0.153, alpha: 1.000)
+    private var trackStartColor = UIColor.red //UIColor(red: 0.918, green: 0.764, blue: 0.153, alpha: 1.000)
     private var trackEndColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000)
     private var numberColor = UIColor(red: 0.557, green: 0.554, blue: 0.576, alpha: 1.000)
     private var thickPointerColor = UIColor(red: 0.557, green: 0.554, blue: 0.576, alpha: 1.000)
@@ -130,7 +131,7 @@ public class BedtimeClockView: UIView {
 
     private var trackEndAngle: CGFloat { return abs(dayRotationModulus + 540) }
     private var trackStartAngle: CGFloat { return abs(nightRotationModulus + 360) + (equalPositionInCircle ? 0.0001 : 0) }
-    private var fixedTrackBackgroundColor: UIColor { return equalPositionInCircle ? trackEndColor : trackBackgroundColor }
+    private var fixedTrackBackgroundColor: UIColor { return trackBackgroundColor }
 
     private var startPosition: CGFloat { return fmod((minutesInHour - fmod((180 + dayRotationModulus), minutesInHour)), minutesInHour) }
     private var endPosition: CGFloat { return fmod((minutesInHour - nightRotationModulus), minutesInHour) }
@@ -201,6 +202,7 @@ public class BedtimeClockView: UIView {
             guard let touch = touches.first else { return }
 
             let location = touch.location(in: self)
+
             let degrees = calculateDegrees(by: location, counterclockwise: false)
             var degreesInMinutes = calculateFullTimeFromDegrees(degrees)
 
@@ -209,7 +211,7 @@ public class BedtimeClockView: UIView {
 
             if degreesInMinutes >= 700 { degreesInMinutes = degreesInMinutes - minutesInHour }
 
-            isAnimatingSleep = endInMinutes - 20 <= degreesInMinutes && endInMinutes + 20 >= degreesInMinutes
+            isAnimatingSleep = endInMinutes - self.frame.width / 20 <= degreesInMinutes && endInMinutes + 20 >= degreesInMinutes
             if !isAnimatingSleep { isAnimatingWake = startInMinutes - 20 <= degreesInMinutes && startInMinutes + 20 >= degreesInMinutes }
             else if !isAnimatingWake { /* isAnimatingTrack = true */ }
 
@@ -227,20 +229,7 @@ public class BedtimeClockView: UIView {
         let degreesInMinutes = calculateFullTimeFromDegrees(degrees)
 
         if isAnimatingSleep { nightRotation = calculateNightRotation(degreesInMinutes) }
-
-//        if isAnimatingSleep {
-//
-//            let rotationCandidate = calculateNightRotation(degreesInMinutes)
-//            nightRotation = nightRotation + 1 > minutesInHour ? rotationCandidate : rotationCandidate
-//            
-//        }
-
-//        if isAnimatingWake {
-//
-//            let rotationCandidate = calculateDayRotation(degreesInMinutes)
-//            dayRotation = dayRotation + 1 > minutesInHour ? rotationCandidate : rotationCandidate
-//
-//        }
+        if isAnimatingWake { dayRotation = calculateDayRotation(degreesInMinutes) }
 
         updateLayout()
 
@@ -285,10 +274,10 @@ public class BedtimeClockView: UIView {
         let diffY = location.y - self.frame.height / 2
         let radians = counterclockwise ? atan2(diffY, diffX) : atan2(-diffX, -diffY) // clockwise and shift 90 degrees from left to right
 
-        let degrees = radians * CGFloat(180 / CGFloat.pi)
+        let degrees = radians.degrees
 
         return abs(-degrees < 0 ? degreesInCircle - degrees : -degrees)
-        
+
     }
 
     private func drawActivity(resizing: ResizingBehavior = .aspectFill) {
@@ -388,7 +377,7 @@ public class BedtimeClockView: UIView {
 
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -360 * CGFloat.pi / 180)
+        context?.rotate(by: -360.0.radians)
 
         drawNumber(text: "12", position: CGPoint(x: -5, y: -47.5))
 
@@ -471,12 +460,57 @@ public class BedtimeClockView: UIView {
         // BackgroundsGroup
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -90 * CGFloat.pi / 180)
+        context?.rotate(by: -90.0.radians)
 
         // OffsetBackground drawing
         let offsetBackgroundPath = UIBezierPath(ovalIn: CGRect(x: -74.28, y: -74.28, width: 148.5, height: 148.5))
         fixedTrackBackgroundColor.setFill()
         offsetBackgroundPath.fill()
+
+        // TrackBackground drawing
+        context?.saveGState()
+        context?.rotate(by: -angle.radians)
+
+        let trackBackgroundRect = CGRect(x: -74, y: -74, width: 148, height: 148)
+        trackBackgroundPath = UIBezierPath()
+        trackBackgroundPath?.addArc(
+            withCenter: CGPoint(x: trackBackgroundRect.midX, y: trackBackgroundRect.midY),
+            radius: trackBackgroundRect.width / 2,
+            startAngle: -trackStartAngle.radians,
+            endAngle: -trackEndAngle.radians,
+            clockwise: true
+        )
+        trackBackgroundPath?.addLine(to: CGPoint(x: trackBackgroundRect.midX, y: trackBackgroundRect.midY))
+        trackBackgroundPath?.close()
+
+        context?.saveGState()
+
+        trackBackgroundPath?.addClip()
+
+        let colors: CFArray = [trackStartColor.cgColor, trackEndColor.cgColor]
+
+        if let gradient = CGGradient(colorsSpace: nil, colors: colors, locations: [0, 1]) {
+
+            let sleepAngle = fmod(fmod(trackStartAngle, degreesInCircle) + 90, degreesInCircle).radians
+            let wakeAngle = fmod(fmod(trackEndAngle, degreesInCircle) + 90, degreesInCircle).radians
+
+            let radius: CGFloat = self.frame.width / 2
+            let adjust: CGFloat = 0.60
+
+            let wakeAngleX = (radius * adjust) * sin(wakeAngle)
+            let wakeAngleY = (radius * adjust) * cos(wakeAngle)
+
+            let sleepAngleX = (radius * adjust) * sin(sleepAngle)
+            let sleepAngleY = (radius * adjust) * cos(sleepAngle)
+
+            let wakePoint = CGPoint(x: wakeAngleX, y: wakeAngleY)
+            let sleepPoint = CGPoint(x: sleepAngleX, y: sleepAngleY)
+
+            context?.drawLinearGradient(gradient, start: wakePoint, end: sleepPoint, options: [.drawsBeforeStartLocation, .drawsAfterEndLocation])
+
+        }
+
+        context?.restoreGState()
 
         // TimeBackground drawing
         let timeBackgroundPath = UIBezierPath(ovalIn: CGRect(x: -55, y: -55, width: 110, height: 110))
@@ -485,25 +519,6 @@ public class BedtimeClockView: UIView {
         centerBackgroundColor.setStroke()
         timeBackgroundPath.lineWidth = 1.5
         timeBackgroundPath.stroke()
-
-        // TrackBackground drawing
-        context?.saveGState()
-        context?.rotate(by: -angle * CGFloat.pi / 180)
-
-        let trackBackgroundRect = CGRect(x: -65, y: -65, width: 130, height: 130)
-        trackBackgroundPath = UIBezierPath()
-        trackBackgroundPath?.addArc(
-            withCenter: CGPoint(x: trackBackgroundRect.midX, y: trackBackgroundRect.midY),
-            radius: trackBackgroundRect.width / 2,
-            startAngle: -trackStartAngle * CGFloat.pi / 180,
-            endAngle: -trackEndAngle * CGFloat.pi / 180,
-            clockwise: true
-        )
-
-        trackEndColor.setStroke()
-        trackBackgroundPath?.lineWidth = 18.5
-        trackBackgroundPath?.lineCapStyle = .round
-        trackBackgroundPath?.stroke()
 
     }
 
@@ -579,7 +594,7 @@ public class BedtimeClockView: UIView {
 
         context?.saveGState()
         context?.translateBy(x: -58, y: 29.5)
-        context?.rotate(by: -dayIconAngle * CGFloat.pi / 180)
+        context?.rotate(by: -dayIconAngle.radians)
 
         let bellPath: UIBezierPath = UIBezierPath()
         bellPath.move(to: CGPoint(x: 4.5, y: 3.07))
@@ -607,20 +622,20 @@ public class BedtimeClockView: UIView {
         // TimeGroup
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -90 * CGFloat.pi / 180)
+        context?.rotate(by: -90.0.radians)
 
         context?.saveGState()
-        context?.rotate(by: -dayFrameAngle * CGFloat.pi / 180)
+        context?.rotate(by: -dayFrameAngle.radians)
 
         // WakePoint drawing
         context?.saveGState()
         context?.translateBy(x: -6.44, y: 3.28)
-        context?.rotate(by: -27 * CGFloat.pi / 180)
+        context?.rotate(by: -27.0.radians)
 
-        wakePointPath = UIBezierPath(ovalIn: CGRect(x: -66.78, y: -9, width: 18, height: 18))
+        wakePointPath = UIBezierPath(ovalIn: CGRect(x: -66.78, y: -9, width: stateCircleDimension, height: stateCircleDimension))
         wakeBackgroundColor.setFill()
         wakePointPath?.fill()
-        trackStartColor.setStroke()
+        if equalPositionInCircle { UIColor.clear.setStroke() } else { trackStartColor.setStroke() }
         wakePointPath?.lineWidth = 0.5
         wakePointPath?.stroke()
 
@@ -629,17 +644,17 @@ public class BedtimeClockView: UIView {
     private func drawSleepPoint() {
 
         context?.saveGState()
-        context?.rotate(by: -(nightFrameAngle - minutesInHour) * CGFloat.pi / 180)
+        context?.rotate(by: -(nightFrameAngle - minutesInHour).radians)
 
         // SleepPoint drawing
         context?.saveGState()
         context?.translateBy(x: -6.25, y: -3.61)
-        context?.rotate(by: -510 * CGFloat.pi / 180)
+        context?.rotate(by: -510.0.radians)
 
-        sleepPointPath = UIBezierPath(ovalIn: CGRect(x: 48.78, y: -9, width: 18, height: 18))
+        sleepPointPath = UIBezierPath(ovalIn: CGRect(x: 48.78, y: -9, width: stateCircleDimension, height: stateCircleDimension))
         sleepBackgroundColor.setFill()
         sleepPointPath?.fill()
-        trackEndColor.setStroke()
+        if equalPositionInCircle { UIColor.clear.setStroke() } else { trackEndColor.setStroke() }
         sleepPointPath?.lineWidth = 0.5
         sleepPointPath?.stroke()
 
@@ -648,12 +663,12 @@ public class BedtimeClockView: UIView {
         // MoonIcon
         context?.saveGState()
         context?.translateBy(x: -51.77, y: -37.47)
-        context?.rotate(by: 90 * CGFloat.pi / 180)
+        context?.rotate(by: 90.0.radians)
 
         // Sleep
         context?.saveGState()
         context?.translateBy(x: 4.99, y: 4.99)
-        context?.rotate(by: -nightIconAngle * CGFloat.pi / 180)
+        context?.rotate(by: -nightIconAngle.radians)
 
     }
 
@@ -662,7 +677,7 @@ public class BedtimeClockView: UIView {
         // MinutePointers
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -360 * CGFloat.pi / 180)
+        context?.rotate(by: -360.0.radians)
 
         drawMinuteGroup(group: (CGPoint(x: 0, y: 1), -7.5), pointer: (CGPoint(x: 0, y: pointers4Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: -0, y: pointersY), CGPoint(x: 0, y: 0)))
 
@@ -741,7 +756,7 @@ public class BedtimeClockView: UIView {
         context?.saveGState()
 
         if let translate: CGPoint = group.translate { context?.translateBy(x: translate.x, y: translate.y) }
-        context?.rotate(by: group.rotate * CGFloat.pi / 180)
+        context?.rotate(by: group.rotate.radians)
 
         drawMinuteWrap(translate: pointer.translate, point: pointer.position)
 
@@ -778,7 +793,7 @@ public class BedtimeClockView: UIView {
 
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -360 * CGFloat.pi / 180)
+        context?.rotate(by: -360.0.radians)
 
         drawHourGroup(rotate: -90)
 
@@ -798,17 +813,17 @@ public class BedtimeClockView: UIView {
     }
 
     private func drawHourGroup(rotate: CGFloat) {
-        
+
         context?.saveGState()
-        context?.rotate(by: rotate * CGFloat.pi / 180)
-        
+        context?.rotate(by: rotate.radians)
+
         drawHourPointer(y: pointers2Y)
         drawHourPointer(y: pointers3Y)
-        
+
     }
-    
+
     private func drawHourPointer(y: CGFloat) {
-        
+
         let hourPath: UIBezierPath = UIBezierPath(rect: CGRect(x: -0.5, y: y, width: hourPointerWidth, height: hourPointerHeight))
         thickPointerColor.setFill()
         hourPath.fill()
@@ -847,5 +862,13 @@ public class BedtimeClockView: UIView {
         setNeedsDisplay()
         
     }
+    
+}
+
+fileprivate extension Double { fileprivate var radians: CGFloat { return CGFloat(self) * CGFloat.pi / 180 } }
+fileprivate extension CGFloat {
+    
+    fileprivate var degrees: CGFloat { return self * 180 / CGFloat.pi }
+    fileprivate var radians: CGFloat { return self * CGFloat.pi / 180 }
     
 }
