@@ -108,11 +108,11 @@ public class BedtimeClockView: UIView {
     private var trackBackgroundColor = UIColor(red: 0.087, green: 0.088, blue: 0.087, alpha: 1.000)
     private var centerBackgroundColor = UIColor(red: 0.049, green: 0.049, blue: 0.049, alpha: 1.000)
     private var wakeBackgroundColor = UIColor(red: 0.049, green: 0.049, blue: 0.049, alpha: 1.000)
-    private var wakeColor = UIColor(red: 0.918, green: 0.764, blue: 0.153, alpha: 1.000)
+    private var wakeColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000)
     private var sleepBackgroundColor = UIColor(red: 0.049, green: 0.049, blue: 0.049, alpha: 1.000)
     private var sleepColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000)
-    private var trackStartColor = UIColor.red //UIColor(red: 0.918, green: 0.764, blue: 0.153, alpha: 1.000)
-    private var trackEndColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000)
+    private var trackStartColor = UIColor(red: 0.976, green: 0.645, blue: 0.068, alpha: 1.000)
+    private var trackEndColor: UIColor { return trackStartColor }
     private var numberColor = UIColor(red: 0.557, green: 0.554, blue: 0.576, alpha: 1.000)
     private var thickPointerColor = UIColor(red: 0.557, green: 0.554, blue: 0.576, alpha: 1.000)
     private var thinPointerColor = UIColor(red: 0.329, green: 0.329, blue: 0.329, alpha: 1.000)
@@ -124,6 +124,8 @@ public class BedtimeClockView: UIView {
     private let minutesInHour: CGFloat = 720
     private let degreesInCircle: CGFloat = 360
 
+    private let watchDimension = CGRect(x: -74.28, y: -74.28, width: 148.5, height: 148.5)
+
     private var angle: CGFloat { return -minutesInHour * rotation }
 
     private var dayRotationModulus: CGFloat { return fmod(dayRotation, minutesInHour) }
@@ -131,7 +133,7 @@ public class BedtimeClockView: UIView {
 
     private var trackEndAngle: CGFloat { return abs(dayRotationModulus + 540) }
     private var trackStartAngle: CGFloat { return abs(nightRotationModulus + 360) + (equalPositionInCircle ? 0.0001 : 0) }
-    private var fixedTrackBackgroundColor: UIColor { return trackBackgroundColor }
+    private var fixedTrackBackgroundColor: UIColor { return equalPositionInCircle ? trackStartColor : trackBackgroundColor }
 
     private var startPosition: CGFloat { return fmod((minutesInHour - fmod((180 + dayRotationModulus), minutesInHour)), minutesInHour) }
     private var endPosition: CGFloat { return fmod((minutesInHour - nightRotationModulus), minutesInHour) }
@@ -463,7 +465,7 @@ public class BedtimeClockView: UIView {
         context?.rotate(by: -90.0.radians)
 
         // OffsetBackground drawing
-        let offsetBackgroundPath = UIBezierPath(ovalIn: CGRect(x: -74.28, y: -74.28, width: 148.5, height: 148.5))
+        let offsetBackgroundPath = UIBezierPath(ovalIn: watchDimension)
         fixedTrackBackgroundColor.setFill()
         offsetBackgroundPath.fill()
 
@@ -471,7 +473,7 @@ public class BedtimeClockView: UIView {
         context?.saveGState()
         context?.rotate(by: -angle.radians)
 
-        let trackBackgroundRect = CGRect(x: -74, y: -74, width: 148, height: 148)
+        let trackBackgroundRect = watchDimension
         trackBackgroundPath = UIBezierPath()
         trackBackgroundPath?.addArc(
             withCenter: CGPoint(x: trackBackgroundRect.midX, y: trackBackgroundRect.midY),
@@ -487,7 +489,7 @@ public class BedtimeClockView: UIView {
 
         trackBackgroundPath?.addClip()
 
-        let colors: CFArray = [trackStartColor.cgColor, trackEndColor.cgColor]
+        let colors: CFArray = [trackStartColor.cgColor, trackEndColor.cgColor] as CFArray
 
         if let gradient = CGGradient(colorsSpace: nil, colors: colors, locations: [0, 1]) {
 
@@ -635,7 +637,8 @@ public class BedtimeClockView: UIView {
         wakePointPath = UIBezierPath(ovalIn: CGRect(x: -66.78, y: -9, width: stateCircleDimension, height: stateCircleDimension))
         wakeBackgroundColor.setFill()
         wakePointPath?.fill()
-        if equalPositionInCircle { UIColor.clear.setStroke() } else { trackStartColor.setStroke() }
+        //        (equalPositionInCircle ? UIColor.clear : trackStartColor).setStroke()
+        trackStartColor.setStroke()
         wakePointPath?.lineWidth = 0.5
         wakePointPath?.stroke()
 
@@ -654,7 +657,8 @@ public class BedtimeClockView: UIView {
         sleepPointPath = UIBezierPath(ovalIn: CGRect(x: 48.78, y: -9, width: stateCircleDimension, height: stateCircleDimension))
         sleepBackgroundColor.setFill()
         sleepPointPath?.fill()
-        if equalPositionInCircle { UIColor.clear.setStroke() } else { trackEndColor.setStroke() }
+        //        (equalPositionInCircle ? UIColor.clear : trackEndColor).setStroke()
+        trackEndColor.setStroke()
         sleepPointPath?.lineWidth = 0.5
         sleepPointPath?.stroke()
 
@@ -839,8 +843,7 @@ public class BedtimeClockView: UIView {
         wakeColor: UIColor? = nil,
         sleepBackgroundColor: UIColor? = nil,
         sleepColor: UIColor? = nil,
-        trackStartColor: UIColor? = nil,
-        trackEndColor: UIColor? = nil,
+        trackColor: UIColor? = nil,
         numberColor: UIColor? = nil,
         thickPointerColor: UIColor? = nil,
         thinPointerColor: UIColor? = nil,
@@ -852,8 +855,7 @@ public class BedtimeClockView: UIView {
         if let color = wakeColor { self.wakeColor = color }
         if let color = sleepBackgroundColor { self.sleepBackgroundColor = color }
         if let color = sleepColor { self.sleepColor = color }
-        if let color = trackStartColor { self.trackStartColor = color }
-        if let color = trackEndColor { self.trackEndColor = color }
+        if let color = trackColor { self.trackStartColor = color }
         if let color = numberColor { self.numberColor = color }
         if let color = thickPointerColor { self.thickPointerColor = color }
         if let color = thinPointerColor { self.thinPointerColor = color }
