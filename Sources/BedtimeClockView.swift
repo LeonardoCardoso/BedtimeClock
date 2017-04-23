@@ -119,6 +119,7 @@ public class BedtimeClockView: UIView {
     private var centerLabelColor = UIColor.white
 
     // MARK: - Fixed properties
+    private let fullRadians = 360.0.radians
     private let minutesPerHour: CGFloat = 60
     private let degreesPerHour: CGFloat = 30
     private let degreesInCircle: CGFloat = 360
@@ -214,33 +215,47 @@ public class BedtimeClockView: UIView {
             let wakeAngle = fmod(fmod(trackEndAngle, degreesInCircle) + 90, degreesInCircle).radians
 
             let radius: CGFloat = self.frame.width / 2
-            let adjust: CGFloat = 0.60
 
-            let clickAngleX = (radius * adjust) * sin(clickAngle)
-            let clickAngleY = (radius * adjust) * cos(clickAngle)
+            let clickAngleX = radius * sin(clickAngle)
+            let clickAngleY = radius * cos(clickAngle)
 
-            let wakeAngleX = (radius * adjust) * sin(wakeAngle)
-            let wakeAngleY = (radius * adjust) * cos(wakeAngle)
+            let wakeAngleX = radius * sin(wakeAngle)
+            let wakeAngleY = radius * cos(wakeAngle)
 
-            let sleepAngleX = (radius * adjust) * sin(sleepAngle)
-            let sleepAngleY = (radius * adjust) * cos(sleepAngle)
+            let sleepAngleX = radius * sin(sleepAngle)
+            let sleepAngleY = radius * cos(sleepAngle)
 
             let clickPoint = CGPoint(x: clickAngleX, y: clickAngleY)
             let wakePoint = CGPoint(x: wakeAngleX, y: wakeAngleY)
             let sleepPoint = CGPoint(x: sleepAngleX, y: sleepAngleY)
 
-            print(clickPoint)
-            print("======")
+            print(clickPoint, wakePoint, sleepPoint)
 
-            let distanceClickWake = hypotf(Float(clickPoint.x - wakePoint.x), Float(clickPoint.y - wakePoint.y))
+            let distanceClickWake = hypot(Float(clickPoint.x - wakePoint.x), Float(clickPoint.y - wakePoint.y))
 
-            let distanceClickSleep = hypotf(Float(clickPoint.x - sleepPoint.x), Float(clickPoint.y - sleepPoint.y))
+            let distanceClickSleep = hypot(Float(clickPoint.x - sleepPoint.x), Float(clickPoint.y - sleepPoint.y))
 
-            print(distanceClickWake, distanceClickSleep)
+//            print(distanceClickWake, distanceClickSleep)
+
+            print(clickAngle, sleepAngle, wakeAngle)
 
             isAnimatingSleep = distanceClickSleep < 15
             if !isAnimatingSleep { isAnimatingWake = distanceClickWake < 15 }
-//            if !isAnimatingSleep, !isAnimatingWake { isAnimatingTrack = degreesInMinutes > startInMinutes - 20 && degreesInMinutes < startInMinutes - 20 }
+            if !isAnimatingSleep, !isAnimatingWake {
+
+                if difference >= 720 {
+
+                    isAnimatingTrack = difference == 1440 || ((clickAngle >= wakeAngle && clickAngle <= fullRadians) || (clickAngle >= 0 && clickAngle <= sleepAngle))
+
+                } else {
+
+                    isAnimatingTrack = clickAngle >= wakeAngle && clickAngle <= sleepAngle
+                    
+                }
+
+                print(isAnimatingTrack)
+
+            }
 
         }
 
@@ -430,7 +445,7 @@ public class BedtimeClockView: UIView {
 
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -360.0.radians)
+        context?.rotate(by: -fullRadians)
 
         drawNumber(text: "12", position: CGPoint(x: -5, y: -47.5))
 
@@ -732,7 +747,7 @@ public class BedtimeClockView: UIView {
         // MinutePointers
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -360.0.radians)
+        context?.rotate(by: -fullRadians)
 
         drawMinuteGroup(group: (CGPoint(x: 0, y: 1), -7.5), pointer: (CGPoint(x: 0, y: pointers4Y), CGPoint(x: 0, y: 0)), opposite: (CGPoint(x: -0, y: pointersY), CGPoint(x: 0, y: 0)))
 
@@ -848,7 +863,7 @@ public class BedtimeClockView: UIView {
 
         context?.saveGState()
         context?.translateBy(x: 78, y: 97)
-        context?.rotate(by: -360.0.radians)
+        context?.rotate(by: -fullRadians)
 
         drawHourGroup(rotate: -90)
 
