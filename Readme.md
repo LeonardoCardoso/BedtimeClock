@@ -1,15 +1,26 @@
 ## BedtimeClock
 
+
+| Bed | Time | Clock |
+|:-:|:-:|:-:|
+| ![changing-palette.gif](Images/changing-palette.gif) | ![changing-palette.gif](Images/changing-palette.gif) | ![changing-palette.gif](Images/changing-palette.gif)
+
 [![Platform](https://img.shields.io/badge/platform-iOS%20|%20macOS%20|%20watchOS%20|%20tvOS-orange.svg)](https://github.com/LeonardoCardoso/SwiftLinkPreview#requirements-and-details)
 [![CocoaPods](https://img.shields.io/badge/pod-v0.0.1-red.svg)](https://github.com/LeonardoCardoso/BedtimeClock#cocoapods)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg)](https://github.com/LeonardoCardoso/BedtimeClock#carthage)
-[![Cookiecutter-Swift](https://img.shields.io/badge/cookiecutter--swift-framework-red.svg)](http://github.com/cookiecutter-swift/Framework)
 
 > Just a bedtime clock for your app
 
 - [Requirements](#requirements)
 - [Installation](#installation)
+  * [CocoaPods](#cocoapods)
+  * [Carthage](#carthage)
+  * [Manually](#manually)
+    + [Git Submodules](#git-submodules)
 - [Usage](#usage)
+  * [Init](#init)
+  * [Observer](#observer)
+  * [Palette](#palette)
 - [License](#license)
 
 ## Requirements
@@ -137,8 +148,7 @@ self.bedtimeClockView.changePalette(
     wakeColor = nil,
     sleepBackgroundColor = nil,
     sleepColor = nil,
-    trackStartColor = nil,
-    trackEndColor = nil,
+    trackColor = nil,
     numberColor = nil,
     thickPointerColor = nil,
     thinPointerColor = nil,
@@ -146,6 +156,8 @@ self.bedtimeClockView.changePalette(
 )
 ```
 See below the full color reference:
+
+![palette.jpeg](Images/palette.jpeg)
 
 ## License
 

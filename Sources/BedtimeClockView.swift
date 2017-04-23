@@ -121,22 +121,21 @@ public class BedtimeClockView: UIView {
     // MARK: - Fixed properties
     private let minutesPerHour: CGFloat = 60
     private let degreesPerHour: CGFloat = 30
-    private let minutesInTwoHours: CGFloat = 720
     private let degreesInCircle: CGFloat = 360
 
     private let watchDimension = CGRect(x: -74.28, y: -74.28, width: 148.5, height: 148.5)
 
-    private var angle: CGFloat { return -minutesInTwoHours * rotation }
+    private var angle: CGFloat { return -720 * rotation }
 
-    private var dayRotationModulus: CGFloat { return fmod(dayRotation, minutesInTwoHours) }
-    private var nightRotationModulus: CGFloat { return fmod(nightRotation, minutesInTwoHours) }
+    private var dayRotationModulus: CGFloat { return fmod(dayRotation, 720) }
+    private var nightRotationModulus: CGFloat { return fmod(nightRotation, 720) }
 
     private var trackEndAngle: CGFloat { return abs(dayRotationModulus + 540) }
     private var trackStartAngle: CGFloat { return nightRotationModulus }
     private var fixedTrackBackgroundColor: UIColor { return equalPositionInCircle ? trackStartColor : trackBackgroundColor }
 
-    private var startPosition: CGFloat { return fmod((minutesInTwoHours - fmod((180 + dayRotationModulus), minutesInTwoHours)), minutesInTwoHours) }
-    private var endPosition: CGFloat { return fmod((minutesInTwoHours - nightRotationModulus), minutesInTwoHours) }
+    private var startPosition: CGFloat { return fmod((720 - fmod((180 + dayRotationModulus), 720)), 720) }
+    private var endPosition: CGFloat { return fmod((720 - nightRotationModulus), 720) }
 
     private var startPositionHour: CGFloat { return floor(startPosition / degreesPerHour) }
     private var endPositionHour: CGFloat { return floor(endPosition / degreesPerHour) }
@@ -208,20 +207,16 @@ public class BedtimeClockView: UIView {
             let degrees = calculateDegrees(by: location, counterclockwise: false)
             var degreesInMinutes = calculateFullTimeFromDegrees(degrees)
 
-            let startInMinutes = fmod(self.startInMinutes, minutesInTwoHours)
-            let endInMinutes = fmod(self.endInMinutes, minutesInTwoHours)
+            let startInMinutes = fmod(self.startInMinutes, 720)
+            let endInMinutes = fmod(self.endInMinutes, 720)
 
-            if degreesInMinutes >= 700 { degreesInMinutes = degreesInMinutes - minutesInTwoHours }
+            if degreesInMinutes >= 700 { degreesInMinutes = degreesInMinutes - 720 }
 
-            isAnimatingSleep = endInMinutes - self.frame.width / 20 <= degreesInMinutes && endInMinutes + 20 >= degreesInMinutes
+            print(self.startInMinutes, degreesInMinutes, self.endInMinutes)
+
+            isAnimatingSleep = endInMinutes - 20 <= degreesInMinutes && endInMinutes + 20 >= degreesInMinutes
             if !isAnimatingSleep { isAnimatingWake = startInMinutes - 20 <= degreesInMinutes && startInMinutes + 20 >= degreesInMinutes }
-            else if !isAnimatingWake {
-
-                // calculate clicked time and check if it's > sleep and < wake
-
-                /* isAnimatingTrack = true */
-
-            }
+            if !isAnimatingSleep, !isAnimatingWake { isAnimatingTrack = degreesInMinutes > startInMinutes - 20 && degreesInMinutes < startInMinutes - 20 }
 
         }
 
@@ -238,9 +233,35 @@ public class BedtimeClockView: UIView {
 
         if isAnimatingSleep { nightRotation = calculateNightRotation(degreesInMinutes) }
         if isAnimatingWake { dayRotation = calculateDayRotation(degreesInMinutes) }
+        if isAnimatingTrack {
+
+            dayRotation = calculateDayRotation(degreesInMinutes)
+            nightRotation = calculateDayRotation(degreesInMinutes)
+
+        }
 
         updateLayout()
 
+    }
+
+    func angle(start:CGPoint,end:CGPoint)->Double {
+
+        let dx = end.x - start.x
+        let dy = end.y - start.y
+        let abs_dy = fabs(dy);
+
+        //calculate radians
+        let theta = atan(abs_dy/dx)
+        let mmmm_pie:CGFloat = 3.1415927
+
+        //calculate to degrees , some API use degrees , some use radians
+        let degrees = (theta * 360/(2*mmmm_pie)) + (dx < 0 ? 180:0)
+
+        //transmogrify to negative for upside down angles
+        let negafied = dy > 0 ? degrees * -1:degrees
+
+        return Double(negafied)
+        
     }
 
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -265,7 +286,7 @@ public class BedtimeClockView: UIView {
     private func calculateNightRotation(_ number: CGFloat) -> CGFloat {
 
         let modNight = fmod(number, 10)
-        return CGFloat(minutesInTwoHours - (modNight > 5 ? ceil(number / 2) : floor(number / 2)))
+        return CGFloat(720 - (modNight > 5 ? ceil(number / 2) : floor(number / 2)))
 
     }
 
@@ -653,7 +674,7 @@ public class BedtimeClockView: UIView {
     private func drawSleepPoint() {
 
         context?.saveGState()
-        context?.rotate(by: -(nightFrameAngle - minutesInTwoHours).radians)
+        context?.rotate(by: -(nightFrameAngle - 720).radians)
 
         // SleepPoint drawing
         context?.saveGState()
