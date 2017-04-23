@@ -204,19 +204,43 @@ public class BedtimeClockView: UIView {
 
             let location = touch.location(in: self)
 
-            let degrees = calculateDegrees(by: location, counterclockwise: false)
-            var degreesInMinutes = calculateFullTimeFromDegrees(degrees)
+            let diffX = location.x - self.frame.width / 2
+            let diffY = location.y - self.frame.width / 2
+            let tan = atan2(diffY, diffX)
+            let degrees = fmod(degreesInCircle - tan.degrees, degreesInCircle)
 
-            let startInMinutes = fmod(self.startInMinutes, 720)
-            let endInMinutes = fmod(self.endInMinutes, 720)
+            let clickAngle = degrees.radians
+            let sleepAngle = fmod(fmod(trackStartAngle, degreesInCircle) + 90, degreesInCircle).radians
+            let wakeAngle = fmod(fmod(trackEndAngle, degreesInCircle) + 90, degreesInCircle).radians
 
-            if degreesInMinutes >= 700 { degreesInMinutes = degreesInMinutes - 720 }
+            let radius: CGFloat = self.frame.width / 2
+            let adjust: CGFloat = 0.60
 
-            print(self.startInMinutes, degreesInMinutes, self.endInMinutes)
+            let clickAngleX = (radius * adjust) * sin(clickAngle)
+            let clickAngleY = (radius * adjust) * cos(clickAngle)
 
-            isAnimatingSleep = endInMinutes - 20 <= degreesInMinutes && endInMinutes + 20 >= degreesInMinutes
-            if !isAnimatingSleep { isAnimatingWake = startInMinutes - 20 <= degreesInMinutes && startInMinutes + 20 >= degreesInMinutes }
-            if !isAnimatingSleep, !isAnimatingWake { isAnimatingTrack = degreesInMinutes > startInMinutes - 20 && degreesInMinutes < startInMinutes - 20 }
+            let wakeAngleX = (radius * adjust) * sin(wakeAngle)
+            let wakeAngleY = (radius * adjust) * cos(wakeAngle)
+
+            let sleepAngleX = (radius * adjust) * sin(sleepAngle)
+            let sleepAngleY = (radius * adjust) * cos(sleepAngle)
+
+            let clickPoint = CGPoint(x: clickAngleX, y: clickAngleY)
+            let wakePoint = CGPoint(x: wakeAngleX, y: wakeAngleY)
+            let sleepPoint = CGPoint(x: sleepAngleX, y: sleepAngleY)
+
+            print(clickPoint)
+            print("======")
+
+            let distanceClickWake = hypotf(Float(clickPoint.x - wakePoint.x), Float(clickPoint.y - wakePoint.y))
+
+            let distanceClickSleep = hypotf(Float(clickPoint.x - sleepPoint.x), Float(clickPoint.y - sleepPoint.y))
+
+            print(distanceClickWake, distanceClickSleep)
+
+            isAnimatingSleep = distanceClickSleep < 15
+            if !isAnimatingSleep { isAnimatingWake = distanceClickWake < 15 }
+//            if !isAnimatingSleep, !isAnimatingWake { isAnimatingTrack = degreesInMinutes > startInMinutes - 20 && degreesInMinutes < startInMinutes - 20 }
 
         }
 
