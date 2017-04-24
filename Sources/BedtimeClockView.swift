@@ -229,7 +229,7 @@ public class BedtimeClockView: UIView {
             let wakePoint = CGPoint(x: wakeAngleX, y: wakeAngleY)
             let sleepPoint = CGPoint(x: sleepAngleX, y: sleepAngleY)
 
-            print(clickPoint, wakePoint, sleepPoint)
+//            print(clickPoint, wakePoint, sleepPoint)
 
             let distanceClickWake = hypot(Float(clickPoint.x - wakePoint.x), Float(clickPoint.y - wakePoint.y))
 
@@ -243,9 +243,13 @@ public class BedtimeClockView: UIView {
             if !isAnimatingSleep { isAnimatingWake = distanceClickWake < 15 }
             if !isAnimatingSleep, !isAnimatingWake {
 
-                if difference >= 720 {
+                if difference == 0 {
 
-                    isAnimatingTrack = difference == 1440 || ((clickAngle >= wakeAngle && clickAngle <= fullRadians) || (clickAngle >= 0 && clickAngle <= sleepAngle))
+                    isAnimatingTrack = true
+
+                } else if difference >= 720 {
+
+                    isAnimatingTrack = ((clickAngle >= wakeAngle && clickAngle <= fullRadians) || (clickAngle >= 0 && clickAngle <= sleepAngle))
 
                 } else {
 
@@ -401,7 +405,7 @@ public class BedtimeClockView: UIView {
 
         setNeedsDisplay()
 
-        observer(sleepHour, wakeHour, Int(difference))
+        observer(sleepHour, wakeHour, difference == 0 ? 1440 : Int(difference))
 
     }
 
