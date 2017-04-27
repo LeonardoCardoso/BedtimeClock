@@ -243,19 +243,23 @@ public class BedtimeClockView: UIView {
 
                 if !isAnimatingSleep, !isAnimatingWake {
 
-                    print(trackBackgroundPath)
+                    print(trackBackgroundPath!.cgPath.boundingBox)
+                    print(trackBackgroundPath!.cgPath.boundingBoxOfPath)
+                    print("===============")
 
-//                    print(trackStartAngle, trackEndAngle, difference)
-//
-//                    if trackStartAngle < trackEndAngle, difference >= 720 {
-//
-//                        print("sleep to wake")
-//
-//                    } else {
-//
-//                        print("wake to sleep")
-//
-//                    }
+                    //                    print(clickAngle, fmod(trackStartAngle.radians, 360.0.radians), fmod(trackEndAngle.radians, 360.0.radians))
+
+                    //                    print(trackStartAngle, trackEndAngle, difference)
+                    //
+                    //                    if trackStartAngle < trackEndAngle, difference >= 720 {
+                    //
+                    //                        print("sleep to wake")
+                    //
+                    //                    } else {
+                    //
+                    //                        print("wake to sleep")
+                    //
+                    //                    }
 
                     //                    if difference == 0 {
                     //
@@ -558,9 +562,10 @@ public class BedtimeClockView: UIView {
         context?.rotate(by: -angle.radians)
 
         let trackBackgroundRect = watchDimension
+        let center = CGPoint(x: trackBackgroundRect.midX, y: trackBackgroundRect.midY)
         trackBackgroundPath = UIBezierPath()
         trackBackgroundPath?.addArc(
-            withCenter: CGPoint(x: trackBackgroundRect.midX, y: trackBackgroundRect.midY),
+            withCenter: center,
             radius: trackBackgroundRect.width / 2,
             startAngle: -trackStartAngle.radians,
             endAngle: -trackEndAngle.radians,
@@ -884,12 +889,12 @@ public class BedtimeClockView: UIView {
         context?.rotate(by: -fullRadians)
 
         drawHourGroup(rotate: -90)
-
+        
         restoreState()
-
+        
         drawHourPointer(y: pointer12Y)
         drawHourPointer(y: pointer6Y)
-
+        
         drawHourGroup(rotate: -degreesPerHour)
         drawHourGroup(rotate: -90)
         
