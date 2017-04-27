@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 
         self.bedtimeClockView.observer = { sleepHour, wakeHour, durationInMinutes in
 
-            print(sleepHour, wakeHour, durationInMinutes)
+//            print(sleepHour, wakeHour, durationInMinutes)
             self.sleep.text = sleepHour
             self.wake.text = wakeHour
 

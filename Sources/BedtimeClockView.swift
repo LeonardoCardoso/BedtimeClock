@@ -229,35 +229,49 @@ public class BedtimeClockView: UIView {
             let wakePoint = CGPoint(x: wakeAngleX, y: wakeAngleY)
             let sleepPoint = CGPoint(x: sleepAngleX, y: sleepAngleY)
 
-//            print(clickPoint, wakePoint, sleepPoint)
-
             let distanceClickWake = hypot(Float(clickPoint.x - wakePoint.x), Float(clickPoint.y - wakePoint.y))
 
             let distanceClickSleep = hypot(Float(clickPoint.x - sleepPoint.x), Float(clickPoint.y - sleepPoint.y))
 
-//            print(distanceClickWake, distanceClickSleep)
+            let distanceWakeToCenter = hypot(diffX, diffY)
 
-            print(clickAngle, sleepAngle, wakeAngle)
+            if distanceWakeToCenter <= 180, distanceWakeToCenter >= 130 {
 
-            isAnimatingSleep = distanceClickSleep < 15
-            if !isAnimatingSleep { isAnimatingWake = distanceClickWake < 15 }
-            if !isAnimatingSleep, !isAnimatingWake {
+                isAnimatingSleep = distanceClickSleep <= 35 && distanceClickSleep <= distanceClickWake
 
-                if difference == 0 {
+                if !isAnimatingSleep { isAnimatingWake = distanceClickWake <= 35 && distanceClickWake < distanceClickSleep }
 
-                    isAnimatingTrack = true
+                if !isAnimatingSleep, !isAnimatingWake {
 
-                } else if difference >= 720 {
+                    print(trackBackgroundPath)
 
-                    isAnimatingTrack = ((clickAngle >= wakeAngle && clickAngle <= fullRadians) || (clickAngle >= 0 && clickAngle <= sleepAngle))
+//                    print(trackStartAngle, trackEndAngle, difference)
+//
+//                    if trackStartAngle < trackEndAngle, difference >= 720 {
+//
+//                        print("sleep to wake")
+//
+//                    } else {
+//
+//                        print("wake to sleep")
+//
+//                    }
 
-                } else {
+                    //                    if difference == 0 {
+                    //
+                    //                        isAnimatingTrack = true
+                    //
+                    //                    } else if difference >= 720 {
+                    //
+                    //                        isAnimatingTrack = ((clickAngle >= wakeAngle && clickAngle <= fullRadians) || (clickAngle >= 0 && clickAngle <= sleepAngle))
+                    //
+                    //                    } else {
+                    //
+                    //                        isAnimatingTrack = clickAngle >= wakeAngle && clickAngle <= sleepAngle
+                    //
+                    //                    }
 
-                    isAnimatingTrack = clickAngle >= wakeAngle && clickAngle <= sleepAngle
-                    
                 }
-
-                print(isAnimatingTrack)
 
             }
 
@@ -304,7 +318,7 @@ public class BedtimeClockView: UIView {
         let negafied = dy > 0 ? degrees * -1:degrees
 
         return Double(negafied)
-        
+
     }
 
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -878,26 +892,26 @@ public class BedtimeClockView: UIView {
 
         drawHourGroup(rotate: -degreesPerHour)
         drawHourGroup(rotate: -90)
-
+        
         restoreState(times: 2)
-
+        
         drawHourGroup(rotate: -60)
         drawHourGroup(rotate: -90)
-
+        
     }
-
+    
     private func drawHourGroup(rotate: CGFloat) {
-
+        
         context?.saveGState()
         context?.rotate(by: rotate.radians)
-
+        
         drawHourPointer(y: pointers2Y)
         drawHourPointer(y: pointers3Y)
-
+        
     }
-
+    
     private func drawHourPointer(y: CGFloat) {
-
+        
         let hourPath: UIBezierPath = UIBezierPath(rect: CGRect(x: -0.5, y: y, width: hourPointerWidth, height: hourPointerHeight))
         thickPointerColor.setFill()
         hourPath.fill()
