@@ -56,3 +56,6 @@ See below the full color reference:
 ## License
 
 BedtimeClock is released under the MIT license. See [LICENSE](https://github.com/leocardz.com/BedtimeClock/blob/master/LICENSE) for details.
+
+### Follow me for the latest updates
+<a href="https://goo.gl/UC8B8o"><img src="https://i.imgur.com/pac7UMq.png/" width="179" height="26"></a>
